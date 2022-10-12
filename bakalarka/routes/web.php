@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/login', [AuthController::class,'login']);
+Route::post('/login-user', [AuthController::class,'loginUser'])->name('login-user');
+Route::get('/dashboard', [AuthController::class,'dashboard']);

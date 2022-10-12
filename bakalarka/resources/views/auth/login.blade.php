@@ -14,13 +14,20 @@
             <h1 style="padding-top:24px">KNOTIS</h1>
         </header>
         <hr style="clear:both">
-        <div class="col-md-7 col-md-offset-7" style="margin:100px auto; padding-top:120px; padding-bottom:120px; padding-left:40px; padding-right:40px; background:grey;">
+        <div class="col-md-7 col-md-offset-7" style="margin:150px auto; padding-top:120px; padding-bottom:120px; padding-left:40px; padding-right:40px; background:grey;">
             <h4 style="text-align:center">Přihlášení do Informačního systému KNOTIS</h4>
             <hr>
-            <form style="margin:auto; width:340px">
+            <form action="{{route('login-user')}}" method="post" style="margin:auto; width:340px">
+                @if(Session::has('success'))
+                <div class="alert alert-success">{{Session::get('success')}}</div>
+                @endif
+                @if(Session::has('fail'))
+                <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                @endif
+                @csrf
                 <div class="form-group">
                     <label for="name">Login:</label>
-                    <input type="text" class="form-control" placeholder="Enter Login" name="name" value="">
+                    <input type="text" class="form-control" placeholder="Enter Login" name="name" value="{{old('name')}}">
                     <span class="text-danger">@error('name') {{$message}} @enderror</span>
                 </div>
                 <div class="form-group">
