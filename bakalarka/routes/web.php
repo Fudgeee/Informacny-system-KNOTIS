@@ -15,9 +15,10 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/auth/login');
 });
 
-Route::get('/login', [AuthController::class,'login']);
+Route::get('/login', [AuthController::class,'login'])->middleware('alreadyLoggedIn');
 Route::post('/login-user', [AuthController::class,'loginUser'])->name('login-user');
-Route::get('/dashboard', [AuthController::class,'dashboard']);
+Route::get('/dashboard', [AuthController::class,'dashboard'])->middleware('isLoggedIn');
+Route::get('/logout', [AuthController::class,'logout']);

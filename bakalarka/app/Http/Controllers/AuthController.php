@@ -15,11 +15,11 @@ class AuthController extends Controller
     public function loginUser(Request $request){
         $request->validate([
             'name'=>'required',
-            'heslo'=>'required|max:30'
+            'password'=>'required|max:30'
         ]);
         $user =  User::where('name','=',$request->name)->first();
         if($user){
-            if(/*Hash::check($request->heslo,$user->heslo)*/User::where('heslo','=',$request->heslo)->first()){
+            if(/*Hash::check($request->heslo,$user->heslo)*/User::where('password','=',$request->password)->first()){
                 $request->session()->put('loginId',$user->id);
                 return redirect('dashboard');
             }
@@ -32,6 +32,16 @@ class AuthController extends Controller
         }
     }
     public function dashboard(){
-        return "Welcome to Dashboard";
+        $data = array();
+        if(Session::has('loginId')){
+            $data = User::where('id','=',Session::get('loginId'))->first();
+        }
+        return view('dashboard', compact('data'));
+    }
+    public function logout(){
+        if(Session::has('loginId')){
+            Session::pull('loginId');
+            return redirect('login');
+        }
     }
 }

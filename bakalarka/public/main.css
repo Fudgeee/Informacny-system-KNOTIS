@@ -1,0 +1,42 @@
+/*BODY*/
+body{
+    background-color: lightgrey;
+    height: 100%;
+}
+/*HEADER*/
+.main-logo{
+    width:110px;
+    float:left;
+}
+.main-h1{
+    padding-top:24px;
+    display:inline-block;
+    padding-left:12px;
+}
+/*LOGIN PAGE*/
+.login-form{
+    margin:150px auto;
+    padding:120px 40px;
+    background:grey;
+}
+.form-group{
+    margin:auto;
+    width:360px;
+}
+.form-group button{
+    width:360px;
+}
+/*DASHBOARD*/
+.dashboard{
+    width: 1200px;
+    margin: 0 auto;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.container{
+    background:white;
+    height: auto !important;
+    min-height: 100%;
+    padding:0;
+}
