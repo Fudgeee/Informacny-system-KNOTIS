@@ -34,5 +34,10 @@
                 </div>
             </form>
         </div>
+        <footer>
+            <div class="footer">
+                <span>Copyright &copy; 2022 VUT</span>
+            </div>
+        </footer>
     </div>
 @endsection

@@ -11,7 +11,10 @@
 </head>
 <body>
     <header>
-        
+        @if(Auth::check())
+            <a href="/login"><img class="main-logo" src="logo_vut.png" alt="logo"></a>
+            <h1 class="main-h1">KNOTIS</h1>
+        @endif
     </header>
     <main>
         <div>
