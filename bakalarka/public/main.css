@@ -8,19 +8,23 @@ a{
     text-decoration: none;
 }
 
+i{
+    margin-right: 3px !important;
+}
+
 /*HEADER*/
 .main-logo{
     width:215px;
     padding: 0px 20px;
     float: left;
     background: white;
+    display: block;
 }
 
 .ikonkaJazyka{
-    float: right;
     width: 32px;
-    margin-left: 12px;
-    margin-top: 2.5px;
+    margin-right: 5px;
+    margin-left: 10px;
 }
 
 /*LOGIN PAGE*/
@@ -50,22 +54,54 @@ a{
 
 .top-menu{
     float: right;
-    margin: 10px;
-    background: green;
+    margin: 1px;
+}
+
+.top-menu ul{
+    margin: 8px 0px;
+}
+
+.top-menu li{
+    list-style-type: none;
+    display: inline-block;
 }
 
 .fa-solid{
     margin: 5px;
 }
 
+.menu1{
+    height: 48px;
+    display: block;
+}
+
 .top-menu a{
     color: black;
-    margin-right: 15px;
+    margin-right: 5px;
     z-index: 500;
 }
 .top-menu a::after,
 .top-menu a:hover{
     color: #0d6efd;
+}
+
+.top-hamburger{
+    display: none;
+}
+
+.top-hamburger.toggleCls{
+    display: block;
+    background: red;
+    position: absolute;
+    width: 220px;
+    text-align: center;
+    padding-left: 0;
+    
+}
+
+.top-hamburger li{
+    list-style-type: none;
+    line-height: 2.5em;
 }
 
 .container{

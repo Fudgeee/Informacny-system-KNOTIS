@@ -2,6 +2,11 @@
 @extends('master')
 @section('content')
     <div class="dashboard">
-        <a href=""><i class="fa-solid fa-user-gear"></i>{{$data->jmeno. " " .$data->prijmeni}}</a>
+        <header>
+            @include('top_menu')
+        </header>
+        <div style="font-size:152px; color:gray">
+            DASHBOARD
+        </div>
     </div>
 @endsection
