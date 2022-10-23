@@ -1,16 +1,17 @@
 <!--DASHBOARD-->
 @extends('master')
 @section('content')
-    <div>
+    <div class="dashboard">
         <header>
-            <a href="/login"><img class="main-logo" src="logo_vut.png" alt="logo"></a>
-            
+            <div class="top-menu">
+                <a href=""><i class="fa-solid fa-user-gear"></i>{{$data->jmeno. " " .$data->prijmeni}}</a>
+                <a href=""><i class="fa-solid fa-question"></i>Nápověda</a>
+                <a href=""><img src="cs.gif" title="cs" alt="cs" class="ikonkaJazyka"></a>
+                <a href="logout" class="log-out"><i class="fa-solid fa-power-off"></i>Logout</a>
+            </div>
         </header>
-        <hr style="clear:both">
         <div class=dashboard>
-            {{$data->name}}
-            &nbsp
-            <a href="logout">Logout</a>
+            
         </div>
     </div>
 @endsection

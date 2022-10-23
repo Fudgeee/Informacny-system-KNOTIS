@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Osoba;
 //use Hash;
 use Session;
 
@@ -17,10 +17,10 @@ class AuthController extends Controller
             'name'=>'required',
             'password'=>'required|max:30'
         ]);
-        $user =  User::where('name','=',$request->name)->first();
-        if($user){
-            if(/*Hash::check($request->heslo,$user->heslo)*/User::where('password','=',$request->password)->first()){
-                $request->session()->put('loginId',$user->id);
+        $osoba = Osoba::where('login','=',$request->name)->first();
+        if($osoba){
+            if(/*Hash::check($request->password,$osoba->heslo)*/Osoba::where('heslo','=',$request->password)->first()){
+                $request->session()->put('loginId',$osoba->id);
                 return redirect('dashboard');
             }
             else{
@@ -31,10 +31,11 @@ class AuthController extends Controller
             return back()->with('fail','uzivatel neexistuje');
         }
     }
+    
     public function dashboard(){
         $data = array();
         if(Session::has('loginId')){
-            $data = User::where('id','=',Session::get('loginId'))->first();
+            $data = Osoba::where('id','=',Session::get('loginId'))->first();
         }
         return view('dashboard', compact('data'));
     }
