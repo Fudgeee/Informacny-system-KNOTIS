@@ -16,6 +16,9 @@
         </header>
         <main>
             <div>
+                @yield('topmenu')
+            </div>
+            <div>
                 @yield('content')
             </div>
         </main>

@@ -37,7 +37,8 @@ class AuthController extends Controller
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
         }
-        return view('dashboard', compact('data'));
+        //return view('dashboard', compact('data'));
+        return view('top_menu', compact('data'));
     }
     public function logout(){
         if(Session::has('loginId')){
