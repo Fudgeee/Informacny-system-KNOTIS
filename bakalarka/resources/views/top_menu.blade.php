@@ -13,7 +13,7 @@
                 <a href="#" onclick="toggleClass()"><i class="fa-solid fa-user-gear"></i>{{$data->jmeno. " " .$data->prijmeni}}</a>
                 <ul class="top-hamburger">
                     <li>
-                        <a href="#">Změna hesla</a>
+                        <a href="change_password">Změna hesla</a>
                     </li>
                     <li>
                         <a href="#">Osobní Nastavení</a>
@@ -24,7 +24,7 @@
                 </ul>
             </li>
             <li>
-                <a href=""><i class="fa-solid fa-question"></i>Nápověda</a>
+                <a href="help"><i class="fa-solid fa-question"></i>Nápověda</a>
             </li>
             <li>
                 <a href="logout" class="log-out"><i class="fa-solid fa-power-off"></i>Odhlásit se</a>

@@ -11,9 +11,9 @@
     </head>
     <body>
         <div class="container">
-            <header>
+            <header> 
                 <a href="/"><img class="main-logo" src="logo.gif" alt="logo"></a>
-                <img src="cs.gif" style="margin: 12px" title="cs" alt="cs" class="ikonkaJazyka">
+                <img src="cs.gif" style="margin: 34px; float:right;" title="cs" alt="cs" class="ikonkaJazyka">
             </header>
             <hr style="margin-top:0px; clear:both">
             <main>
