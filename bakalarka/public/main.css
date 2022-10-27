@@ -96,7 +96,8 @@ i{
     color: #0d6efd;
 }
 
-.top-hamburger{
+.top-hamburger,
+.top-hamburger2{
     display: none;
 }
 
@@ -107,12 +108,23 @@ i{
     width: 220px;
     text-align: center;
     padding-left: 0;
-    
 }
 
-.top-hamburger li{
+.top-hamburger2.toggleCls2{
+    display: block;
+    background: gray;
+    position: absolute;
+    width: 120px;
+    text-align: center;
+    padding-left: 0;
+    right: 0;
+}
+
+.top-hamburger li,
+.top-hamburger2 li{
     list-style-type: none;
     line-height: 2.5em;
+    clear: both;
 }
 
 .container{

@@ -25,3 +25,7 @@ Route::get('/logout', [AuthController::class,'logout']);
 Route::get('/change_password', [AuthController::class,'changePassword'])->name('change_password');
 Route::post('/change_password', [AuthController::class,'updatePassword'])->name('update_password');
 Route::get('/help', [AuthController::class,'Help'])->name('help');
+
+Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => '\App\Http\Controllers\LanguageController@switchLang']);
+
+Route::get('/languageDemo', 'App\Http\Controllers\AuthController@languageDemo');

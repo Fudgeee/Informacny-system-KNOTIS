@@ -19,7 +19,7 @@ class AuthController extends Controller
         ]);
         $osoba = Osoba::where('login','=',$request->name)->first();
         if($osoba){
-            if(Hash::check($request->password,$osoba->heslo)){
+            if(Hash::check($request->password,$osoba->heslo)){ //|| Osoba::where('heslo','=',md5($request->password))){
                 $request->session()->put('loginId',$osoba->id);
                 //TODO
                 if($osoba->zmena_hesla = 0){
@@ -63,7 +63,7 @@ class AuthController extends Controller
         $osoba= Osoba::where('id','=',Session::get('loginId'))->first();
         if (Hash::check($request->old_password,$osoba->heslo)){
             Osoba::where('id','=',Session::get('loginId'))->update([
-                'heslo' => Hash::make($request->new_password),
+                'heslo' => Hash::make($request->new_password),//hash('sha256',$request->new_password),
                 'zmena_hesla' => '1'
             ]);
             return back()->with('success','Heslo bolo zmenene');
@@ -79,6 +79,14 @@ class AuthController extends Controller
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
         }
         return view('help', compact('data'));
+    }
+
+    public function languageDemo(){
+        $data = array();
+        if(Session::has('loginId')){
+            $data = Osoba::where('id','=',Session::get('loginId'))->first();
+        }
+        return view('languageDemo', compact('data'));
     }
 
     public function logout(){
