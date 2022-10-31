@@ -16,9 +16,10 @@
         <header>
             <a href="/dashboard"><img class="main-logo" src="logo.gif" alt="logo"></a>
             @include('top_menu')
+            @include('left_menu')
         </header>
-        <main>
-            <div>
+        <main>   
+            <div class="main-content">
                 @yield('content')
             </div>
         </main>

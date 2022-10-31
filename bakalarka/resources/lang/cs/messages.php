@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'welcome' => 'Welcome to our application, CZ!',
+    'welcome' => 'Vitajte v nasej aplikacii, CZ!',
 ];

@@ -14,26 +14,26 @@
     <div class="top-menu">
         <ul>
             <li>
-                <a href="#" onclick="toggleClass()"><i class="fa-solid fa-user-gear"></i>{{ $data->jmeno. " " .$data->prijmeni }}</a>
+                <a href="#" onclick="toggleClass()">{{ $data->jmeno. " " .$data->prijmeni }}<i class="fa-sharp fa-solid fa-chevron-down"></i></a>
                 <ul class="top-hamburger">
                     <li>
-                        <a href="change_password">Změna hesla</a>
+                        <a href="change_password"><i class="fa-solid fa-key"></i>Změna hesla</a>
                     </li>
                     <li>
-                        <a href="#">Osobní Nastavení</a>
+                        <a href="osobne_nastavenia"><i class="fa-solid fa-user-gear"></i>Osobní Nastavení</a>
                     </li>
                     <li>
-                        <a href="#">Oprávnění k serverům</a>
-                    </li>               
+                        <a href="opravnenia_k_serverom"><i class="fa-solid fa-server"></i>Oprávnění k serverům</a>
+                    </li>
+                    <li>
+                        <a href="logout" class="log-out"><i class="fa-solid fa-right-from-bracket"></i>Odhlásit se</a>
+                    </li>            
                 </ul>
             </li>
             <li>
-                <a href="help"><i class="fa-solid fa-question"></i>Nápověda</a>
+                <a href="help"><i class="fa-solid fa-person-circle-question" style="font-size:26px"></i></a>
             </li>
-            <li>
-                <a href="logout" class="log-out"><i class="fa-solid fa-power-off"></i>Odhlásit se</a>
-            </li>
-            <li>
+            <li> <!-- TODO -->
                 <a href="#" onclick="toggleClass2()">{{ Config::get('languages')[App::getLocale()] }}</a>
                 <ul class="top-hamburger2">
                     @foreach (Config::get('languages') as $lang => $language)

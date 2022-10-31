@@ -15,20 +15,18 @@ class AuthController extends Controller
     public function loginUser(Request $request){
         $request->validate([
             'name'=>'required',
-            'password'=>'required|max:30'
+            'password'=>'required'
         ]);
         $osoba = Osoba::where('login','=',$request->name)->first();
         if($osoba){
             if(Hash::check($request->password,$osoba->heslo)){ //|| Osoba::where('heslo','=',md5($request->password))){
                 $request->session()->put('loginId',$osoba->id);
-                //TODO
-                if($osoba->zmena_hesla = 0){
+                if($osoba->zmena_hesla == 0){
                     return redirect('change_password');
                 }
                 else{
                     return redirect('dashboard');
                 }
-                //
             }
             else{
                 return back()->with('fail','nespravne heslo');
@@ -58,7 +56,7 @@ class AuthController extends Controller
     public function updatePassword(Request $request){
         $request->validate([
             'old_password'=>'required',
-            'new_password'=>'required|confirmed'
+            'new_password'=>'required|confirmed|min:5|max:30'
         ]);
         $osoba= Osoba::where('id','=',Session::get('loginId'))->first();
         if (Hash::check($request->old_password,$osoba->heslo)){
@@ -71,22 +69,6 @@ class AuthController extends Controller
         else{
             return back()->with('fail','Aktuálne heslo se nezhoduje');
         }
-    }
-
-    public function Help(){
-        $data = array();
-        if(Session::has('loginId')){
-            $data = Osoba::where('id','=',Session::get('loginId'))->first();
-        }
-        return view('help', compact('data'));
-    }
-
-    public function languageDemo(){
-        $data = array();
-        if(Session::has('loginId')){
-            $data = Osoba::where('id','=',Session::get('loginId'))->first();
-        }
-        return view('languageDemo', compact('data'));
     }
 
     public function logout(){
