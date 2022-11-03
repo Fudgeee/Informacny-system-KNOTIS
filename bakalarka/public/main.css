@@ -10,6 +10,10 @@ body{
     padding: 0;
 }
 
+main{
+    margin-top: 68px;
+}
+
 a{
     text-decoration: none;
 }
@@ -46,6 +50,7 @@ tr,td,th{
     position: fixed;
     z-index: 999;
     background: white;
+    top: 0%;
 }
 
 .ikonkaJazyka{
@@ -62,7 +67,7 @@ tr,td,th{
     box-shadow: 0px 5px 30px black;
     border-radius: 10px;
     display: block;
-    margin-top: 11%;
+    margin-top: 6%;
 }
 
 .form-group{
@@ -103,9 +108,11 @@ tr,td,th{
 
 .menu1{
     height: 48px;
-    /*position: fixed;    TODO*/
+    position: fixed;
+    display: block;
     width: 100%;
     background: white;
+    top: 0%;
 }
 
 .top-menu a{
@@ -131,6 +138,7 @@ tr,td,th{
     top: 48px;
     right: 110px;
     padding-left: 0;
+    z-index: 999;
 }
 
 .top-hamburger2.toggleCls2{
@@ -143,6 +151,7 @@ tr,td,th{
     padding-left: 0;
     right: 0;
     margin-right: 5px;
+    z-index: 999;
 }
 
 .top-hamburger li{
@@ -177,7 +186,7 @@ tr,td,th{
     width: 215px;
     height: 100%;
     position: fixed;
-    margin-top: 41.36px;
+    margin-top: 21.36px;
     padding: 15px;
 }
 
@@ -200,8 +209,8 @@ tr,td,th{
 .change-password{
     background: gray;
     width: 600px;
-    margin: 150px auto;
     padding: 80px 0px;
+    margin: 0 auto;
 }
 
 .footer{

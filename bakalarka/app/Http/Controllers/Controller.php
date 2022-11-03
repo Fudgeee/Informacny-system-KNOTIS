@@ -10,6 +10,7 @@ use App\Models\Osoba;
 use Session;
 use Illuminate\Http\Request;
 use Validator;
+use DB;
 
 
 class Controller extends BaseController
@@ -69,19 +70,19 @@ class Controller extends BaseController
         $validator = Validator::make($request->all(), [
             'jmeno'=>'required',
             'prijmeni'=>'required',
-            'misto_narozeni'=>'required',//dpp_udaje tabulka
-            'datum_narozeni'=>'required',// TODO
-            'rodne_cislo'=>'required',//
-            'cislo_popisne'=>'required',//
-            'mesto'=>'required',//
-            'psc'=>'required',//
-            'bankovni_ucet'=>'required',//
+            'misto_narozeni'=>'required',
+            'datum_narozeni'=>'required',
+            'rodne_cislo'=>'required',
+            'cislo_popisne'=>'required',
+            'mesto'=>'required',
+            'psc'=>'required',
+            'bankovni_ucet'=>'required',
         ]);
         if ($validator->fails()){
             return back()->with('fail1','Nastala chyba v zmene udajov');
         }
         else{
-            $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
+            $osoba= DB::table('dpp_udaje')->where('id_osoby','=',Session::get('loginId'))->update([
                 'titul_pred' => $request->titul_pred,
                 'titul_za' => $request->titul_za,
                 'jmeno' => $request->jmeno,
