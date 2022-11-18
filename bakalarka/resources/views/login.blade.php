@@ -1,19 +1,34 @@
 <!--LOGIN PAGE-->
 <!DOCTYPE html>
+<script>
+    function toggleClassLog() {
+        let menu = document.querySelector(".top-hamburger-login");
+        menu.classList.toggle("toggleClsLog");
+    }
+</script>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <link href="bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         <link rel="stylesheet" href="main.css">
         <title>KNOTIS</title>
     </head>
     <body>
         <div class="container">
             <header> 
-                <a href="/"><img class="main-logo" src="logo.gif" alt="logo"></a>
-                <img src="cs.gif" style="margin: 34px; float:right;" title="cs" alt="cs" class="ikonkaJazyka">
+                <a href="/"><img class="main-logo" src="logo.gif" alt="logo"></a>            
+                <a href="#" class="login-language" onclick="toggleClassLog()"><img src="flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}.svg" class="flag-icon"></a>
+                <ul class="top-hamburger-login">
+                    @foreach (Config::get('languages') as $lang => $language)
+                        @if ($lang != App::getLocale())
+                            <li>
+                                <a href="{{ route('lang.switch', $lang) }}"><img src="flag-icon-{{$language['flag-icon']}}.svg" class="flag-icon">&nbsp{{$language['display']}}</a>
+                            </li>
+                        @endif
+                    @endforeach             
+                </ul>              
             </header>
             <hr style="margin-top:0px; clear:both">
             <main>

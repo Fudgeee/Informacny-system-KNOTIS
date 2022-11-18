@@ -26,5 +26,3 @@ class Language
         return $next($request);
     }
 }
-
-# https://5balloons.info/localization-laravel-multi-language-language-switcher

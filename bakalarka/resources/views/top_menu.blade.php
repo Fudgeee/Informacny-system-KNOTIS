@@ -33,25 +33,20 @@
             <li>
                 <a href="help"><i class="fa-solid fa-person-circle-question" style="font-size:26px"></i></a>
             </li>
-            <li> <!-- TODO -->
-                <a href="#" onclick="toggleClass2()">{{ Config::get('languages')[App::getLocale()] }}</a>
+            <li>
+                <a href="#" onclick="toggleClass2()"><img src="flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}.svg" class="flag-icon"></a>
                 <ul class="top-hamburger2">
                     @foreach (Config::get('languages') as $lang => $language)
                         @if ($lang != App::getLocale())
                             <li>
-                                <a href="{{ route('lang.switch', $lang) }}">{{$language}}</a>
+                                <a href="{{ route('lang.switch', $lang) }}"><img src="flag-icon-{{$language['flag-icon']}}.svg" class="flag-icon">&nbsp{{$language['display']}}</a>
                             </li>
                         @endif
                     @endforeach             
                 </ul>              
             </li>
+
         </ul>
     </div>
 </div>
-
-<!--
-    composer require laravel/ui --dev  
-    php artisan ui bootstrap
-    php artisan ui vue
-    php artisan ui react  
--->
+<!--npm install flag-icon-css-->

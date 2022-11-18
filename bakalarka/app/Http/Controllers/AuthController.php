@@ -14,8 +14,8 @@ class AuthController extends Controller
     }
     public function loginUser(Request $request){
         $request->validate([
-            'name'=>'required'//,
-            //'password'=>'required'
+            'name'=>'required',
+            'password'=>'required'
         ]);
         $osoba = Osoba::where('login','=',$request->name)->first();
         if($osoba){
