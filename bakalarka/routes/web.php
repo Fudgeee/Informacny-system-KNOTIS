@@ -29,12 +29,14 @@ Route::post('/change_password', [AuthController::class,'updatePassword'])->name(
 Route::get('/dashboard', [AuthController::class,'dashboard'])->middleware('isLoggedIn');
 // napoveda
 Route::get('/help', [Controller::class,'Help']);
-// opravnenia k serverom
-Route::get('/opravnenia_k_serverom', [Controller::class,'opravneniaKServerom']);
+// kontaktne udaje
+Route::get('/kontaktne_udaje', [Controller::class,'kontaktneUdaje']);
+Route::post('/kontaktne_udaje', [Controller::class,'updateKontaktneInfo'])->name('update_kontaktne_info');
+
 // osobne nastavenia
-Route::get('/osobne_nastavenia', [Controller::class,'osobneNastavenia'])->name('osobne_nastavenia');
-Route::post('/osobne_nastavenia', [Controller::class,'updatePersonalInfo'])->name('update_personal_info');
-Route::post('/osobne_nastavenia/dpp', [Controller::class,'updateDppInfo'])->name('update_dpp_info');
+Route::get('/osobne_informacie', [Controller::class,'osobneInformacie'])->name('osobne_informacie');
+Route::post('/osobne_informacie', [Controller::class,'updatePersonalInfo'])->name('update_personal_info');
+Route::post('/osobne_informacie2', [Controller::class,'updatePersonalInfo2'])->name('update_personal_info2');
 
 // zmena jazyka
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => '\App\Http\Controllers\LanguageController@switchLang']);

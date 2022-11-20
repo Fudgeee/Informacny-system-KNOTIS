@@ -22,18 +22,6 @@ i{
     margin-right: 3px !important;
 }
 
-table{
-    background: white;
-    border-collapse: collapse;
-    width: 100%;
-    box-shadow: 0px 5px 30px black;
-    border-radius: 10px;
-}
-
-tr,td,th{
-    padding: 5px 20px;
-}
-
 .medzera{
     overflow: hidden;
     width: 100%;
@@ -218,9 +206,122 @@ tr,td,th{
     padding: 15px;
 }
 
-/*OSOBNE NASTAVENIA*/
-.osobne_nastavenia{
+/*OSOBNE INFORMACIE*/
+.osobne_informacie,
+.kontaktne_udaje{
     margin: 20px;
+}
+
+.osobne_info,
+.kontaktne_udaje{
+    background: white;
+    width: 80%;
+    box-shadow: 0px 5px 30px black;
+    border-radius: 10px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.osobne_info_l,
+.kontakt_info_l{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.osobne_info_h1,
+.kontakt_info_h1{
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+.osobne_info_item,
+.kontakt_info_item{
+    height: 40px;
+}
+
+.kontakt_info_h1{
+    margin-bottom: 10px;
+}
+.kontakt_info_item_gdpr{
+    height: auto;
+    margin-bottom: 15px;
+    font-size: 12px;
+    text-align: justify;
+}
+
+.osobne_info_item_span,
+.kontakt_info_item_span{
+    width: 300px;
+    float: left;
+}
+
+.kontakt_info_item_span{
+    width: 40%;
+}
+
+.kontakt_info_item_span_add{
+    width: 100%;
+}
+
+.kontakt_info_hidden,
+.kontakt_info_hidden_dpp,
+.kontakt_info_hidden_stip{
+    display: none;
+}
+
+.kontakt_info_hidden.toggleContact,
+.kontakt_info_hidden_dpp.toggleDpp,
+.kontakt_info_hidden_stip.toggleStip{
+    display: block;
+}
+
+.kontakt_info_button{
+    width: 67px;
+    margin: 0 auto;
+}
+
+.btn-secondary{
+    margin-left: 30px;
+}
+
+.osobne_info_button{
+    display: inline-block;
+    margin-left: 20px;
+    height: 33px;
+    margin-bottom: 50px;
+}
+
+.osobne_preferencie{
+    background: white;
+    width: 80%;
+    box-shadow: 0px 5px 30px black;
+    border-radius: 10px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.preferencie{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.opravnenia_k_serverom{
+    background: white;
+    width: 80%;
+    box-shadow: 0px 5px 30px black;
+    border-radius: 10px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.opravnenia_k_serverom h1{
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.opravnenia{
+    width: 80%;
+    margin: 0 auto;
 }
 
 /*MAIN CONTENT*/

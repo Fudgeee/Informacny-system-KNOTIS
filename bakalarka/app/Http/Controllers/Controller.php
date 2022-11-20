@@ -32,41 +32,51 @@ class Controller extends BaseController
         return view('help', compact('data'));
     }
 
-    public function opravneniaKServerom(){
+    public function kontaktneUdaje(){
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
         }
-        return view('opravnenia_k_serverom', compact('data'));
+        return view('kontaktne_udaje', compact('data'));
     }
 
-    public function osobneNastavenia(){
+    public function osobneInformacie(){
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
         }
-        return view('osobne_nastavenia', compact('data'));
+        return view('osobne_informacie', compact('data'));
     }
 
     public function updatePersonalInfo(Request $request){
         $validator = Validator::make($request->all(), [
-            'zpozdeni_vykazu'=>'required|max:2',
-            'telefon'=>'required',
-            'gmail'=>'required|e-mail'
+            'zpozdeni_vykazu'=>'required|max:2'   
         ]);
         if ($validator->fails()){
             return back()->with('fail','Nastala chyba v zmene osobnych udajov');
         }
         else{
             $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
-                'zpozdeni_vykazu' => $request->zpozdeni_vykazu,
-                'telefon' => $request->telefon,
-                'gmail' => $request->gmail
+                'zpozdeni_vykazu' => $request->zpozdeni_vykazu
             ]);
             return back()->with('success','Osobne udaje boli zmenene');
         }
     }
-    public function updateDppInfo(Request $request){
+    public function updatePersonalInfo2(Request $request){
+        $validator = Validator::make($request->all(), [
+            'zasilat_kopie'=>'required'   
+        ]);
+        if ($validator->fails()){
+            return back()->with('fail1','Nastala chyba v zmene osobnych udajov');
+        }
+        else{
+            $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
+                'zasilat_kopie' => $request->upravKopie
+            ]);
+            return back()->with('success1','Osobne udaje boli zmenene');
+        }
+    }
+    public function updateKontaktneInfo(Request $request){
         $validator = Validator::make($request->all(), [
             'jmeno'=>'required',
             'prijmeni'=>'required',

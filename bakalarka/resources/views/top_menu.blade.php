@@ -20,10 +20,10 @@
                         <a href="change_password"><i class="fa-solid fa-key"></i>Změna hesla</a>
                     </li>
                     <li>
-                        <a href="osobne_nastavenia"><i class="fa-solid fa-user-gear"></i>Osobní Nastavení</a>
+                        <a href="osobne_informacie"><i class="fa-solid fa-user-gear"></i>Osobní Informace</a>
                     </li>
                     <li>
-                        <a href="opravnenia_k_serverom"><i class="fa-solid fa-server"></i>Oprávnění k serverům</a>
+                        <a href="kontaktne_udaje"><i class="fa-solid fa-server"></i>Kontaktní Údaje</a>
                     </li>
                     <li>
                         <a href="logout" class="log-out"><i class="fa-solid fa-right-from-bracket"></i>Odhlásit se</a>
