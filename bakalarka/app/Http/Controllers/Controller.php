@@ -16,14 +16,6 @@ use DB;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public function languageDemo(){
-        $data = array();
-        if(Session::has('loginId')){
-            $data = Osoba::where('id','=',Session::get('loginId'))->first();
-        }
-        return view('languageDemo', compact('data'));
-    }
-
     public function Help(){
         $data = array();
         if(Session::has('loginId')){

@@ -42,5 +42,3 @@ Route::post('/osobne_informacie2', [Controller::class,'updatePersonalInfo2'])->n
 
 // zmena jazyka
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => '\App\Http\Controllers\LanguageController@switchLang']);
-
-Route::get('/languageDemo', [Controller::class,'languageDemo']);
