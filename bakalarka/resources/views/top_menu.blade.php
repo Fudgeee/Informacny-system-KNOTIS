@@ -17,16 +17,16 @@
                 <a href="#" onclick="toggleClass()">{{ $data->jmeno. " " .$data->prijmeni }}<i class="fa-sharp fa-solid fa-chevron-down"></i></a>
                 <ul class="top-hamburger">
                     <li>
-                        <a href="change_password"><i class="fa-solid fa-key"></i>Změna hesla</a>
+                        <a href="change_password"><i class="fa-solid fa-key"></i>{{__('messages.change-pw')}}</a>
                     </li>
                     <li>
-                        <a href="osobne_informacie"><i class="fa-solid fa-user-gear"></i>Osobní Informace</a>
+                        <a href="osobne_informacie"><i class="fa-solid fa-user-gear"></i>{{__('messages.osobne-info')}}</a>
                     </li>
                     <li>
-                        <a href="kontaktne_udaje"><i class="fa-solid fa-server"></i>Kontaktní Údaje</a>
+                        <a href="kontaktne_udaje"><i class="fa-solid fa-server"></i>{{__('messages.kontaktne-udaje')}}</a>
                     </li>
                     <li>
-                        <a href="logout" class="log-out"><i class="fa-solid fa-right-from-bracket"></i>Odhlásit se</a>
+                        <a href="logout" class="log-out"><i class="fa-solid fa-right-from-bracket"></i>{{__('messages.log-out')}}</a>
                     </li>            
                 </ul>
             </li>

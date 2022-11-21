@@ -33,7 +33,7 @@
             <hr style="margin-top:0px; clear:both">
             <main>
                 <div class="login-form col-md-7 col-md-offset-7">
-                    <h4 style="text-align:center">Přihlášení do Informačního systému KNOTIS</h4>
+                    <h4 style="text-align:center">{{__('messages.prihlasenie')}}</h4>
                     <hr>
                     <form action="{{route('login-user')}}" method="post">
                         @if(Session::has('success'))
@@ -45,17 +45,17 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">Login:</label>
-                            <input type="text" class="form-control" placeholder="Zadajte Login" name="name" value="{{old('name')}}">
+                            <input type="text" class="form-control" placeholder="{{__('messages.zadat-login')}}" name="name" value="{{old('name')}}">
                             <span class="text-danger">@error('name') {{$message}} @enderror</span>
                         </div>
                         <div class="form-group">
-                            <label for="password">Heslo:</label>
-                            <input type="password" class="form-control" placeholder="Zadajte Heslo" name="password" value="">
+                            <label for="password">{{__('messages.login-heslo')}}:</label>
+                            <input type="password" class="form-control" placeholder="{{__('messages.zadat-pw')}}" name="password" value="">
                             <span class="text-danger">@error('password') {{$message}} @enderror</span>
                         </div>
                         <br>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-block btn-primary">Přihlásit</button>
+                            <button type="submit" class="btn btn-block btn-primary">{{__('messages.login-btn')}}</button>
                         </div>
                     </form>
                 </div>

@@ -17,7 +17,7 @@
                             <h1>{{$data->jmeno. " " .$data->prijmeni}}</h1>
                         </div>
                         <div class="osobne_info_item">
-                            <div class="osobne_info_item_span">Číslo:</div>
+                            <div class="osobne_info_item_span">{{__('messages.id-number')}}:</div>
                             {{$data->id}}
                         </div>
                         <div class="osobne_info_item">
@@ -25,7 +25,7 @@
                             {{$data->login}}
                         </div>
                         <div class="osobne_info_item">
-                            <div class="osobne_info_item_span">Aktivní:</div>
+                            <div class="osobne_info_item_span">{{__('messages.active-time')}}:</div>
                             @if (($data->aktivni_do == "0000-00-00 00:00:00") || ($data->aktivni_do == ""))
                                 {{$data->aktivni_od. " - "}} &infin;
                             @else
@@ -33,7 +33,7 @@
                             @endif
                         </div>
                         <div class="osobne_info_item">
-                            <div class="osobne_info_item_span">Práce:</div>
+                            <div class="osobne_info_item_span">{{__('messages.work-time')}}:</div>
                             @if (($data->odpracovat_do == "0000-00-00 00:00:00") || ($data->odpracovat_do == ""))
                                 {{$data->odpracovat_od. " - "}} &infin;
                             @else
@@ -41,14 +41,14 @@
                             @endif
                         </div>
                         <div class="osobne_info_item" style="float:left">
-                            <div class="osobne_info_item_span" style="margin-top:5.5px">Opožděné vykazování:</div>
-                            <input type="text" size="20" style="height:38px" maxlength="2" name="zpozdeni_vykazu" title="Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin." value="{{$data->zpozdeni_vykazu}}">
+                            <div class="osobne_info_item_span" style="margin-top:5.5px">{{__('messages.vykazovanie')}}:</div>
+                            <input type="text" size="20" style="height:38px" maxlength="2" name="zpozdeni_vykazu" title="{{__('messages.vykazovanie-title')}}" value="{{$data->zpozdeni_vykazu}}">
                         </div>
                         <div class="osobne_info_button">
-                            <button type="submit" class="btn btn-block btn-primary">Uložit</button>
+                            <button type="submit" class="btn btn-block btn-primary">{{__('messages.save-btn')}}</button>
                         </div>   
                         <div class="osobne_info_item" style="margin-bottom: 20px">
-                                <a href="#" class="btn btn-block btn-secondary">Změnit zabezpečení sezení</a>
+                                <a href="#" class="btn btn-block btn-secondary">{{__('messages.zabezpecenie-sezeni')}}</a>
                         </div>  
                     </div>                                                    
                 </form>
@@ -65,38 +65,38 @@
                     @csrf               
                     <div class="preferencie">
                         <div class="osobne_info_item">
-                            <div class="osobne_info_item_span">Kopie výkazů:</div>
-                            <select name="upravKopie" title="Zasílat kopie výkazů e-mailem?" size="1">
+                            <div class="osobne_info_item_span">{{__('messages.kopie-vykazov')}}:</div>
+                            <select name="upravKopie" title="{{__('messages.kopie-vykazov-title')}}" size="1">
                             @if ($data['zasilat_kopie'] == 1)
-                                    <option value="1" selected>Ano</option>
-                                    <option value="0">Ne</option>
+                                    <option value="1" selected>{{__('messages.ano')}}</option>
+                                    <option value="0">{{__('messages.nie')}}</option>
                             @else
-                                <option value="1">Ano</option>
-                                <option value="0" selected>Ne</option>
+                                <option value="1">{{__('messages.ano')}}</option>
+                                <option value="0" selected>{{__('messages.nie')}}</option>
                             @endif
                             </select>
                         </div>
                         <div class="osobne_info_item">
-                            <div class="osobne_info_item_span">Úvodní stránka:</div>
-                            <select name="upravUvodni" id="upravUvodni" title="Stránka, která se zobrazí po přihlášení" size="1">
+                            <div class="osobne_info_item_span">{{__('messages.uvodna-stranka')}}:</div>
+                            <select name="upravUvodni" id="upravUvodni" title="{{__('messages.uvodna-stranka-title')}}" size="1">
                                 <!--generujPolozkyVyberuSId($uvodniStr,false,$data['str_po_prihlaseni']) TODO -->
                             </select>
                         </div>
                         <div class="osobne_info_item">
-                            <div class="osobne_info_item_span">Uložení nastavení systému:</div>
-                            <select name="uprav_ukladani_sezeni" title="Jaké nastavení systému se uloží" size="1">
+                            <div class="osobne_info_item_span">{{__('messages.ulozenie-nastavenia-systemu')}}:</div>
+                            <select name="uprav_ukladani_sezeni" title="{{__('messages.ulozenie-nastavenia-systemu-title')}}" size="1">
                                 <!--generujPolozkyVyberuSId($po_odhlaseni_ulozenoR,false,$data['vychozi_ulozeni_sezeni']) TODO -->
                             </select>
                         </div>
                         <div class="osobne_info_item">
-                            <div class="osobne_info_item_span">U wiki úkolů hlídat:</div>
-                            <select name="uprav_hlidani_wiki_ukolu" title="Jak si přejete hlídat wiki úkoly" size="1">'
+                            <div class="osobne_info_item_span">{{__('messages.wiki-ulohy')}}:</div>
+                            <select name="uprav_hlidani_wiki_ukolu" title="{{__('messages.wiki-ulohy-title')}}" size="1">'
                                 <!--generujPolozkyVyberuSId($hlidani_wiki_ukolu,false,$data['hlidani_wiki_ukolu'] TODO -->
                             </select>
                         </div>
                         <div class="osobne_info_item">
-                            <div class="osobne_info_item_span">IP adresy:</div>
-                            <a href="#" onclick="addInput()">Přidat +</a> <!--TODO-->
+                            <div class="osobne_info_item_span">{{__('messages.ip-adresy')}}:</div>
+                            <a href="#" onclick="addInput()">{{__('messages.add-btn')}} +</a> <!--TODO-->
                         </div>
                         <div class="osobne_info_item">
                             <div class="osobne_info_item_span">Hosts allow:</div>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="osobne_info_item">
                             <div class="osobne_info_button">
-                                <button type="submit" class="btn btn-block btn-primary">Uložit</button>
+                                <button type="submit" class="btn btn-block btn-primary">{{__('messages.save-btn')}}</button>
                             </div> 
                         </div> 
                     </div>               
@@ -121,13 +121,13 @@
             <div class="medzera"></div>
             <div class="opravnenia_k_serverom">
                 <div class="opravnenia">
-                    <h1>Oprávnění k serverům</h1>
+                    <h1>{{__('messages.opravenia-ku-serverom')}}</h1>
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">Přístup k Redmine:</div>
+                        <div class="osobne_info_item_span">{{__('messages.pristup-redmine')}}:</div>
                         @if($data->pristup_k_redmine === 0)
-                            Nie
+                            {{__('messages.nie')}}
                         @else
-                            Ano &nbsp (<a href="https://knot.fit.vutbr.cz/redmine" title="Odkaz na Redmine" target="_blank">https://knot.fit.vutbr.cz/redmine</a>)
+                            {{__('messages.ano')}} &nbsp (<a href="https://knot.fit.vutbr.cz/redmine" title="{{__('messages.odkaz-redmine')}}" target="_blank">https://knot.fit.vutbr.cz/redmine</a>)
                         @endif
                     </div>
                     
