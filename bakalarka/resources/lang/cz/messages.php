@@ -29,7 +29,8 @@ return [
     'add-btn' => 'Přidat',
     'opravenia-ku-serverom' => 'Oprávnění k serverům',
     'pristup-redmine' => 'Přístup k Redmine',
-    'kontaktne-udaje-gdpr' => 'Poskytnuté kontaktní informace (telefon, e-mail apod.) budou využity výhradně za účelem komunikace v rámci výzkumné skupiny ohledně smluvené práce a souvisejících problémů po dobu aktivity účtu v KNOTIS. Poskytnuté podklady pro DPP/stipendia (osobní údaje) budou využity výhradně za účelem administrace vyplacení finančních prostředků a budou skladovány po dobu nezbytně nutnou, danou zejména zákony souvisejícími s účetnictvím. V KNOTIS budou kontaktní informace i osobní údaje automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.',
+    'kontaktne-udaje-gdpr' => 'Poskytnuté kontaktní informace (telefon, e-mail apod.) budou využity výhradně za účelem komunikace v rámci výzkumné skupiny ohledně smluvené práce a souvisejících problémů po dobu aktivity účtu v KNOTIS. V KNOTIS budou kontaktní informace automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.',
+    'osobne-info-gdpr' => 'Poskytnuté podklady pro DPP/stipendia (osobní údaje) budou využity výhradně za účelem administrace vyplacení finančních prostředků a budou skladovány po dobu nezbytně nutnou, danou zejména zákony souvisejícími s účetnictvím. V KNOTIS budou osobní údaje automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.',
     'meno' => 'Jméno',
     'priezvisko' => 'Příjmení',
     'telefon' => 'Telefon',
@@ -81,5 +82,6 @@ return [
     'dic-title' => 'Daňové identifikační číslo (určeno pro cizince)',
     'bankovy-ucet-title' => 'Číslo bankovního účtu, kde si přejete zasílat peníze',
     'vut-cislo-title' => 'Osobní číslo VUT / Person ID / CDB ID (na průkazu)',
+    'konfiguracia' => 'Konfigurace',
 
 ];

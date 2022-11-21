@@ -40,6 +40,14 @@ class Controller extends BaseController
         return view('osobne_informacie', compact('data'));
     }
 
+    public function Konfiguracia(){
+        $data = array();
+        if(Session::has('loginId')){
+            $data = Osoba::where('id','=',Session::get('loginId'))->first();
+        }
+        return view('konfiguracia', compact('data'));
+    }
+
     public function updatePersonalInfo(Request $request){
         $validator = Validator::make($request->all(), [
             'zpozdeni_vykazu'=>'required|max:2'   
@@ -54,20 +62,7 @@ class Controller extends BaseController
             return back()->with('success','Osobne udaje boli zmenene');
         }
     }
-    public function updatePersonalInfo2(Request $request){
-        $validator = Validator::make($request->all(), [
-            'zasilat_kopie'=>'required'   
-        ]);
-        if ($validator->fails()){
-            return back()->with('fail1','Nastala chyba v zmene osobnych udajov');
-        }
-        else{
-            $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
-                'zasilat_kopie' => $request->upravKopie
-            ]);
-            return back()->with('success1','Osobne udaje boli zmenene');
-        }
-    }
+    
     public function updateKontaktneInfo(Request $request){
         $validator = Validator::make($request->all(), [
             'jmeno'=>'required',
@@ -93,6 +88,7 @@ class Controller extends BaseController
             return back()->with('success1','Udaje boli zmenene');
         }
     }
+
     public function updateDppInfo(Request $request){
         $validator = Validator::make($request->all(), [
             'jmeno'=>'required',
@@ -138,6 +134,7 @@ class Controller extends BaseController
             return back()->with('success2','Udaje boli zmenene');
         }
     }
+    
     public function updateStipInfo(Request $request){
         $validator = Validator::make($request->all(), [
             'jmeno'=>'required',
@@ -178,6 +175,32 @@ class Controller extends BaseController
                 'bankovni_ucet' => $request->bankovni_ucet
             ]);
             return back()->with('success3','Udaje boli zmenene');
+        }
+    }
+
+    public function updateKonfiguracia(Request $request){
+        $validator = Validator::make($request->all(), [
+            // 'jmeno'=>'required',
+            // 'prijmeni'=>'required',
+            // 'telefon'=>'required',
+            // 'gmail'=>'required'
+        ]);
+        if ($validator->fails()){
+            return back()->with('fail','Nastala chyba v zmene udajov');
+        }
+        else{
+            $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
+                // 'jmeno' => $request->jmeno,
+                // 'prijmeni' => $request->prijmeni,
+                // 'telefon' => $request->telefon,
+                // 'gmail' => $request->gmail,
+                // 'facebook' => $request->facebook,
+                // 'discord' => $request->discord,
+                // 'skype' => $request->skype,
+                // 'icq' => $request->icq,
+                // 'jabber' => $request->jabber
+            ]);
+            return back()->with('success','Udaje boli zmenene');
         }
     }
 }

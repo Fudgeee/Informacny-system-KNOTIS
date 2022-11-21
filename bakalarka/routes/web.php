@@ -32,13 +32,16 @@ Route::get('/help', [Controller::class,'Help']);
 // kontaktne udaje
 Route::get('/kontaktne_udaje', [Controller::class,'kontaktneUdaje']);
 Route::post('/kontaktne_udaje', [Controller::class,'updateKontaktneInfo'])->name('update_kontaktne_info');
-Route::post('/kontaktne_udaje_dpp', [Controller::class,'updateDppInfo'])->name('update_dpp_info');
-Route::post('/kontaktne_udaje_stip', [Controller::class,'updateStipInfo'])->name('update_stip_info');
 
 // osobne nastavenia
 Route::get('/osobne_informacie', [Controller::class,'osobneInformacie'])->name('osobne_informacie');
 Route::post('/osobne_informacie', [Controller::class,'updatePersonalInfo'])->name('update_personal_info');
-Route::post('/osobne_informacie2', [Controller::class,'updatePersonalInfo2'])->name('update_personal_info2');
+Route::post('/osobne_informacie_dpp', [Controller::class,'updateDppInfo'])->name('update_dpp_info');
+Route::post('/osobne_informacie_stip', [Controller::class,'updateStipInfo'])->name('update_stip_info');
+
+// konfiguracia
+Route::get('/konfiguracia', [Controller::class,'Konfiguracia'])->name('konfiguracia');
+Route::post('/konfiguracia', [Controller::class,'updateKonfiguracia'])->name('update_konfiguracia');
 
 // zmena jazyka
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => '\App\Http\Controllers\LanguageController@switchLang']);

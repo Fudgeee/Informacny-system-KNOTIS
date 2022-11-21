@@ -29,7 +29,8 @@ return [
     'add-btn' => 'Add',
     'opravenia-ku-serverom' => 'Permission to servers',
     'pristup-redmine' => 'Access to Redmine',
-    'kontaktne-udaje-gdpr' => 'Provided contact information (telephone number, e-mail, etc.) will only be used for communication purposes inside the research group about the contracted work and problems related to it. The information will be stored only for the duration of the research in KNOTIS. DPP/scholarship information will only be used for paying out and will be stored for the necessary duration stated by the financial law. KNOTIS will automatically delete contact and DPP (employment agreement)/scholarship information within three months after research concludes and when there is no account to be found on the merlin server (termination of studies) – this process is irreversible.',
+    'kontaktne-udaje-gdpr' => 'Provided contact information (telephone number, e-mail, etc.) will only be used for communication purposes inside the research group about the contracted work and problems related to it. The information will be stored only for the duration of the research in KNOTIS. KNOTIS will automatically delete contact and DPP (employment agreement)/scholarship information within three months after research concludes and when there is no account to be found on the merlin server (termination of studies) – this process is irreversible.',
+    'osobne-info-gdpr' => 'DPP/scholarship information will only be used for paying out and will be stored for the necessary duration stated by the financial law. KNOTIS will automatically delete DPP (employment agreement)/scholarship information within three months after research concludes and when there is no account to be found on the merlin server (termination of studies) – this process is irreversible.',
     'meno' => 'First name',
     'priezvisko' => 'Last name',
     'telefon' => 'Phone number',
@@ -81,4 +82,5 @@ return [
     'dic-title' => 'Tax identification number (required for foreigners)',
     'bankovy-ucet-title' => 'Bank account number where you want money to be send',
     'vut-cislo-title' => 'Personal VUT identification number',
+    'konfiguracia' => 'Configuration',
 ];
