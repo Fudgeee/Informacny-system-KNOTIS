@@ -80,29 +80,58 @@ class Controller extends BaseController
         $validator = Validator::make($request->all(), [
             'jmeno'=>'required',
             'prijmeni'=>'required',
-            'misto_narozeni'=>'required',
-            'datum_narozeni'=>'required',
-            'rodne_cislo'=>'required',
-            'cislo_popisne'=>'required',
-            'mesto'=>'required',
-            'psc'=>'required',
-            'bankovni_ucet'=>'required',
+            'telefon'=>'required',
+            'gmail'=>'required'
         ]);
         if ($validator->fails()){
             return back()->with('fail1','Nastala chyba v zmene udajov');
+        }
+        else{
+            $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
+                'jmeno' => $request->jmeno,
+                'prijmeni' => $request->prijmeni,
+                'telefon' => $request->telefon,
+                'gmail' => $request->gmail,
+                'facebook' => $request->facebook,
+                'discord' => $request->discord,
+                'skype' => $request->skype,
+                'icq' => $request->icq,
+                'jabber' => $request->jabber
+            ]);
+            return back()->with('success1','Udaje boli zmenene');
+        }
+    }
+    public function updateDppInfo(Request $request){
+        $validator = Validator::make($request->all(), [
+            'jmeno'=>'required',
+            'prijmeni'=>'required',
+            'rodne_prijmeni'=>'required',
+            'misto_narozeni'=>'required',
+            'datum_narozeni'=>'required',
+            'rodne_cislo'=>'required',
+            'cislo_op'=>'required',
+            'statni_prislusnost'=>'required',
+            'cislo_popisne'=>'required',
+            'mesto'=>'required',
+            'psc'=>'required',
+            'zdravotni_pojistovna'=>'required',
+            'bankovni_ucet'=>'required',
+        ]);
+        if ($validator->fails()){
+            return back()->with('fail2','Nastala chyba v zmene udajov');
         }
         else{
             $osoba= DB::table('dpp_udaje')->where('id_osoby','=',Session::get('loginId'))->update([
                 'titul_pred' => $request->titul_pred,
                 'titul_za' => $request->titul_za,
                 'jmeno' => $request->jmeno,
-                'prijmeni' => $request->prijmeni,
+                'prijmeni' => $request->prijmeni,             
                 'rodne_prijmeni' => $request->rodne_prijmeni,
                 'misto_narozeni' => $request->misto_narozeni,
                 'datum_narozeni' => $request->datum_narozeni,
                 'rodne_cislo' => $request->rodne_cislo,
                 'cislo_op' => $request->cislo_op,
-                'cdb_id' => $request->cdb_id,
+                // 'cdb_id' => $request->cdb_id,
                 'statni_prislusnost' => $request->statni_prislusnost,
                 'rodinny_stav' => $request->rodinny_stav,
                 'ulice' => $request->ulice,
@@ -114,7 +143,49 @@ class Controller extends BaseController
                 'dic' => $request->dic,
                 'bankovni_ucet' => $request->bankovni_ucet
             ]);
-            return back()->with('success1','Udaje boli zmenene');
+            return back()->with('success2','Udaje boli zmenene');
+        }
+    }
+    public function updateStipInfo(Request $request){
+        $validator = Validator::make($request->all(), [
+            'jmeno'=>'required',
+            'prijmeni'=>'required',
+            'misto_narozeni'=>'required',
+            'datum_narozeni'=>'required',
+            'rodne_cislo'=>'required',
+            'cdb_id'=>'required',
+            'cislo_popisne'=>'required',
+            'mesto'=>'required',
+            'psc'=>'required',
+            'bankovni_ucet'=>'required',
+        ]);
+        if ($validator->fails()){
+            return back()->with('fail3','Nastala chyba v zmene udajov');
+        }
+        else{
+            $osoba= DB::table('dpp_udaje')->where('id_osoby','=',Session::get('loginId'))->update([
+                'titul_pred' => $request->titul_pred,
+                'titul_za' => $request->titul_za,
+                'jmeno' => $request->jmeno,
+                'prijmeni' => $request->prijmeni,             
+                //'rodne_prijmeni' => $request->rodne_prijmeni,
+                'misto_narozeni' => $request->misto_narozeni,
+                'datum_narozeni' => $request->datum_narozeni,
+                'rodne_cislo' => $request->rodne_cislo,
+                //'cislo_op' => $request->cislo_op,
+                'cdb_id' => $request->cdb_id,
+                //'statni_prislusnost' => $request->statni_prislusnost,
+                'rodinny_stav' => $request->rodinny_stav,
+                'ulice' => $request->ulice,
+                'cislo_popisne' => $request->cislo_popisne,
+                'mesto' => $request->mesto,
+                'psc' => $request->psc,
+                //'zdravotni_pojistovna' => $request->zdravotni_pojistovna,
+                //'cislo_pasu' => $request->cislo_pasu,
+                'dic' => $request->dic,
+                'bankovni_ucet' => $request->bankovni_ucet
+            ]);
+            return back()->with('success3','Udaje boli zmenene');
         }
     }
 }

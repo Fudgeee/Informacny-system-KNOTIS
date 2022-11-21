@@ -60,8 +60,7 @@ class AuthController extends Controller
         $osoba= Osoba::where('id','=',Session::get('loginId'))->first();
         if (Hash::check($request->old_password,$osoba->heslo)){
             Osoba::where('id','=',Session::get('loginId'))->update([
-                'heslo' => Hash::make($request->new_password),
-                'zmena_hesla' => '1'
+                'heslo' => Hash::make($request->new_password)
             ]);
             return back()->with('success','Heslo bolo zmenene');
         }
