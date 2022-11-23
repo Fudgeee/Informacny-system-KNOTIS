@@ -17,19 +17,19 @@
                 <a href="#" onclick="toggleClass()">{{ $data->jmeno. " " .$data->prijmeni }}<i class="fa-sharp fa-solid fa-chevron-down"></i></a>
                 <ul class="top-hamburger">
                     <li>
-                        <a href="change_password"><i class="fa-solid fa-key"></i>{{__('messages.change-pw')}}</a>
+                        <a href="change_password"><i class="fa-solid fa-key"></i>{{__('Změna hesla')}}</a>
                     </li>
                     <li>
-                        <a href="osobne_informacie"><i class="fa-solid fa-user"></i>{{__('messages.osobne-info')}}</a>
+                        <a href="osobne_informacie"><i class="fa-solid fa-user"></i>{{__('Osobní Informace')}}</a>
                     </li>
                     <li>
-                        <a href="kontaktne_udaje"><i class="fa-solid fa-address-book"></i>{{__('messages.kontaktne-udaje')}}</a>
+                        <a href="kontaktne_udaje"><i class="fa-solid fa-address-book"></i>{{__('Kontaktní Údaje')}}</a>
                     </li>
                     <li>
-                        <a href="konfiguracia"><i class="fa-solid fa-user-gear"></i>{{__('messages.konfiguracia')}}</a>
+                        <a href="konfiguracia"><i class="fa-solid fa-user-gear"></i>{{__('Konfigurace')}}</a>
                     </li>
                     <li>
-                        <a href="logout" class="log-out"><i class="fa-solid fa-right-from-bracket"></i>{{__('messages.log-out')}}</a>
+                        <a href="logout" class="log-out"><i class="fa-solid fa-right-from-bracket"></i>{{__('Odhlásit se')}}</a>
                     </li>            
                 </ul>
             </li>

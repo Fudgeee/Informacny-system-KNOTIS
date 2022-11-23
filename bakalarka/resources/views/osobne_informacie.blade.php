@@ -26,10 +26,10 @@
                         <h1>{{$data->jmeno. " " .$data->prijmeni}}</h1>
                     </div>
                     <div class="kontakt_info_item_gdpr">
-                        {{__('messages.osobne-info-gdpr')}}
+                        {{__('Poskytnuté podklady pro DPP/stipendia (osobní údaje) budou využity výhradně za účelem administrace vyplacení finančních prostředků a budou skladovány po dobu nezbytně nutnou, danou zejména zákony souvisejícími s účetnictvím. V KNOTIS budou osobní údaje automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.')}}
                     </div>
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">{{__('messages.id-number')}}:</div>
+                        <div class="osobne_info_item_span">{{__('Číslo')}}:</div>
                         {{$data->id}}
                     </div>
                     <div class="osobne_info_item">
@@ -37,7 +37,7 @@
                         {{$data->login}}
                     </div>
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">{{__('messages.active-time')}}:</div>
+                        <div class="osobne_info_item_span">{{__('Aktivní')}}:</div>
                         @if (($data->aktivni_do == "0000-00-00 00:00:00") || ($data->aktivni_do == ""))
                             {{$data->aktivni_od. " - "}} &infin;
                         @else
@@ -45,7 +45,7 @@
                         @endif
                     </div>
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">{{__('messages.work-time')}}:</div>
+                        <div class="osobne_info_item_span">{{__('Práce')}}:</div>
                         @if (($data->odpracovat_do == "0000-00-00 00:00:00") || ($data->odpracovat_do == ""))
                             {{$data->odpracovat_od. " - "}} &infin;
                         @else
@@ -59,24 +59,24 @@
             <div class="podklady_l">
                 <!--$dppUdajeKompletni = plneVyplnenDPP($udajeOs['id'], 0); #2078
                     $stipendiumUdajeKompletni = plneVyplnenDPP($udajeOs['id'], 2); #2079-->
-                    <div class="kontakt_info_item">{{__('messages.podklady-dpp')}}: &nbsp <!--TODO-->
+                    <div class="kontakt_info_item">{{__('Podklady pro DPP')}}: &nbsp <!--TODO-->
                     @if ($data)<!--$dppUdajeKompletni)-->
-                        <span style="color:green">{{__('messages.vyplnene')}}</span>
+                        <span style="color:green">{{__('Vyplněny')}}</span>
                     @else
-                        <span style="color:red">{{__('messages.nevyplnene')}}</span>
+                        <span style="color:red">{{__('Nevyplněny')}}</span>
                     @endif
                     <a href="#" onclick="toggleDppInfo()">
-                        <div class="kontakt_info_item_span_add">{{__('messages.podklady-dpp')}}</div>
+                        <div class="kontakt_info_item_span_add">{{__('Podklady pro DPP')}}</div>
                     </a> <!--TODO-->          
                 </div>
-                <div class="kontakt_info_item">{{__('messages.podklady-stip')}}: &nbsp <!--TODO-->
+                <div class="kontakt_info_item">{{__('Podklady pro Stip')}}: &nbsp <!--TODO-->
                     @if ($data)<!--$stipendiumUdajeKompletni)-->
-                        <span style="color:green">{{__('messages.vyplnene')}}</span>
+                        <span style="color:green">{{__('Vyplněny')}}</span>
                     @else
-                        <span style="color:red">{{__('messages.nevyplnene')}}</span>
+                        <span style="color:red">{{__('Nevyplněny')}}</span>
                     @endif
                     <a href="#" onclick="toggleStipInfo()">
-                        <div class="kontakt_info_item_span_add">{{__('messages.podklady-stip')}}</div>
+                        <div class="kontakt_info_item_span_add">{{__('Podklady pro Stip')}}</div>
                     </a> <!--TODO-->        
                 </div>
             </div>
@@ -92,86 +92,86 @@
                 @csrf
                 <div class="kontakt_info_l" style="padding-top:20px">              
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.titul-pred')}}:</div>
-                        <input type="text" size="25" maxlength="31" name="titul_pred" title="{{__('messages.titul-pred')}}" value="{{$data->titul_pred}}">{{__('messages.volitelne')}}               
+                        <div class="kontakt_info_item_span">{{__('Titul před jménem')}}:</div>
+                        <input type="text" size="25" maxlength="31" name="titul_pred" title="{{__('Titul před jménem')}}" value="{{$data->titul_pred}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.titul-za')}}:</div>
-                        <input type="text" size="25" maxlength="31" name="titul_za" title="{{__('messages.titul-za')}}" value="{{$data->titul_za}}">{{__('messages.volitelne')}} 
+                        <div class="kontakt_info_item_span">{{__('Titul za jménem')}}:</div>
+                        <input type="text" size="25" maxlength="31" name="titul_za" title="{{__('Titul za jménem')}}" value="{{$data->titul_za}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.meno')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="jmeno" title="{{__('messages.meno')}}" value="{{$data->jmeno}}"> 
+                        <div class="kontakt_info_item_span">{{__('Jméno')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="jmeno" title="{{__('Jméno')}}" value="{{$data->jmeno}}"> 
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.priezvisko')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="prijmeni" title="{{__('messages.priezvisko')}}" value="{{$data->prijmeni}}">
+                        <div class="kontakt_info_item_span">{{__('Příjmení')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="prijmeni" title="{{__('Příjmení')}}" value="{{$data->prijmeni}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.rodne-priezvisko')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="rodne_prijmeni" title="{{__('messages.rodne-priezvisko')}}" value="{{$data->rodne_prijmeni}}">
+                        <div class="kontakt_info_item_span">{{__('Rodné příjmení')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="rodne_prijmeni" title="{{__('Rodné příjmení')}}" value="{{$data->rodne_prijmeni}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.miesto-narodenia')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="misto_narozeni" title="{{__('messages.miesto-narodenia')}}" value="{{$data->misto_narozeni}}">
+                        <div class="kontakt_info_item_span">{{__('Místo narození')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="misto_narozeni" title="{{__('Místo narození')}}" value="{{$data->misto_narozeni}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.datum-narodenia')}}:</div>                   
-                        <input type="text" size="25" maxlength="31" name="datum_narozeni" title="{{__('messages.datum-narodenia')}}" value="{{$data->datum_narozeni}}">
+                        <div class="kontakt_info_item_span">{{__('Datum narození')}}:</div>                   
+                        <input type="text" size="25" maxlength="31" name="datum_narozeni" title="{{__('Datum narození')}}" value="{{$data->datum_narozeni}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.rodne-cislo')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="rodne_cislo" title="{{__('messages.rodne-cislo')}}" value="{{$data->rodne_cislo}}">
+                        <div class="kontakt_info_item_span">{{__('Rodné číslo')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="rodne_cislo" title="{{__('Rodné číslo')}}" value="{{$data->rodne_cislo}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.cislo-op')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="cislo_op" title="{{__('messages.cislo-op-title')}}" value="{{$data->cislo_op}}">
+                        <div class="kontakt_info_item_span">{{__('Číslo OP')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="cislo_op" title="{{__('Číslo občanského průkazu')}}" value="{{$data->cislo_op}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.stat')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="statni_prislusnost" title="{{__('messages.stat')}}" value="{{$data->statni_prislusnost}}">
+                        <div class="kontakt_info_item_span">{{__('Státní příslušnost (stát)')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="statni_prislusnost" title="{{__('Státní příslušnost (stát)')}}" value="{{$data->statni_prislusnost}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.rodinny-stav')}}:</div>                   
-                        <select id="upravDppRodinnyStav" name="upravDppRodinnyStav" title="{{__('messages.rodinny-stav')}}">
+                        <div class="kontakt_info_item_span">{{__('Rodinný stav')}}:</div>                   
+                        <select id="upravDppRodinnyStav" name="upravDppRodinnyStav" title="{{__('Rodinný stav')}}">
                             <!--generujPolozkyVyberuSId($rodinnyStav, false, $udajeDPP['rodinny_stav'])-->
-                        </select>{{__('messages.volitelne')}} 
+                        </select>
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.ulica')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="ulice" title="{{__('messages.ulica-title')}}" value="{{$data->ulice}}">{{__('messages.volitelne')}} 
+                        <div class="kontakt_info_item_span">{{__('Ulice')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="ulice" title="{{__('Adresa - ulice (u vesnice bez ulic je doporučeno zadat název vesnice - jako na dopisu)')}}" value="{{$data->ulice}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.popisne-cislo')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="cislo_popisne" title="{{__('messages.popisne-cislo-title')}}" value="{{$data->cislo_popisne}}">
+                        <div class="kontakt_info_item_span">{{__('Číslo popisné')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="cislo_popisne" title="{{__('Adresa - číslo popisné')}}" value="{{$data->cislo_popisne}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.mesto')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="mesto" title="{{__('messages.mesto-title')}}" value="{{$data->mesto}}">
+                        <div class="kontakt_info_item_span">{{__('Město')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="mesto" title="{{__('Adresa - město')}}" value="{{$data->mesto}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.psc')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="psc" title="{{__('messages.psc')}}" value="{{$data->psc}}">
+                        <div class="kontakt_info_item_span">{{__('PSČ')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="psc" title="{{__('PSČ')}}" value="{{$data->psc}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.poistovna')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="zdravotni_pojistovna" title="{{__('messages.poistovna-title')}}" value="{{$data->zdravotni_pojistovna}}">
+                        <div class="kontakt_info_item_span">{{__('Zdravotní pojišťovna')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="zdravotni_pojistovna" title="{{__('Název zdravotní pojišťovny (např. VZP)')}}" value="{{$data->zdravotni_pojistovna}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.cislo-pasu')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="cislo_pasu" title="{{__('messages.cislo-pasu-title')}}" value="{{$data->cislo_pasu}}">
+                        <div class="kontakt_info_item_span">{{__('Číslo pasu')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="cislo_pasu" title="{{__('Číslo pasu (určeno pro cizince)')}}" value="{{$data->cislo_pasu}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.dic')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="dic" title="{{__('messages.dic-title')}}" value="{{$data->dic}}">{{__('messages.volitelne')}} 
+                        <div class="kontakt_info_item_span">{{__('DIČ')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="dic" title="{{__('Daňové identifikační číslo (určeno pro cizince)')}}" value="{{$data->dic}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.bankovy-ucet')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="bankovni_ucet" title="{{__('messages.bankovy-ucet-title')}}" value="{{$data->bankovni_ucet}}">
+                        <div class="kontakt_info_item_span">{{__('Bankovní účet')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="bankovni_ucet" title="{{__('Číslo bankovního účtu, kde si přejete zasílat peníze')}}" value="{{$data->bankovni_ucet}}">
                     </div>             
                     <div class="kontakt_info_item">
                         <div class="kontakt_info_button">
-                            <button type="submit" class="btn btn-block btn-primary">{{__('messages.save-btn')}}</button>
+                            <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>
                         </div> 
                     </div>  
                 </div> 
@@ -187,63 +187,63 @@
                 @endif
                 @csrf 
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.titul-pred')}}:</div>
-                        <input type="text" size="25" maxlength="31" name="titul_pred" title="{{__('messages.titul-pred')}}" value="{{$data->titul_pred}}">{{__('messages.volitelne')}}                
+                        <div class="kontakt_info_item_span">{{__('Titul před jménem')}}:</div>
+                        <input type="text" size="25" maxlength="31" name="titul_pred" title="{{__('Titul před jménem')}}" value="{{$data->titul_pred}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.titul-za')}}:</div>
-                        <input type="text" size="25" maxlength="31" name="titul_za" title="{{__('messages.titul-za')}}" value="{{$data->titul_za}}">{{__('messages.volitelne')}} 
+                        <div class="kontakt_info_item_span">{{__('Titul za jménem')}}:</div>
+                        <input type="text" size="25" maxlength="31" name="titul_za" title="{{__('Titul za jménem')}}" value="{{$data->titul_za}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.vut-cislo')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="cdb_id" title="{{__('messages.vut-cislo-title')}}" value="{{$data->cdb_id}}">
+                        <div class="kontakt_info_item_span">{{__('Osobní číslo VUT')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="cdb_id" title="{{__('Osobní číslo VUT / Person ID / CDB ID (na průkazu)')}}" value="{{$data->cdb_id}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.miesto-narodenia')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="misto_narozeni" title="{{__('messages.miesto-narodenia')}}" value="{{$data->misto_narozeni}}">
+                        <div class="kontakt_info_item_span">{{__('Místo narození')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="misto_narozeni" title="{{__('Místo narození')}}" value="{{$data->misto_narozeni}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.datum-narodenia')}}:</div>                   
-                        <input type="text" size="25" maxlength="31" name="datum_narozeni" title="{{__('messages.datum-narodenia')}}" value="{{$data->datum_narozeni}}">
+                        <div class="kontakt_info_item_span">{{__('Datum narození')}}:</div>                   
+                        <input type="text" size="25" maxlength="31" name="datum_narozeni" title="{{__('Datum narození')}}" value="{{$data->datum_narozeni}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.rodne-cislo')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="rodne_cislo" title="{{__('messages.rodne-cislo')}}" value="{{$data->rodne_cislo}}">
+                        <div class="kontakt_info_item_span">{{__('Rodné číslo')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="rodne_cislo" title="{{__('Rodné číslo')}}" value="{{$data->rodne_cislo}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.rodinny-stav')}}:</div>                   
-                        <select id="upravDppRodinnyStav" name="upravDppRodinnyStav" title="{{__('messages.rodinny-stav')}}">
+                        <div class="kontakt_info_item_span">{{__('Rodinný stav')}}:</div>                   
+                        <select id="upravDppRodinnyStav" name="upravDppRodinnyStav" title="{{__('Rodinný stav')}}">
                             <!--generujPolozkyVyberuSId($rodinnyStav, false, $udajeDPP['rodinny_stav'])-->
-                        </select>{{__('messages.volitelne')}} 
+                        </select>
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.ulica')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="ulice" title="{{__('messages.ulica-title')}}" value="{{$data->ulice}}">{{__('messages.volitelne')}} 
+                        <div class="kontakt_info_item_span">{{__('Ulice')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="ulice" title="{{__('Adresa - ulice (u vesnice bez ulic je doporučeno zadat název vesnice - jako na dopisu)')}}" value="{{$data->ulice}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.popisne-cislo')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="cislo_popisne" title="{{__('messages.popisne-cislo-title')}}" value="{{$data->cislo_popisne}}">
+                        <div class="kontakt_info_item_span">{{__('Číslo popisné')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="cislo_popisne" title="{{__('Adresa - číslo popisné')}}" value="{{$data->cislo_popisne}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.mesto')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="mesto" title="{{__('messages.mesto-title')}}" value="{{$data->mesto}}">
+                        <div class="kontakt_info_item_span">{{__('Město')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="mesto" title="{{__('Adresa - město')}}" value="{{$data->mesto}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.psc')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="psc" title="{{__('messages.psc')}}" value="{{$data->psc}}">
+                        <div class="kontakt_info_item_span">{{__('PSČ')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="psc" title="{{__('PSČ')}}" value="{{$data->psc}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.dic')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="dic" title="{{__('messages.dic-title')}}" value="{{$data->dic}}">{{__('messages.volitelne')}} 
+                        <div class="kontakt_info_item_span">{{__('DIČ')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="dic" title="{{__('Daňové identifikační číslo (určeno pro cizince)')}}" value="{{$data->dic}}">
                     </div>
                     <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('messages.bankovy-ucet')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="bankovni_ucet" title="{{__('messages.bankovy-ucet-title')}}" value="{{$data->bankovni_ucet}}">
+                        <div class="kontakt_info_item_span">{{__('Bankovní účet')}}:</div>                   
+                        <input type="text" size="25" maxlength="63" name="bankovni_ucet" title="{{__('Číslo bankovního účtu, kde si přejete zasílat peníze')}}" value="{{$data->bankovni_ucet}}">
 
                     </div>           
                     <div class="kontakt_info_item">
                         <div class="kontakt_info_button">
-                            <button type="submit" class="btn btn-block btn-primary">{{__('messages.save-btn')}}</button>
+                            <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>
                         </div> 
                     </div>   
                 </div>                                                    

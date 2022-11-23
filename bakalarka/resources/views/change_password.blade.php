@@ -11,22 +11,22 @@
             @endif
             @csrf
             <div class="form-group">
-                <label for="old_password" class="form-label">{{__('messages.current-pw')}}:</label>
-                <input type="password" name="old_password" class="form-control" placeholder="{{__('messages.current-pw')}}">
+                <label for="old_password" class="form-label">{{__('Aktuální heslo')}}:</label>
+                <input type="password" name="old_password" class="form-control" placeholder="{{__('Aktuální heslo')}}">
                 <span class="text-danger">@error('old_password') {{$message}} @enderror</span>
             </div>
             <div class="form-group">
-                <label for="new_password" class="form-label">{{__('messages.new-pw')}}:</label>
-                <input type="password" name="new_password" class="form-control" placeholder="{{__('messages.new-pw')}}">
+                <label for="new_password" class="form-label">{{__('Nové heslo')}}:</label>
+                <input type="password" name="new_password" class="form-control" placeholder="{{__('Nové heslo')}}">
                 <span class="text-danger">@error('new_password') {{$message}} @enderror</span>
             </div>
             <div class="form-group">
-                <label for="new_password_confirm">{{__('messages.new-pw-confirm')}}:</label>
-                <input type="password" name="new_password_confirmation" class="form-control" placeholder="{{__('messages.new-pw-placeholder')}}"> 
+                <label for="new_password_confirm">{{__('Nové heslo (kontrola)')}}:</label>
+                <input type="password" name="new_password_confirmation" class="form-control" placeholder="{{__('Zadajte heslo znovu')}}"> 
             </div>
             <br>
             <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary">{{__('messages.change-pw-btn')}}</button>
+                <button type="submit" class="btn btn-block btn-primary">{{__('Změnit heslo')}}</button>
             </div>
         </form>
     </div>
