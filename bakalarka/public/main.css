@@ -361,3 +361,13 @@ i{
     position: absolute;
     bottom: 0;
 }
+
+.sipka{
+    cursor:default;
+}
+
+.vyrazneCervene{
+    color:#a90000;
+    font-weight:bold;
+    vertical-align: top;
+}

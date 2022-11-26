@@ -1,4 +1,42 @@
 <!--OSOBNE INFORMACIE-->
+<?php 
+    $rodinnyStav[0] = "---";
+    $rodinnyStav[1] = "svobodný/svobodná";
+    $rodinnyStav[2] = "ženatý/vdaná";
+    $rodinnyStav[3] = "rozvedený/á";
+    $rodinnyStav[4] = "vdovec/vdova";
+    $rodinnyStav[5] = "partnertsví";
+    $rodinnyStav[6] = "mrtev/mrtvá";
+    $rodinnyStav[7] = "zaniklé partnerství rozhodnutím";
+    $rodinnyStav[8] = "zaniklé partnerství smrtí";
+
+    function generujPolozkyVyberuSId($moznosti,$zadna,$zvolena){
+        $vysledek = '';
+        if ($zadna)
+        {  // pokud má být i možnost '-'
+            if ($zvolena == '-')
+            {  // pokud má být tato možnost zvolená
+            $vysledek .= '<option value="-" selected>-</option>';
+            }
+            else
+            {  // pokud tato možnost nemá být zvolená
+            $vysledek .= '<option value="-">-</option>';
+            }
+        }  // pokud má být i možnost '-'
+    
+        foreach ($moznosti as $idMoznosti => $moznost){  // přidávání jednotlivých položek
+            if ($zvolena == $idMoznosti && $zvolena != '-')
+            {  // pokud má být tato možnost zvolená
+            $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
+            }
+            else
+            {  // pokud tato možnost nemá být zvolená
+            $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
+            }
+        }  // přidávání jednotlivých položek
+        return $vysledek;
+        }  // generujPolozkyVyberuSId()
+?>
 @extends('dashboard')
 @section('content')
 <script>
@@ -105,11 +143,13 @@
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Jméno')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="jmeno" title="{{__('Jméno')}}" value="{{$data->jmeno}}"> 
+                        <input type="text" size="25" maxlength="63" name="jmeno" title="{{__('Jméno')}}" value="{{$data->jmeno}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Příjmení')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="prijmeni" title="{{__('Příjmení')}}" value="{{$data->prijmeni}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp">
                         <div class="kontakt_info_item_span">{{__('Rodné příjmení')}}:</div>                   
@@ -118,14 +158,17 @@
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Místo narození')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="misto_narozeni" title="{{__('Místo narození')}}" value="{{$data->misto_narozeni}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Datum narození')}}:</div>                   
                         <input type="text" size="25" maxlength="31" name="datum_narozeni" title="{{__('Datum narození')}}" value="{{$data->datum_narozeni}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Rodné číslo')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="rodne_cislo" title="{{__('Rodné číslo')}}" value="{{$data->rodne_cislo}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp">
                         <div class="kontakt_info_item_span">{{__('Číslo OP')}}:</div>                   
@@ -142,7 +185,7 @@
                     <div class="kontakt_info_item">
                         <div class="kontakt_info_item_span">{{__('Rodinný stav')}}:</div>                   
                         <select id="upravDppRodinnyStav" name="upravDppRodinnyStav" title="{{__('Rodinný stav')}}">
-                            <!--generujPolozkyVyberuSId($rodinnyStav, false, $udajeDPP['rodinny_stav'])-->
+                            <?php echo generujPolozkyVyberuSId($rodinnyStav, false, $data['rodinny_stav']);?>
                         </select>
                     </div>
                     <div class="kontakt_info_item">
@@ -152,14 +195,17 @@
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Číslo popisné')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="cislo_popisne" title="{{__('Adresa - číslo popisné')}}" value="{{$data->cislo_popisne}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Město')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="mesto" title="{{__('Adresa - město')}}" value="{{$data->mesto}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('PSČ')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="psc" title="{{__('PSČ')}}" value="{{$data->psc}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="kontakt_info_item osobne_info_hidden_dpp">
                         <div class="kontakt_info_item_span">{{__('Zdravotní pojišťovna')}}:</div>                   
@@ -176,6 +222,7 @@
                     <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Bankovní účet')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="bankovni_ucet" title="{{__('Číslo bankovního účtu, kde si přejete zasílat peníze')}}" value="{{$data->bankovni_ucet}}">
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>             
                     <div class="kontakt_info_item">
                         <div class="kontakt_info_button">

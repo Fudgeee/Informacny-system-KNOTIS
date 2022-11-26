@@ -25,19 +25,23 @@
                 </div>
                 <div class="kontakt_info_item">
                     <div class="kontakt_info_item_span">{{__('Jméno')}}:</div>                   
-                    <input type="text" size="25" maxlength="63" name="jmeno" title="{{__('Jméno')}}" value="{{$data->jmeno}}"> 
+                    <input type="text" size="25" maxlength="63" name="jmeno" title="{{__('Jméno')}}" value="{{$data->jmeno}}">
+                    <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                 </div>
                 <div class="kontakt_info_item">
                     <div class="kontakt_info_item_span">{{__('Příjmení')}}:</div>                   
                     <input type="text" size="25" maxlength="63" name="prijmeni" title="{{__('Příjmení')}}" value="{{$data->prijmeni}}">
+                    <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                 </div>
                 <div class="kontakt_info_item">
                     <div class="kontakt_info_item_span">{{__('Telefon')}}:</div>
-                    <input type="text" size="25" maxlength="21"  name="telefon" title="{{__('Váš kontaktní telefon')}}" value="{{$data->telefon}}">               
+                    <input type="text" size="25" maxlength="21"  name="telefon" title="{{__('Váš kontaktní telefon')}}" value="{{$data->telefon}}">
+                    <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>             
                 </div>
                 <div class="kontakt_info_item">
                     <div class="kontakt_info_item_span">Mail:</div>                   
                     <input type="text" size="25" maxlength="255" name="gmail" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value="{{$data->gmail}}">
+                    <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                 </div>
                 <div class="kontakt_info_item">                  
                     <a href="#" onclick="toggleOtherContact()">{{__('Přidat jiný kontakt')}}</a> <!--TODO-->

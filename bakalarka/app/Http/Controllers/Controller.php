@@ -133,25 +133,22 @@ class Controller extends BaseController
 
     public function updateKonfiguracia(Request $request){
         $validator = Validator::make($request->all(), [
-            // 'jmeno'=>'required',
-            // 'prijmeni'=>'required',
-            // 'telefon'=>'required',
-            // 'gmail'=>'required'
+            'zpozdeni_vykazu'=>'required',
+            'zasilat_kopie'=>'required',
+            'str_po_prihlaseni'=>'required',
+            'vychozi_ulozeni_sezeni'=>'required',
+            'hlidani_wiki_ukolu' =>'required'
         ]);
         if ($validator->fails()){
             return back()->with('fail',__('Prosím vyplňte všechna povinná pole'));
         }
         else{
             $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
-                // 'jmeno' => $request->jmeno,
-                // 'prijmeni' => $request->prijmeni,
-                // 'telefon' => $request->telefon,
-                // 'gmail' => $request->gmail,
-                // 'facebook' => $request->facebook,
-                // 'discord' => $request->discord,
-                // 'skype' => $request->skype,
-                // 'icq' => $request->icq,
-                // 'jabber' => $request->jabber
+                'zpozdeni_vykazu' => $request->zpozdeni_vykazu,
+                'zasilat_kopie' => $request->zasilat_kopie,
+                'str_po_prihlaseni' => $request->str_po_prihlaseni,
+                'vychozi_ulozeni_sezeni' => $request->vychozi_ulozeni_sezeni,
+                'hlidani_wiki_ukolu' => $request->hlidani_wiki_ukolu,
             ]);
             return back()->with('success',__('Konfigurace byla úspěšně změněna'));
         }
