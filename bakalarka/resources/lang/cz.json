@@ -79,5 +79,17 @@
     "Daňové identifikační číslo (určeno pro cizince)": "Daňové identifikační číslo (určeno pro cizince)",
     "Číslo bankovního účtu, kde si přejete zasílat peníze": "Číslo bankovního účtu, kde si přejete zasílat peníze",
     "Osobní číslo VUT / Person ID / CDB ID (na průkazu)": "Osobní číslo VUT / Person ID / CDB ID (na průkazu)",
-    "Konfigurace": "Konfigurace"
+    "Konfigurace": "Konfigurace",
+    "Je nutná změna hesla!": "Je nutná změna hesla!",
+    "Nespravné Heslo": "Nespravné Heslo",
+    "Uživatel s tímto jménem neexistuje": "Uživatel s tímto jménem neexistuje",
+    "Heslo bylo změněno": "Heslo bylo změněno",
+    "Aktuální heslo se neshoduje": "Aktuální heslo se neshoduje",
+    "Nastala chyba ve změně osobních údajů": "Nastala chyba ve změně osobních údajů",
+    "Osobní údaje byly změněny": "Osobní údaje byly změněny",
+    "Nastala chyba ve změně kontaktních údajů": "Nastala chyba ve změně kontaktních údajů",
+    "Kontaktní údaje byly změněny": "Kontaktní údaje byly změněny",
+    "Prosím vyplňte všechna povinná pole": "Prosím vyplňte všechna povinná pole",
+    "Údaje byly úspěšně změněny": "Údaje byly úspěšně změněny",
+    "Konfigurace byla úspěšně změněna": "Konfigurace byla úspěšně změněna"
 }

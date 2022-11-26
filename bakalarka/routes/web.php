@@ -37,7 +37,6 @@ Route::post('/kontaktne_udaje', [Controller::class,'updateKontaktneInfo'])->name
 Route::get('/osobne_informacie', [Controller::class,'osobneInformacie'])->name('osobne_informacie');
 Route::post('/osobne_informacie', [Controller::class,'updatePersonalInfo'])->name('update_personal_info');
 Route::post('/osobne_informacie_dpp', [Controller::class,'updateDppInfo'])->name('update_dpp_info');
-Route::post('/osobne_informacie_stip', [Controller::class,'updateStipInfo'])->name('update_stip_info');
 
 // konfiguracia
 Route::get('/konfiguracia', [Controller::class,'Konfiguracia'])->name('konfiguracia');

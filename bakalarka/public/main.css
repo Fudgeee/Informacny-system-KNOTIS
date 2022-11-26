@@ -276,26 +276,15 @@ i{
 }
 
 .kontakt_info_hidden,
-.kontakt_info_hidden_dpp,
-.kontakt_info_hidden_stip{
+.osobne_info_hidden_dpp,
+.osobne_info_hidden_stip{
     display: none;
 }
 
 .kontakt_info_hidden.toggleContact,
-.kontakt_info_hidden_dpp.toggleDpp,
-.kontakt_info_hidden_stip.toggleStip{
+.osobne_info_hidden_dpp.toggleDpp,
+.osobne_info_hidden_stip.toggleStip{
     display: block;
-}
-
-.kontakt_info_hidden_dpp.toggleDpp,
-.kontakt_info_hidden_stip.toggleStip{
-    margin: 20px;
-    background: white;
-    width: 80%;
-    box-shadow: 0px 5px 30px black;
-    border-radius: 10px;
-    padding: 20px;
-    overflow: hidden;
 }
 
 .kontakt_info_button{

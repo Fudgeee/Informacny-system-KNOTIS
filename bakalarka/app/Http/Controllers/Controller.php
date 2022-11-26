@@ -53,13 +53,13 @@ class Controller extends BaseController
             'zpozdeni_vykazu'=>'required|max:2'   
         ]);
         if ($validator->fails()){
-            return back()->with('fail','Nastala chyba v zmene osobnych udajov');
+            return back()->with('fail',__('Nastala chyba ve změně osobních údajů'));
         }
         else{
             $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
                 'zpozdeni_vykazu' => $request->zpozdeni_vykazu
             ]);
-            return back()->with('success','Osobne udaje boli zmenene');
+            return back()->with('success',__('Osobní údaje byly změněny'));
         }
     }
     
@@ -71,7 +71,7 @@ class Controller extends BaseController
             'gmail'=>'required'
         ]);
         if ($validator->fails()){
-            return back()->with('fail1','Nastala chyba v zmene udajov');
+            return back()->with('fail1',__('Prosím vyplňte všechna povinná pole'));
         }
         else{
             $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
@@ -85,7 +85,7 @@ class Controller extends BaseController
                 'icq' => $request->icq,
                 'jabber' => $request->jabber
             ]);
-            return back()->with('success1','Udaje boli zmenene');
+            return back()->with('success1',__('Kontaktní údaje byly změněny'));
         }
     }
 
@@ -93,20 +93,16 @@ class Controller extends BaseController
         $validator = Validator::make($request->all(), [
             'jmeno'=>'required',
             'prijmeni'=>'required',
-            'rodne_prijmeni'=>'required',
             'misto_narozeni'=>'required',
             'datum_narozeni'=>'required',
             'rodne_cislo'=>'required',
-            'cislo_op'=>'required',
-            'statni_prislusnost'=>'required',
             'cislo_popisne'=>'required',
             'mesto'=>'required',
             'psc'=>'required',
-            'zdravotni_pojistovna'=>'required',
             'bankovni_ucet'=>'required',
         ]);
         if ($validator->fails()){
-            return back()->with('fail2','Nastala chyba v zmene udajov');
+            return back()->with('fail2',__('Prosím vyplňte všechna povinná pole'));
         }
         else{
             $osoba= DB::table('dpp_udaje')->where('id_osoby','=',Session::get('loginId'))->update([
@@ -119,7 +115,7 @@ class Controller extends BaseController
                 'datum_narozeni' => $request->datum_narozeni,
                 'rodne_cislo' => $request->rodne_cislo,
                 'cislo_op' => $request->cislo_op,
-                // 'cdb_id' => $request->cdb_id,
+                'cdb_id' => $request->cdb_id,
                 'statni_prislusnost' => $request->statni_prislusnost,
                 'rodinny_stav' => $request->rodinny_stav,
                 'ulice' => $request->ulice,
@@ -131,50 +127,7 @@ class Controller extends BaseController
                 'dic' => $request->dic,
                 'bankovni_ucet' => $request->bankovni_ucet
             ]);
-            return back()->with('success2','Udaje boli zmenene');
-        }
-    }
-    
-    public function updateStipInfo(Request $request){
-        $validator = Validator::make($request->all(), [
-            'jmeno'=>'required',
-            'prijmeni'=>'required',
-            'misto_narozeni'=>'required',
-            'datum_narozeni'=>'required',
-            'rodne_cislo'=>'required',
-            'cdb_id'=>'required',
-            'cislo_popisne'=>'required',
-            'mesto'=>'required',
-            'psc'=>'required',
-            'bankovni_ucet'=>'required',
-        ]);
-        if ($validator->fails()){
-            return back()->with('fail3','Nastala chyba v zmene udajov');
-        }
-        else{
-            $osoba= DB::table('dpp_udaje')->where('id_osoby','=',Session::get('loginId'))->update([
-                'titul_pred' => $request->titul_pred,
-                'titul_za' => $request->titul_za,
-                'jmeno' => $request->jmeno,
-                'prijmeni' => $request->prijmeni,             
-                //'rodne_prijmeni' => $request->rodne_prijmeni,
-                'misto_narozeni' => $request->misto_narozeni,
-                'datum_narozeni' => $request->datum_narozeni,
-                'rodne_cislo' => $request->rodne_cislo,
-                //'cislo_op' => $request->cislo_op,
-                'cdb_id' => $request->cdb_id,
-                //'statni_prislusnost' => $request->statni_prislusnost,
-                'rodinny_stav' => $request->rodinny_stav,
-                'ulice' => $request->ulice,
-                'cislo_popisne' => $request->cislo_popisne,
-                'mesto' => $request->mesto,
-                'psc' => $request->psc,
-                //'zdravotni_pojistovna' => $request->zdravotni_pojistovna,
-                //'cislo_pasu' => $request->cislo_pasu,
-                'dic' => $request->dic,
-                'bankovni_ucet' => $request->bankovni_ucet
-            ]);
-            return back()->with('success3','Udaje boli zmenene');
+            return back()->with('success2',__('Údaje byly úspěšně změněny'));
         }
     }
 
@@ -186,7 +139,7 @@ class Controller extends BaseController
             // 'gmail'=>'required'
         ]);
         if ($validator->fails()){
-            return back()->with('fail','Nastala chyba v zmene udajov');
+            return back()->with('fail',__('Prosím vyplňte všechna povinná pole'));
         }
         else{
             $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
@@ -200,7 +153,7 @@ class Controller extends BaseController
                 // 'icq' => $request->icq,
                 // 'jabber' => $request->jabber
             ]);
-            return back()->with('success','Udaje boli zmenene');
+            return back()->with('success',__('Konfigurace byla úspěšně změněna'));
         }
     }
 }

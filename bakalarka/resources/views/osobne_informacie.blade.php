@@ -3,12 +3,16 @@
 @section('content')
 <script>
     function toggleDppInfo() {
-        let menu = document.querySelector(".kontakt_info_hidden_dpp");
-        menu.classList.toggle("toggleDpp");
+        let menu = document.querySelectorAll(".osobne_info_hidden_dpp");
+        for (i=0; i<menu.length; i++){
+            menu[i].classList.toggle("toggleDpp");
+        }
     }
     function toggleStipInfo() {
-        let menu = document.querySelector(".kontakt_info_hidden_stip");
-        menu.classList.toggle("toggleStip");
+        let menu = document.querySelectorAll(".osobne_info_hidden_stip");
+        for (i=0; i<menu.length; i++){
+            menu[i].classList.toggle("toggleStip");
+        }
     }
 </script>
     <div class="osobne_informacie">
@@ -81,7 +85,7 @@
                 </div>
             </div>
         </div>                                           
-        <div class="kontakt_info_hidden_dpp">
+        <div class="osobne_info">
             <form action="{{route('update_dpp_info')}}" method="post">
                 @if(Session::has('success2'))
                     <div class="alert alert-success">{{Session::get('success2')}}</div>
@@ -99,35 +103,39 @@
                         <div class="kontakt_info_item_span">{{__('Titul za jménem')}}:</div>
                         <input type="text" size="25" maxlength="31" name="titul_za" title="{{__('Titul za jménem')}}" value="{{$data->titul_za}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Jméno')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="jmeno" title="{{__('Jméno')}}" value="{{$data->jmeno}}"> 
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Příjmení')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="prijmeni" title="{{__('Příjmení')}}" value="{{$data->prijmeni}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp">
                         <div class="kontakt_info_item_span">{{__('Rodné příjmení')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="rodne_prijmeni" title="{{__('Rodné příjmení')}}" value="{{$data->rodne_prijmeni}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Místo narození')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="misto_narozeni" title="{{__('Místo narození')}}" value="{{$data->misto_narozeni}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Datum narození')}}:</div>                   
                         <input type="text" size="25" maxlength="31" name="datum_narozeni" title="{{__('Datum narození')}}" value="{{$data->datum_narozeni}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Rodné číslo')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="rodne_cislo" title="{{__('Rodné číslo')}}" value="{{$data->rodne_cislo}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp">
                         <div class="kontakt_info_item_span">{{__('Číslo OP')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="cislo_op" title="{{__('Číslo občanského průkazu')}}" value="{{$data->cislo_op}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_stip">
+                        <div class="kontakt_info_item_span">{{__('Osobní číslo VUT')}}:</div>                   
+                        <input type="text" size="25" maxlength="15" name="cdb_id" title="{{__('Osobní číslo VUT / Person ID / CDB ID (na průkazu)')}}" value="{{$data->cdb_id}}">
+                    </div> 
+                    <div class="kontakt_info_item osobne_info_hidden_dpp">
                         <div class="kontakt_info_item_span">{{__('Státní příslušnost (stát)')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="statni_prislusnost" title="{{__('Státní příslušnost (stát)')}}" value="{{$data->statni_prislusnost}}">
                     </div>
@@ -141,23 +149,23 @@
                         <div class="kontakt_info_item_span">{{__('Ulice')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="ulice" title="{{__('Adresa - ulice (u vesnice bez ulic je doporučeno zadat název vesnice - jako na dopisu)')}}" value="{{$data->ulice}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Číslo popisné')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="cislo_popisne" title="{{__('Adresa - číslo popisné')}}" value="{{$data->cislo_popisne}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Město')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="mesto" title="{{__('Adresa - město')}}" value="{{$data->mesto}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('PSČ')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="psc" title="{{__('PSČ')}}" value="{{$data->psc}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp">
                         <div class="kontakt_info_item_span">{{__('Zdravotní pojišťovna')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="zdravotni_pojistovna" title="{{__('Název zdravotní pojišťovny (např. VZP)')}}" value="{{$data->zdravotni_pojistovna}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp">
                         <div class="kontakt_info_item_span">{{__('Číslo pasu')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="cislo_pasu" title="{{__('Číslo pasu (určeno pro cizince)')}}" value="{{$data->cislo_pasu}}">
                     </div>
@@ -165,7 +173,7 @@
                         <div class="kontakt_info_item_span">{{__('DIČ')}}:</div>                   
                         <input type="text" size="25" maxlength="15" name="dic" title="{{__('Daňové identifikační číslo (určeno pro cizince)')}}" value="{{$data->dic}}">
                     </div>
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_item_span">{{__('Bankovní účet')}}:</div>                   
                         <input type="text" size="25" maxlength="63" name="bankovni_ucet" title="{{__('Číslo bankovního účtu, kde si přejete zasílat peníze')}}" value="{{$data->bankovni_ucet}}">
                     </div>             
@@ -176,78 +184,6 @@
                     </div>  
                 </div> 
             </form>
-        </div> 
-        <div class="kontakt_info_hidden_stip">
-            <form action="{{route('update_stip_info')}}" method="post">
-                @if(Session::has('success3'))
-                    <div class="alert alert-success">{{Session::get('success3')}}</div>
-                @endif
-                @if(Session::has('fail3'))
-                    <div class="alert alert-danger">{{Session::get('fail3')}}</div>
-                @endif
-                @csrf 
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Titul před jménem')}}:</div>
-                        <input type="text" size="25" maxlength="31" name="titul_pred" title="{{__('Titul před jménem')}}" value="{{$data->titul_pred}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Titul za jménem')}}:</div>
-                        <input type="text" size="25" maxlength="31" name="titul_za" title="{{__('Titul za jménem')}}" value="{{$data->titul_za}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Osobní číslo VUT')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="cdb_id" title="{{__('Osobní číslo VUT / Person ID / CDB ID (na průkazu)')}}" value="{{$data->cdb_id}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Místo narození')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="misto_narozeni" title="{{__('Místo narození')}}" value="{{$data->misto_narozeni}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Datum narození')}}:</div>                   
-                        <input type="text" size="25" maxlength="31" name="datum_narozeni" title="{{__('Datum narození')}}" value="{{$data->datum_narozeni}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Rodné číslo')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="rodne_cislo" title="{{__('Rodné číslo')}}" value="{{$data->rodne_cislo}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Rodinný stav')}}:</div>                   
-                        <select id="upravDppRodinnyStav" name="upravDppRodinnyStav" title="{{__('Rodinný stav')}}">
-                            <!--generujPolozkyVyberuSId($rodinnyStav, false, $udajeDPP['rodinny_stav'])-->
-                        </select>
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Ulice')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="ulice" title="{{__('Adresa - ulice (u vesnice bez ulic je doporučeno zadat název vesnice - jako na dopisu)')}}" value="{{$data->ulice}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Číslo popisné')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="cislo_popisne" title="{{__('Adresa - číslo popisné')}}" value="{{$data->cislo_popisne}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Město')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="mesto" title="{{__('Adresa - město')}}" value="{{$data->mesto}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('PSČ')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="psc" title="{{__('PSČ')}}" value="{{$data->psc}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('DIČ')}}:</div>                   
-                        <input type="text" size="25" maxlength="15" name="dic" title="{{__('Daňové identifikační číslo (určeno pro cizince)')}}" value="{{$data->dic}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">{{__('Bankovní účet')}}:</div>                   
-                        <input type="text" size="25" maxlength="63" name="bankovni_ucet" title="{{__('Číslo bankovního účtu, kde si přejete zasílat peníze')}}" value="{{$data->bankovni_ucet}}">
-
-                    </div>           
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_button">
-                            <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>
-                        </div> 
-                    </div>   
-                </div>                                                    
-            </form>
-        </div>
+        </div>                                                       
     </div>
 @endsection

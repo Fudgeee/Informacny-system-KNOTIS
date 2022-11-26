@@ -79,5 +79,17 @@
     "Daňové identifikační číslo (určeno pro cizince)": "Tax identification number (required for foreigners)",
     "Číslo bankovního účtu, kde si přejete zasílat peníze": "Bank account number where you want money to be send",
     "Osobní číslo VUT / Person ID / CDB ID (na průkazu)": "Personal VUT identification number",
-    "Konfigurace": "Configuration"
+    "Konfigurace": "Configuration",
+    "Je nutná změna hesla!": "A password change is required!",
+    "Nespravné Heslo": "Invalid Password",
+    "Uživatel s tímto jménem neexistuje": "User with this username does not exist",
+    "Heslo bylo změněno": "Password has been changed",
+    "Aktuální heslo se neshoduje": "The current password does not match",
+    "Nastala chyba ve změně osobních údajů": "There was an error in changing personal data",
+    "Osobní údaje byly změněny": "Personal data have been changed",
+    "Nastala chyba ve změně kontaktních údajů": "There was an error in changing contact information",
+    "Kontaktní údaje byly změněny": "Contact information has been changed",
+    "Prosím vyplňte všechna povinná pole": "Please fill in all required fields",
+    "Údaje byly úspěšně změněny": "The data has been successfully changed",
+    "Konfigurace byla úspěšně změněna": "The configuration was successfully changed"
 }
