@@ -24,16 +24,6 @@
                     {{__('Poskytnuté kontaktní informace (telefon, e-mail apod.) budou využity výhradně za účelem komunikace v rámci výzkumné skupiny ohledně smluvené práce a souvisejících problémů po dobu aktivity účtu v KNOTIS. V KNOTIS budou kontaktní informace automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.')}}
                 </div>
                 <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">{{__('Jméno')}}:</div>                   
-                    <input type="text" size="25" maxlength="63" name="jmeno" title="{{__('Jméno')}}" value="{{$data->jmeno}}">
-                    <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
-                </div>
-                <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">{{__('Příjmení')}}:</div>                   
-                    <input type="text" size="25" maxlength="63" name="prijmeni" title="{{__('Příjmení')}}" value="{{$data->prijmeni}}">
-                    <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
-                </div>
-                <div class="kontakt_info_item">
                     <div class="kontakt_info_item_span">{{__('Telefon')}}:</div>
                     <input type="text" size="25" maxlength="21"  name="telefon" title="{{__('Váš kontaktní telefon')}}" value="{{$data->telefon}}">
                     <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>             
@@ -43,30 +33,28 @@
                     <input type="text" size="25" maxlength="255" name="gmail" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value="{{$data->gmail}}">
                     <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                 </div>
-                <div class="kontakt_info_item">                  
-                    <a href="#" onclick="toggleOtherContact()">{{__('Přidat jiný kontakt')}}</a> <!--TODO-->
+                <div class="kontakt_info_item">
+                    <div class="kontakt_info_item_span">Facebook:</div>
+                    <input type="text" size="25" maxlength="255" name="facebook" title="{{__('Váš kontaktní Facebook účet')}}" value="{{$data->facebook}}">
                 </div>
-                <div class=" kontakt_info_hidden">
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">Facebook:</div>
-                        <input type="text" size="25" maxlength="255" name="facebook" title="{{__('Váš kontaktní Facebook účet')}}" value="{{$data->facebook}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">Discord:</div>                   
-                        <input type="text" size="25" maxlength="255" name="discord" title="{{__('Váš kontaktní Discord účet')}}" value="{{$data->discord}}">
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">Skype:</div>      
-                        <input type="text" size="25" maxlength="127" name="skype" title="{{__('Váš kontaktní Skype účet')}}" value="{{$data->skype}}">             
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">ICQ:</div>  
-                        <input type="text" size="25" maxlength="15" name="icq" title="{{__('Váše kontaktní ICQ')}}" value="{{$data->icq}}">                 
-                    </div>
-                    <div class="kontakt_info_item">
-                        <div class="kontakt_info_item_span">Jabber:</div>                   
-                        <input type="text" size="25" maxlength="127" name="jabber" title="{{__('Váš kontaktní jabber účet')}}" value="{{$data->jabber}}">
-                    </div>
+                <div class="kontakt_info_item">
+                    <div class="kontakt_info_item_span">Discord:</div>                   
+                    <input type="text" size="25" maxlength="255" name="discord" title="{{__('Váš kontaktní Discord účet')}}" value="{{$data->discord}}">
+                </div>
+                <div class="kontakt_info_item">
+                    <div class="kontakt_info_item_span">Skype:</div>      
+                    <input type="text" size="25" maxlength="127" name="skype" title="{{__('Váš kontaktní Skype účet')}}" value="{{$data->skype}}">             
+                </div>
+                <div class="kontakt_info_item">
+                    <div class="kontakt_info_item_span">ICQ:</div>  
+                    <input type="text" size="25" maxlength="15" name="icq" title="{{__('Váše kontaktní ICQ')}}" value="{{$data->icq}}">                 
+                </div>
+                <div class="kontakt_info_item">
+                    <div class="kontakt_info_item_span">Jabber:</div>                   
+                    <input type="text" size="25" maxlength="127" name="jabber" title="{{__('Váš kontaktní jabber účet')}}" value="{{$data->jabber}}">
+                </div>
+                <div class="kontakt_info_item">                  
+                    <a href="#">{{__('Přidat jiný kontakt')}}</a> <!--TODO-->
                 </div>
                 <div class="kontakt_info_item">
                     <div class="kontakt_info_button">

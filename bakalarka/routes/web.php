@@ -35,7 +35,6 @@ Route::post('/kontaktne_udaje', [Controller::class,'updateKontaktneInfo'])->name
 
 // osobne nastavenia
 Route::get('/osobne_informacie', [Controller::class,'osobneInformacie'])->name('osobne_informacie');
-Route::post('/osobne_informacie', [Controller::class,'updatePersonalInfo'])->name('update_personal_info');
 Route::post('/osobne_informacie_dpp', [Controller::class,'updateDppInfo'])->name('update_dpp_info');
 
 // konfiguracia

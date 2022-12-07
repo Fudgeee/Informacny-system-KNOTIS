@@ -38,30 +38,30 @@
     } 
 
     function generujPolozkyVyberuSId($moznosti,$zadna,$zvolena){
-    $vysledek = '';
-    if ($zadna)
-    {  // pokud má být i možnost '-'
-        if ($zvolena == '-')
-        {  // pokud má být tato možnost zvolená
-        $vysledek .= '<option value="-" selected>-</option>';
-        }
-        else
-        {  // pokud tato možnost nemá být zvolená
-        $vysledek .= '<option value="-">-</option>';
-        }
-    }  // pokud má být i možnost '-'
+        $vysledek = '';
+        if ($zadna)
+        {  // pokud má být i možnost '-'
+            if ($zvolena == '-')
+            {  // pokud má být tato možnost zvolená
+            $vysledek .= '<option value="-" selected>-</option>';
+            }
+            else
+            {  // pokud tato možnost nemá být zvolená
+            $vysledek .= '<option value="-">-</option>';
+            }
+        }  // pokud má být i možnost '-'
 
-    foreach ($moznosti as $idMoznosti => $moznost){  // přidávání jednotlivých položek
-        if ($zvolena == $idMoznosti && $zvolena != '-')
-        {  // pokud má být tato možnost zvolená
-        $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
-        }
-        else
-        {  // pokud tato možnost nemá být zvolená
-        $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
-        }
-    }  // přidávání jednotlivých položek
-    return $vysledek;
+        foreach ($moznosti as $idMoznosti => $moznost){  // přidávání jednotlivých položek
+            if ($zvolena == $idMoznosti && $zvolena != '-')
+            {  // pokud má být tato možnost zvolená
+            $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
+            }
+            else
+            {  // pokud tato možnost nemá být zvolená
+            $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
+            }
+        }  // přidávání jednotlivých položek
+        return $vysledek;
     }  // generujPolozkyVyberuSId()
 
     $po_odhlaseni_ulozenoR[0]='Z posledního nastavení systému';
@@ -71,7 +71,27 @@
     $hlidani_wiki_ukolu[1] = "Přiřazení projektů";
     $hlidani_wiki_ukolu[2] = "Aktivitu osob";
     $hlidani_wiki_ukolu[3] = "Přiřazení projektů a aktivitu osob";
+
+    function vypisZoznamServerov($data, $id){
+        $vysledek = '';
+        $maOpravneni = __('Ne');
+        $maSudo = "";
+        if (isset($data['opravneniKS'][$id])){
+            $maOpravneni = __('Ano');
+        }
+        if (isset($data['sudoKS'][$id]))// && $data['sudoKS'][$id] > 0)
+        {
+            $maSudo = " + sudo";
+        }       
+        $vysledek = $maOpravneni.' '.$maSudo;
+        return $vysledek;
+    }
 ?>
+<script>
+    function addInput(){
+
+    }
+</script>
 @extends('dashboard')
 @section('content')
     <div class="konfiguracia">
@@ -88,19 +108,19 @@
                     <div class="osobne_info_h1">
                         <h1>{{__('Konfigurace')}}</h1>
                     </div>
-                    <div class="osobne_info_item">
+                    <div class="konfiguracia_item">
                             <a href="#" class="btn btn-block btn-secondary">{{__('Změnit zabezpečení sezení')}}</a>
                     </div> 
                     <div class="osobne_info_item">
                         <div class="osobne_info_item_span" style="margin-top:5.5px">{{__('Opožděné vykazování')}}:</div>
-                        <input type="text" size="20" style="height:38px" maxlength="2" name="zpozdeni_vykazu" title="{{__('Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin.')}}" value="{{$data->zpozdeni_vykazu}}">
+                        <input type="text" size="29" maxlength="2" name="zpozdeni_vykazu" title="{{__('Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin.')}}" value="{{$data->zpozdeni_vykazu}}">
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>    
                 </div>                                                                 
                 <div class="preferencie">
                     <div class="osobne_info_item">
                         <div class="osobne_info_item_span">{{__('Kopie výkazů')}}:</div>
-                        <select name="upravKopie" title="{{__('Zasílat kopie výkazů e-mailem?')}}" size="1">
+                        <select name="zasilat_kopie" title="{{__('Zasílat kopie výkazů e-mailem?')}}" size="1">
                             @if ($data['zasilat_kopie'] == 1)
                                     <option value="1" selected>{{__('Ano')}}</option>
                                     <option value="0">{{__('Ne')}}</option>
@@ -113,21 +133,21 @@
                     </div>
                     <div class="osobne_info_item">
                         <div class="osobne_info_item_span">{{__('Úvodní stránka')}}:</div>
-                        <select name="upravUvodni" id="upravUvodni" title="{{__('Stránka, která se zobrazí po přihlášení')}}" size="1">
+                        <select name="str_po_prihlaseni" title="{{__('Stránka, která se zobrazí po přihlášení')}}" size="1">
                             <?php echo generujPolozkyVyberuSId($uvodniStr,false,$data['str_po_prihlaseni']);?>
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="osobne_info_item">
                         <div class="osobne_info_item_span">{{__('Uložení nastavení systému')}}:</div>
-                        <select name="uprav_ukladani_sezeni" title="{{__('Jaké nastavení systému se uloží')}}" size="1">
+                        <select name="vychozi_ulozeni_sezeni" title="{{__('Jaké nastavení systému se uloží')}}" size="1">
                             <?php echo generujPolozkyVyberuSId($po_odhlaseni_ulozenoR,false,$data['vychozi_ulozeni_sezeni']);?>
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="osobne_info_item">
                         <div class="osobne_info_item_span">{{__('U wiki úkolů hlídat')}}:</div>
-                        <select name="uprav_hlidani_wiki_ukolu" title="{{__('Jak si přejete hlídat wiki úkoly')}}" size="1">'
+                        <select name="hlidani_wiki_ukolu" title="{{__('Jak si přejete hlídat wiki úkoly')}}" size="1">'
                             <?php echo generujPolozkyVyberuSId($hlidani_wiki_ukolu,false,$data['hlidani_wiki_ukolu']);?>
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
@@ -136,22 +156,20 @@
                         <div class="osobne_info_item_span">{{__('IP adresy')}}:</div>
                         <a href="#" onclick="addInput()">{{__('Přidat')}} +</a> <!--TODO-->
                     </div>
-                    <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">Hosts allow:</div>
-
+                    <div class="osobne_info_item_textarea">
+                        <label for="upravHosts" class="popisVstupu osobne_info_item_span">Hosts allow:</label>
+                        <textarea id="upravHosts" class="field_hosts" name="hosts_allow">{{$data["hosts_allow"]}}</textarea>
                     </div> 
-                    <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">IPv4 Tables:</div>
-
+                    <div class="osobne_info_item_textarea">
+                        <label for="upravIp4Tables" class="popisVstupu osobne_info_item_span">IPv4 Tables:</label>
+                        <textarea id="upravIp4Tables" class="field_hosts" name="ip4_tables">{{$data["ip4_tables"]}}</textarea>
                     </div> 
-                    <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">IPv6 Tables:</div>
-
+                    <div class="osobne_info_item_textarea">
+                        <label for="upravIp6Tables" class="popisVstupu osobne_info_item_span">IPv6 Tables:</label>
+                        <textarea id="upravIp6Tables" class="field_hosts" name="ip6_tables">{{$data["ip6_tables"]}}</textarea>
                     </div>
-                    <div class="osobne_info_item">
-                        <div class="osobne_info_button">
-                            <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>
-                        </div> 
+                    <div class="konfiguracia_button">
+                        <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>
                     </div> 
                 </div>               
             </form>
@@ -161,14 +179,18 @@
             <div class="opravnenia">
                 <h1>{{__('Oprávnění k serverům')}}</h1>
                 <div class="osobne_info_item">
-                    <div class="osobne_info_item_span">{{__('Přístup k Redmine')}}:</div>
+                    <div class="pristup_redmine_item_span">{{__('Přístup k Redmine')}}:</div>
                     @if($data->pristup_k_redmine === 0)
                         {{__('Ne')}}
                     @else
                         {{__('Ano')}} &nbsp (<a href="https://knot.fit.vutbr.cz/redmine" title="{{__('Odkaz na Redmine')}}" target="_blank">https://knot.fit.vutbr.cz/redmine</a>)
                     @endif
                 </div>
-                
+                <div class="osobne_info_items">
+                    <?php foreach ($servery as $id => $server): ?>
+                        <div class="td-server"><span class="serverNazov">{{$server->nazev}}</span><?php echo vypisZoznamServerov($data, $id); ?></div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>

@@ -93,5 +93,9 @@
     "Údaje byly úspěšně změněny": "The data has been successfully changed",
     "Konfigurace byla úspěšně změněna": "The configuration was successfully changed",
     "Povinná položka": "Required item",
-    "Z posledního nastavení systému": ""
+    "Z posledního nastavení systému": "From the last system settings",
+    "Volitelné údaje": "Optional data",
+    "Jste-li student(ka), povinná položka": "Required item, if you are a student",
+    "Povinná položka pro DPP": "Required item for DPP",
+    "Povinná položka pro DPP - zadejte číslo OP nebo číslo pasu (alespoň jedno z nich)": "Required item for DPP - select ID number or passport number (at least one of them)"
 }
