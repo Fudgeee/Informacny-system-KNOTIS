@@ -324,7 +324,7 @@
                         <input type="text" size="29" maxlength="63" name="bankovni_ucet" title="{{__('Číslo bankovního účtu, kde si přejete zasílat peníze')}}" value="{{$dppUdaje->bankovni_ucet}}">
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>             
-                    <div class="kontakt_info_item">
+                    <div class="kontakt_info_item osobne_info_hidden_vol osobne_info_hidden_dpp osobne_info_hidden_stip">
                         <div class="kontakt_info_button">
                             <button type="submit" class="btn btn-block btn-primary" style="margin-top:20px">{{__('Uložit')}}</button>
                         </div> 

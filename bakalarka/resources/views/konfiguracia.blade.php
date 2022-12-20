@@ -72,25 +72,45 @@
     $hlidani_wiki_ukolu[2] = "Aktivitu osob";
     $hlidani_wiki_ukolu[3] = "Přiřazení projektů a aktivitu osob";
 
-    function vypisZoznamServerov($data, $id){
+    function vypisZoznamServerov($server, $data){
         $vysledek = '';
         $maOpravneni = __('Ne');
         $maSudo = "";
+        $id = $server['id_server'];
         if (isset($data['opravneniKS'][$id])){
             $maOpravneni = __('Ano');
         }
-        if (isset($data['sudoKS'][$id]))// && $data['sudoKS'][$id] > 0)
-        {
+        if ((isset($data['sudoKS'][$id])) && (($data['sudoKS'][$id]) > 0)){    
             $maSudo = " + sudo";
         }       
-        $vysledek = $maOpravneni.' '.$maSudo;
+        $vysledek = '<span class="serverNazov">'.$server['nazev'].'</span>'.' '.$maOpravneni.' '.$maSudo;
+        return $vysledek;
+    }
+
+    function vypisZoznamIpAdries($host){
+        $vysledek = '';
+        $vysledek = '<tr><td><input type="text" size="40" maxlength="63" name="upravIp[]" value="'.$host->ip.'"></td>';
+        $vysledek .= '<td><a href="#" onclick="deleteInput(this);return false;"><img src="smazat_ukol.gif"/></a></td></tr>';
         return $vysledek;
     }
 ?>
 <script>
-    function addInput(){
-
+    var mainNodeNameSkupiny = "TR";    
+    function deleteInput(obj){
+        while(obj.nodeName != mainNodeNameSkupiny){
+            obj = obj.parentNode;
+        }
+        obj.parentNode.removeChild(obj);
     }
+
+    function addInput(idSkupiny, nameInputu){
+        var html = "";
+        var row	= document.getElementById(idSkupiny).insertRow(-1);       
+        html += '<td><input type="text" size="40" maxlength="63" title="IP adresy" name="'+nameInputu+'[]" value=""></td>';
+        html +=	'<td><a href="#" onclick="deleteInput(this);return false;"><img src="smazat_ukol.gif" title="Smazat přiřazení ve skupině" alt="Smazat přiřazení ve skupině"/></a></td>';
+        // vlozeni HTML kodu do znacky
+        row.innerHTML = html;
+    }  
 </script>
 @extends('dashboard')
 @section('content')
@@ -109,11 +129,11 @@
                         <h1>{{__('Konfigurace')}}</h1>
                     </div>
                     <div class="konfiguracia_item">
-                            <a href="#" class="btn btn-block btn-secondary">{{__('Změnit zabezpečení sezení')}}</a>
+                            <a href="#" class="btn btn-block btn-primary">{{__('Změnit zabezpečení sezení')}}</a>
                     </div> 
                     <div class="osobne_info_item">
                         <div class="osobne_info_item_span" style="margin-top:5.5px">{{__('Opožděné vykazování')}}:</div>
-                        <input type="text" size="29" maxlength="2" name="zpozdeni_vykazu" title="{{__('Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin.')}}" value="{{$data->zpozdeni_vykazu}}">
+                        <input type="text" size="29" style="height:29px" maxlength="2" name="zpozdeni_vykazu" title="{{__('Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin.')}}" value="{{$data->zpozdeni_vykazu}}">
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>    
                 </div>                                                                 
@@ -152,9 +172,18 @@
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
-                    <div class="osobne_info_item">
+                    <div class="osobne_info_item1">
                         <div class="osobne_info_item_span">{{__('IP adresy')}}:</div>
-                        <a href="#" onclick="addInput()">{{__('Přidat')}} +</a> <!--TODO-->
+                        <table id="ipAdresy">
+                            <tr>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="addInput('ipAdresy', 'upravIp');">{{__('Přidat')}} +</a>
+                                </td><td></td>
+                            </tr>
+                            <?php foreach ($ipAdresy as $host): ?>
+                                <div class="td-server"><?php echo vypisZoznamIpAdries($host); ?></div>
+                            <?php endforeach; ?>
+                        </table>
                     </div>
                     <div class="osobne_info_item_textarea">
                         <label for="upravHosts" class="popisVstupu osobne_info_item_span">Hosts allow:</label>
@@ -188,7 +217,7 @@
                 </div>
                 <div class="osobne_info_items">
                     <?php foreach ($servery as $id => $server): ?>
-                        <div class="td-server"><span class="serverNazov">{{$server->nazev}}</span><?php echo vypisZoznamServerov($data, $id); ?></div>
+                        <div class="td-server"><?php echo vypisZoznamServerov($server, $data); ?></div>
                     <?php endforeach; ?>
                 </div>
             </div>

@@ -21,6 +21,7 @@ class AuthController extends Controller
         if($osoba){
             if(($osoba->heslo == NULL) || ($osoba->heslo == md5($request->password))){
                 $request->session()->put('loginId',$osoba->id);
+                
                 return redirect('change_password')->with('fail',__('Je nutná změna hesla!'));
             }
             elseif(Hash::check($request->password,$osoba->heslo)){

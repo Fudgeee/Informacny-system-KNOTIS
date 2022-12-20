@@ -44,12 +44,193 @@ class Controller extends BaseController
 
     public function Konfiguracia(){
         $data = array();
+        $server = array();
         $servery = array();
+        $ipAdresy = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
-            $servery = DB::table('server')->get();
+            $ipAdresy = DB::table('osoba_hosts_ip')->get();
+            $PDO = DB::connection('mysql')->getPdo();
+            $server = $PDO->prepare(" SELECT      tmp.*
+            FROM 
+            (
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   osoba_server ON osoba_server.id_serveru = server.id_server
+                LEFT JOIN   osoba ON osoba.id = osoba_server.id_osoby
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   projekt_server ON projekt_server.id_serveru = server.id_server
+                LEFT JOIN   projekt ON projekt.id = projekt_server.id_projektu
+                LEFT JOIN   osoba ON osoba.id = projekt.vedouci
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   projekt_server ON projekt_server.id_serveru = server.id_server
+                LEFT JOIN   projekt ON projekt.id = projekt_server.id_projektu
+                LEFT JOIN   projekt_skupina ON projekt.id = projekt_skupina.id_projekt
+                LEFT JOIN   skupina_proj ON skupina_proj.id = projekt_skupina.id_skupina
+                LEFT JOIN   osoba ON osoba.id = skupina_proj.vedouci
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   skupina_proj_server ON skupina_proj_server.id_serveru = server.id_server
+                LEFT JOIN   skupina_proj ON skupina_proj.id = skupina_proj_server.id_skupiny
+                LEFT JOIN   projekt_skupina ON skupina_proj.id = projekt_skupina.id_skupina
+                LEFT JOIN   projekt ON projekt_skupina.id_projekt = projekt.id
+                LEFT JOIN   osoba ON osoba.id = projekt.vedouci
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   projekt_server ON projekt_server.id_serveru = server.id_server
+                LEFT JOIN   projekt ON projekt.id = projekt_server.id_projektu
+                LEFT JOIN   resi ON resi.id_projektu = projekt.id
+                LEFT JOIN   osoba ON osoba.id = resi.id_osoby
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   skupina_proj_server ON skupina_proj_server.id_serveru = server.id_server
+                LEFT JOIN   skupina_proj ON skupina_proj.id = skupina_proj_server.id_skupiny
+                LEFT JOIN   projekt_skupina ON skupina_proj.id = projekt_skupina.id_skupina
+                LEFT JOIN   projekt ON projekt_skupina.id_projekt = projekt.id
+                LEFT JOIN   resi ON resi.id_projektu = projekt.id
+                LEFT JOIN   osoba ON osoba.id = resi.id_osoby
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   projekt_server ON projekt_server.id_serveru = server.id_server
+                LEFT JOIN   projekt ON projekt.id = projekt_server.id_projektu
+                LEFT JOIN   sleduje ON sleduje.id_projektu = projekt.id
+                LEFT JOIN   osoba ON osoba.id = sleduje.id_osoby
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   skupina_proj_server ON skupina_proj_server.id_serveru = server.id_server
+                LEFT JOIN   skupina_proj ON skupina_proj.id = skupina_proj_server.id_skupiny
+                LEFT JOIN   projekt_skupina ON skupina_proj.id = projekt_skupina.id_skupina
+                LEFT JOIN   projekt ON projekt_skupina.id_projekt = projekt.id
+                LEFT JOIN   sleduje ON sleduje.id_projektu = projekt.id
+                LEFT JOIN   osoba ON osoba.id = sleduje.id_osoby
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   skupina_proj_server ON skupina_proj_server.id_serveru = server.id_server
+                LEFT JOIN   skupina_proj ON skupina_proj.id = skupina_proj_server.id_skupiny
+                LEFT JOIN   osoba ON osoba.id = skupina_proj.vedouci
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   skupina_proj_server ON skupina_proj_server.id_serveru = server.id_server
+                LEFT JOIN   skupina_proj ON skupina_proj.id = skupina_proj_server.id_skupiny
+                LEFT JOIN   projekt_skupina ON skupina_proj.id = projekt_skupina.id_skupina
+                LEFT JOIN   projekt ON projekt_skupina.id_projekt = projekt.id
+                LEFT JOIN   resi ON resi.id_projektu = projekt.id
+                LEFT JOIN   osoba ON osoba.id = resi.id_osoby
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   projekt_server ON projekt_server.id_serveru = server.id_server
+                LEFT JOIN   projekt ON projekt.id = projekt_server.id_projektu
+                LEFT JOIN   projekt_skupina ON projekt.id = projekt_skupina.id_projekt
+                LEFT JOIN   sled_skup ON sled_skup.id_skupiny = projekt_skupina.id_skupina
+                LEFT JOIN   osoba ON osoba.id = sled_skup.id_osoby
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            UNION
+            (
+                SELECT      server.id_server,
+                            server.nazev,
+                            osoba_server.sudo
+                FROM        server
+                LEFT JOIN   skupina_proj_server ON skupina_proj_server.id_serveru = server.id_server
+                LEFT JOIN   sled_skup ON sled_skup.id_skupiny = skupina_proj_server.id_skupiny
+                LEFT JOIN   osoba ON osoba.id = sled_skup.id_osoby
+                LEFT JOIN   osoba_server ON osoba_server.id_osoby = osoba.id AND osoba_server.id_serveru = server.id_server
+                WHERE       osoba.id = $data->id
+            )
+            ) AS tmp
+            GROUP BY tmp.id_server
+            
+            ");
+            $server->execute();
+            while ($row = $server->fetch((\PDO::FETCH_ASSOC)))
+            {
+                array_push($servery,$row);
+                $tmp = $data["opravneniKS"];       
+                $tmp[$row["id_server"]] = $row["id_server"];
+                $data["opravneniKS"] = $tmp;
+
+                $tmp1 = $data["sudoKS"];
+                $tmp1[$row["id_server"]] = $row["sudo"];
+                $data["sudoKS"] = $tmp1;
+
+            }
         }
-        return view('konfiguracia', compact('data', 'servery'));
+        return view('konfiguracia', compact('data', 'servery', 'ipAdresy'));
     }
     
     public function updateKontaktneInfo(Request $request){
@@ -130,7 +311,7 @@ class Controller extends BaseController
             return back()->with('fail',__('Prosím vyplňte všechna povinná pole'));
         }
         else{
-            $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
+            $osoba = Osoba::where('id','=',Session::get('loginId'))->update([
                 'zpozdeni_vykazu' => $request->zpozdeni_vykazu,
                 'zasilat_kopie' => $request->zasilat_kopie,
                 'str_po_prihlaseni' => $request->str_po_prihlaseni,
@@ -140,6 +321,14 @@ class Controller extends BaseController
                 'ip4_tables' => (!is_null($request->ip4_tables) ? $request->ip4_tables : ""),
                 'ip6_tables' => (!is_null($request->ip6_tables) ? $request->ip6_tables : "")
             ]);
+            $ipAdresy = $request->upravIp;
+            //dd($ipAdresy);                    TODO
+            foreach($ipAdresy as $host){
+                //dd($ipAdresy[$id]);
+                $host = DB::table('osoba_hosts_ip')->where('id_osoby','=',Session::get('loginId'))->update([
+                    'ip' => (!is_null($host) ? $host : "")
+                ]);
+            }
             return back()->with('success',__('Konfigurace byla úspěšně změněna'));
         }
     }
