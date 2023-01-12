@@ -4,14 +4,14 @@ html{
 }
 
 body{
-    background-color: lightgrey;
     height: 100%;
     margin: 0;
     padding: 0;
 }
 
+
 main{
-    margin-top: 68px;
+    background-color: white;
 }
 
 a{
@@ -20,6 +20,14 @@ a{
 
 i{
     margin-right: 3px !important;
+}
+
+hr{
+    opacity: unset;
+}
+
+.alert{
+    position: unset;
 }
 
 .medzera{
@@ -41,15 +49,29 @@ i{
     top: 0%;
 }
 
+.main-logo-m{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 /*LOGIN PAGE*/
 .login-form{
     margin: 0 auto;
-    padding:120px 40px;
-    background:lightgrey;
+    padding: 40px 10px;
     box-shadow: 0px 5px 30px black;
-    border-radius: 10px;
     display: block;
-    margin-top: 6%;
+    width: 540px;
+    margin-top: 15%;
+    border-radius: 8px;
+    background: radial-gradient(#2fb8f8, #3391bd);
+}
+
+.login-form hr{
+    width: 95%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    border-top: 2px solid black;
+    margin-top: 10px;
 }
 
 .form-group{
@@ -67,13 +89,13 @@ i{
 
 .top-hamburger-login.toggleClsLog{
     display: block;
-    background: gray;
+    background: #86b6d9;
     position: absolute;
     width: 100px;
-    top: 75px;
+    top: 23px;
     text-align: center;
     padding-left: 0;
-    right: 0px;
+    right: 90px;
     margin-right: 5px;
     z-index: 999;
     padding-bottom: 5px;
@@ -83,13 +105,14 @@ i{
 .dashboard{
     font-weight: 500;
     font-size: 18px;
+    padding-top: 56.77px;
 }
 
 /*TOP MENU*/
 .top-menu{
     float: right;
     height: 100%;
-    padding: 5px;
+    padding: 10px;
 }
 
 .top-menu>ul{
@@ -109,11 +132,14 @@ i{
 }
 
 .menu1{
-    height: 48px;
+    height: 56.77px;
     position: fixed;
     display: block;
     width: 100%;
-    background: white;
+    background-image: url("bg.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     top: 0%;
 }
 
@@ -133,12 +159,16 @@ i{
     display: none;
 }
 
+.top-hamburger li a{
+    color: white;
+}
+
 .top-hamburger.toggleCls{
     display: block;
-    background: gray;
+    background: rgb(75, 75, 75);
     position: absolute;
     width: 242px;
-    top: 48px;
+    top: 57px;
     right: 110px;
     padding-left: 0;
     z-index: 999;
@@ -149,7 +179,7 @@ i{
     background: gray;
     position: absolute;
     width: 100px;
-    top: 48px;
+    top: 57px;
     text-align: center;
     padding-left: 0;
     right: 0;
@@ -192,18 +222,52 @@ i{
 .flag-icon{
     height: 30px;
     box-shadow: 0px 5px 30px black;
+}
+.flag-icon1{
+    height: 30px;
+}
 
+.fa-person-circle-question{
+    font-size:26px; 
+    color: white;
+}
+
+.fa-person-circle-question:hover{
+    color: #40C2FF;
+}
+
+.top-menu-name a{
+    color: white;
+}
+
+.top-menu-name a:hover{
+    color: #40C2FF;
 }
 
 /*LEFT MENU*/
 .menu2{
     display: block;
-    background: gray;
+    background-image: url("bg.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 215px;
     height: 100%;
     position: fixed;
-    margin-top: 21.36px;
+    margin-top: 0px;
     padding: 15px;
+}
+
+.left-menu-item{
+
+}
+
+.left-menu-item a{
+    color: white;
+}
+
+.left-menu-item a:hover{
+    color: #40C2FF;
 }
 
 /*OSOBNE INFORMACIE*/
@@ -216,10 +280,7 @@ i{
 .osobne_info,
 .kontaktne_udaje,
 .konfiguracia_l{
-    background: white;
-    width: 80%;
-    box-shadow: 0px 5px 30px black;
-    border-radius: 10px;
+    background: lightgray;
     padding: 20px;
     overflow: hidden;
 }
@@ -255,23 +316,33 @@ i{
 .kontakt_info_item_gdpr{
     height: auto;
     margin-bottom: 25px;
+    margin-top: 25px;
     font-size: 12px;
     text-align: justify;
 }
 
-.serverNazov,
+.serverNazov{
+    width: 130px;
+    display: inline-block;
+}
+
 .pristup_redmine_item_span{
-    width: 200px;
+    width: 175px;
     display: inline-block;
 }
 
 .td-server{
     float: left;
-    width: 50%;
+    width: 33.33%;
 }
 
 .osobne_info_item_span,
 .kontakt_info_item_span{
+    width: 80px;
+    float: left;
+}
+
+.konfiguracia_item_span{
     width: 250px;
     float: left;
 }
@@ -282,7 +353,7 @@ i{
 
 .konfiguracia_item{
     width: 214.92px;
-    margin: 10px 20px 20px;
+    margin: 10px 5px 20px;
 }
 
 .popisVstupu{
@@ -290,7 +361,12 @@ i{
 }
 
 .kontakt_info_item_span{
-    width: 360px;
+    width: 260px;
+}
+
+.kontakt_info_item_span1{
+    width: 150px;
+    float: left;
 }
 
 .kontakt_info_item_span_add,
@@ -329,6 +405,11 @@ i{
     margin: 0 auto;
 }
 
+.kontakt_info_button_add{
+    width: 155px; 
+    margin: 10px 0px 10px 5px;
+}
+
 .konfiguracia_button{
     margin: 30px auto;
     height: 33px;
@@ -341,12 +422,10 @@ i{
 }
 
 .opravnenia_k_serverom{
-    background: white;
-    width: 80%;
-    box-shadow: 0px 5px 30px black;
-    border-radius: 10px;
+    background: lightgray;
     padding: 20px;
     overflow: hidden;
+    padding-bottom: 40px;
 }
 
 .opravnenia_k_serverom h1{
@@ -371,20 +450,29 @@ i{
 /*MAIN CONTENT*/
 .main-content{
     margin-left: 215px;
+    padding-top: 1px;
+}
+
+#body-login{
+    background-image: url("bg.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
 }
 
 .container{
-    background:white;
+    background-color: white;
     height: 100%;
     padding:0;
     position: relative;
 }
 
 .change-password{
-    background: gray;
-    width: 600px;
-    padding: 80px 0px;
-    margin: 0 auto;
+    background: lightgray;
+    width: 540px;
+    padding: 40px 10px;
+    margin: 120px auto;
 }
 
 .footer{
@@ -442,4 +530,27 @@ textarea {
 #ipAdresy{
     display: block;
     padding-bottom: 10px;
+}
+
+#emaily{
+    display: block;
+    padding-bottom: 10px;
+}
+
+#emaily input,
+#telefony input,
+#other input,
+#ipAdresy input,
+.osobne_info input{
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    border: 1px solid black;
+}
+
+#emaily input:focus,
+#telefony input:focus,
+#other input:focus,
+#ipAdresy input:focus,
+.osobne_info input:focus{
+    border: 3px solid black;
 }

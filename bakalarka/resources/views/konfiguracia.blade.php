@@ -89,11 +89,12 @@
 
     function vypisZoznamIpAdries($host){
         $vysledek = '';
-        $vysledek = '<tr><td><input type="text" size="40" maxlength="63" name="upravIp[]" value="'.$host->ip.'"></td>';
-        $vysledek .= '<td><a href="#" onclick="deleteInput(this);return false;"><img src="smazat_ukol.gif"/></a></td></tr>';
+        $vysledek = '<tr><td><input type="text" size="40" maxlength="63" name="upravIp[]" value="'.$host->ip.'"><input type="text" class="hidden" name="ipId[]" id="ipId" value="'.$host->id.'"></td>';
+        $vysledek .= '<td><a href="#" onclick="deleteInputFromDB(); deleteInput(this);return false;"><img src="red-x.gif" style="width:20px"/></a></td></tr>';
         return $vysledek;
-    }
+    }  
 ?>
+
 <script>
     var mainNodeNameSkupiny = "TR";    
     function deleteInput(obj){
@@ -103,11 +104,18 @@
         obj.parentNode.removeChild(obj);
     }
 
+    function deleteInputFromDB(){
+        //$zoznam .= $host_id;
+        // $element = document.getElementById('ipId').value;
+        // console.log($element);
+        // TODO 
+    }
+
     function addInput(idSkupiny, nameInputu){
         var html = "";
         var row	= document.getElementById(idSkupiny).insertRow(-1);       
         html += '<td><input type="text" size="40" maxlength="63" title="IP adresy" name="'+nameInputu+'[]" value=""></td>';
-        html +=	'<td><a href="#" onclick="deleteInput(this);return false;"><img src="smazat_ukol.gif" title="Smazat přiřazení ve skupině" alt="Smazat přiřazení ve skupině"/></a></td>';
+        html +=	'<td><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="Smazat přiřazení ve skupině" alt="Smazat přiřazení ve skupině"/></a></td>';
         // vlozeni HTML kodu do znacky
         row.innerHTML = html;
     }  
@@ -128,18 +136,22 @@
                     <div class="osobne_info_h1">
                         <h1>{{__('Konfigurace')}}</h1>
                     </div>
+                </div>
+                <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+                <div class="osobne_info_l">
                     <div class="konfiguracia_item">
                             <a href="#" class="btn btn-block btn-primary">{{__('Změnit zabezpečení sezení')}}</a>
                     </div> 
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span" style="margin-top:5.5px">{{__('Opožděné vykazování')}}:</div>
-                        <input type="text" size="29" style="height:29px" maxlength="2" name="zpozdeni_vykazu" title="{{__('Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin.')}}" value="{{$data->zpozdeni_vykazu}}">
+                        <div class="konfiguracia_item_span" style="margin-top:5.5px">{{__('Opožděné vykazování')}}:</div>
+                        <input type="text" style="border: 1px solid black;" size="29" style="height:29px" maxlength="2" name="zpozdeni_vykazu" title="{{__('Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin.')}}" value="{{$data->zpozdeni_vykazu}}">
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>    
-                </div>                                                                 
+                </div>
+                                                                             
                 <div class="preferencie">
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">{{__('Kopie výkazů')}}:</div>
+                        <div class="konfiguracia_item_span">{{__('Kopie výkazů')}}:</div>
                         <select name="zasilat_kopie" title="{{__('Zasílat kopie výkazů e-mailem?')}}" size="1">
                             @if ($data['zasilat_kopie'] == 1)
                                     <option value="1" selected>{{__('Ano')}}</option>
@@ -152,32 +164,32 @@
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">{{__('Úvodní stránka')}}:</div>
+                        <div class="konfiguracia_item_span">{{__('Úvodní stránka')}}:</div>
                         <select name="str_po_prihlaseni" title="{{__('Stránka, která se zobrazí po přihlášení')}}" size="1">
                             <?php echo generujPolozkyVyberuSId($uvodniStr,false,$data['str_po_prihlaseni']);?>
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">{{__('Uložení nastavení systému')}}:</div>
+                        <div class="konfiguracia_item_span">{{__('Uložení nastavení systému')}}:</div>
                         <select name="vychozi_ulozeni_sezeni" title="{{__('Jaké nastavení systému se uloží')}}" size="1">
                             <?php echo generujPolozkyVyberuSId($po_odhlaseni_ulozenoR,false,$data['vychozi_ulozeni_sezeni']);?>
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="osobne_info_item">
-                        <div class="osobne_info_item_span">{{__('U wiki úkolů hlídat')}}:</div>
+                        <div class="konfiguracia_item_span">{{__('U wiki úkolů hlídat')}}:</div>
                         <select name="hlidani_wiki_ukolu" title="{{__('Jak si přejete hlídat wiki úkoly')}}" size="1">'
                             <?php echo generujPolozkyVyberuSId($hlidani_wiki_ukolu,false,$data['hlidani_wiki_ukolu']);?>
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="osobne_info_item1">
-                        <div class="osobne_info_item_span">{{__('IP adresy')}}:</div>
+                        <div class="konfiguracia_item_span">{{__('IP adresy')}}:</div>
                         <table id="ipAdresy">
                             <tr>
                                 <td>
-                                    <a href="javascript:void(0)" onclick="addInput('ipAdresy', 'upravIp');">{{__('Přidat')}} +</a>
+                                    <a href="javascript:void(0)" onclick="addInput('ipAdresy', 'upravIp');" class="btn btn-primary" style="padding:2px 12px; margin-bottom:5px">{{__('Přidat')}} +</a>
                                 </td><td></td>
                             </tr>
                             <?php foreach ($ipAdresy as $host): ?>
@@ -186,15 +198,15 @@
                         </table>
                     </div>
                     <div class="osobne_info_item_textarea">
-                        <label for="upravHosts" class="popisVstupu osobne_info_item_span">Hosts allow:</label>
+                        <label for="upravHosts" class="popisVstupu konfiguracia_item_span">Hosts allow:</label>
                         <textarea id="upravHosts" class="field_hosts" name="hosts_allow">{{$data["hosts_allow"]}}</textarea>
                     </div> 
                     <div class="osobne_info_item_textarea">
-                        <label for="upravIp4Tables" class="popisVstupu osobne_info_item_span">IPv4 Tables:</label>
+                        <label for="upravIp4Tables" class="popisVstupu konfiguracia_item_span">IPv4 Tables:</label>
                         <textarea id="upravIp4Tables" class="field_hosts" name="ip4_tables">{{$data["ip4_tables"]}}</textarea>
                     </div> 
                     <div class="osobne_info_item_textarea">
-                        <label for="upravIp6Tables" class="popisVstupu osobne_info_item_span">IPv6 Tables:</label>
+                        <label for="upravIp6Tables" class="popisVstupu konfiguracia_item_span">IPv6 Tables:</label>
                         <textarea id="upravIp6Tables" class="field_hosts" name="ip6_tables">{{$data["ip6_tables"]}}</textarea>
                     </div>
                     <div class="konfiguracia_button">
@@ -203,16 +215,19 @@
                 </div>               
             </form>
         </div>
-        <div class="medzera"></div>
+        <div class="medzera" style="height:20px"></div>
         <div class="opravnenia_k_serverom">
             <div class="opravnenia">
                 <h1>{{__('Oprávnění k serverům')}}</h1>
-                <div class="osobne_info_item">
+            </div>
+            <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+            <div class="opravnenia">
+                <div class="osobne_info_item" style="margin-bottom:15px">
                     <div class="pristup_redmine_item_span">{{__('Přístup k Redmine')}}:</div>
                     @if($data->pristup_k_redmine === 0)
-                        {{__('Ne')}}
+                        <span style="color:red; font-weight:700">{{__('Ne')}}</span>
                     @else
-                        {{__('Ano')}} &nbsp (<a href="https://knot.fit.vutbr.cz/redmine" title="{{__('Odkaz na Redmine')}}" target="_blank">https://knot.fit.vutbr.cz/redmine</a>)
+                        <span style="color:#15D400; font-weight:700">{{__('Ano')}} &nbsp</span><a href="https://knot.fit.vutbr.cz/redmine" title="{{__('Odkaz na Redmine')}}" target="_blank">https://knot.fit.vutbr.cz/redmine</a>
                     @endif
                 </div>
                 <div class="osobne_info_items">
@@ -222,5 +237,6 @@
                 </div>
             </div>
         </div>
+        <div class="medzera" style="height:20px"></div>
     </div>
 @endsection

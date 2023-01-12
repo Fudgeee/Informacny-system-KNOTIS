@@ -14,7 +14,7 @@
     </head>
     <body class="dashboard">
         <header>
-            <a href="/dashboard"><img class="main-logo" src="logo.gif" alt="logo"></a>
+            <a href="/dashboard"><img class="main-logo main-logo-m" src="logo-m.png" alt="logo"></a>
             @include('top_menu')
             @include('left_menu')
         </header>

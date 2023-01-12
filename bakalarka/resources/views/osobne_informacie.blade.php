@@ -157,6 +157,9 @@
                 <div class="osobne_info_h1">
                     <h1>{{$data->jmeno. " " .$data->prijmeni}}</h1>
                 </div>
+            </div>
+            <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+            <div class="osobne_info_l">
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span">{{__('Číslo')}}:</div>
                     {{$data->id}}
@@ -180,33 +183,31 @@
                     @else
                         {{$data->odpracovat_od. " - " .$data->odpracovat_do}}
                     @endif
+                    <a href="#" style="margin-left:25px; color:blue">Pracovní výkazy</a>
                 </div> 
             </div>                                                    
         </div>
-        <div class="medzera"></div>                                           
+        <div class="medzera" style="height:20px"></div>                                           
         <div class="osobne_info" style="padding-bottom:40px">
-            <div class="kontakt_info_item_gdpr">
-                {{__('Poskytnuté podklady pro DPP/stipendia (osobní údaje) budou využity výhradně za účelem administrace vyplacení finančních prostředků a budou skladovány po dobu nezbytně nutnou, danou zejména zákony souvisejícími s účetnictvím. V KNOTIS budou osobní údaje automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.')}}
-            </div>
             <div class="podklady_l">
                 <?php $dppUdajeKompletni = plneVyplnenDPP($dppUdaje); 
                     $stipUdajeKompletni = plneVyplnenStip($dppUdaje); ?>
                     <div class="kontakt_info_item">{{__('Podklady pro DPP')}}: &nbsp
                     @if ($dppUdajeKompletni)
-                        <span style="color:green">{{__('Vyplněny')}}</span>
+                        <span style="color:#15D400; font-weight:700">{{__('Vyplněny')}}</span>
                     @else
-                        <span style="color:red">{{__('Nevyplněny')}}</span>
+                    <span style="color:red; font-weight:700">{{__('Nevyplněny')}}</span>
                     @endif      
                 </div>
                 <div class="kontakt_info_item">{{__('Podklady pro Stip')}}: &nbsp
                     @if ($stipUdajeKompletni)
-                        <span style="color:green">{{__('Vyplněny')}}</span>
+                        <span style="color:#15D400; font-weight:700">{{__('Vyplněny')}}</span>
                     @else
-                        <span style="color:red">{{__('Nevyplněny')}}</span>
+                        <span style="color:red; font-weight:700">{{__('Nevyplněny')}}</span>
                     @endif      
                 </div>
             </div>
-            <hr>
+            <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
             <form action="{{route('update_dpp_info')}}" method="post">
                 @if(Session::has('success2'))
                     <div class="alert alert-success">{{Session::get('success2')}}</div>
@@ -329,8 +330,13 @@
                             <button type="submit" class="btn btn-block btn-primary" style="margin-top:20px">{{__('Uložit')}}</button>
                         </div> 
                     </div>  
+                
+                    <div class="kontakt_info_item_gdpr">
+                    {{__('Poskytnuté podklady pro DPP/stipendia (osobní údaje) budou využity výhradně za účelem administrace vyplacení finančních prostředků a budou skladovány po dobu nezbytně nutnou, danou zejména zákony souvisejícími s účetnictvím. V KNOTIS budou osobní údaje automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.')}}
+                    </div>
                 </div> 
-            </form>
-        </div>                                                       
+            </form>  
+        </div>    
+        <div class="medzera" style="height:20px"></div>                                                    
     </div>
 @endsection

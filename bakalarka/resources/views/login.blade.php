@@ -16,55 +16,58 @@
         <title>KNOTIS</title>
     </head>
     <body>
-        <div class="container">
-            <header> 
-                <a href="/"><img class="main-logo" src="logo.gif" alt="logo"></a>            
-                <a href="#" class="login-language" onclick="toggleClassLog()"><img src="flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}.svg" class="flag-icon"></a>
-                <ul class="top-hamburger-login">
-                    @foreach (Config::get('languages') as $lang => $language)
-                        @if ($lang != App::getLocale())
-                            <li>
-                                <a href="{{ route('lang.switch', $lang) }}"><img src="flag-icon-{{$language['flag-icon']}}.svg" class="flag-icon">&nbsp{{$language['display']}}</a>
-                            </li>
-                        @endif
-                    @endforeach             
-                </ul>              
-            </header>
-            <hr style="margin-top:0px; clear:both">
-            <main>
-                <div class="login-form col-md-7 col-md-offset-7">
-                    <h4 style="text-align:center">{{__('Přihlášení do Informačního systému KNOTIS')}}</h4>
-                    <hr>
-                    <form action="{{route('login-user')}}" method="post">
-                        @if(Session::has('success'))
-                        <div class="alert alert-success">{{Session::get('success')}}</div>
-                        @endif
-                        @if(Session::has('fail'))
-                        <div class="alert alert-danger">{{Session::get('fail')}}</div>
-                        @endif
-                        @csrf
-                        <div class="form-group">
-                            <label for="name">Login:</label>
-                            <input type="text" class="form-control" placeholder="{{__('Zadajte Login')}}" name="name" value="{{old('name')}}">
-                            <span class="text-danger">@error('name') {{$message}} @enderror</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">{{__('Heslo')}}:</label>
-                            <input type="password" class="form-control" placeholder="{{__('Zadajte Heslo')}}" name="password" value="">
-                            <span class="text-danger">@error('password') {{$message}} @enderror</span>
-                        </div>
-                        <br>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-block btn-primary">{{__('Přihlásit se')}}</button>
-                        </div>
-                    </form>
-                </div>
-            </main>
-            <footer>
-                <div class="footer">
-                    <span>Copyright &copy; 2022 VUT</span>
-                </div>
-            </footer>
+        <div id="body-login">
+            <div class="container">
+                <header> 
+                    <a href="/"><img class="main-logo" src="logo.gif" alt="logo"></a>            
+                    <a href="#" class="login-language" onclick="toggleClassLog()"><img src="flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}.svg" class="flag-icon"></a>
+                    <ul class="top-hamburger-login">
+                        @foreach (Config::get('languages') as $lang => $language)
+                            @if ($lang != App::getLocale())
+                                <li>
+                                    <a href="{{ route('lang.switch', $lang) }}"><img src="flag-icon-{{$language['flag-icon']}}.svg" class="flag-icon1">&nbsp{{$language['display']}}</a>
+                                </li>
+                            @endif
+                        @endforeach             
+                    </ul>              
+                </header>
+                <hr style="clear:both; border-top:3px solid black">
+                <main>
+                    <div class="login-form">
+                        <h4 style="text-align:center">{{__('Přihlášení do Informačního systému KNOTIS')}}</h4>
+                        <hr>
+                        <div class="medzera" style="height:20px"></div>
+                        <form action="{{route('login-user')}}" method="post">
+                            @if(Session::has('success'))
+                            <div class="alert alert-success">{{Session::get('success')}}</div>
+                            @endif
+                            @if(Session::has('fail'))
+                            <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                            @endif
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">Login:</label>
+                                <input type="text" class="form-control" placeholder="{{__('Zadajte Login')}}" name="name" value="{{old('name')}}">
+                                <span class="text-danger">@error('name') {{$message}} @enderror</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">{{__('Heslo')}}:</label>
+                                <input type="password" class="form-control" placeholder="{{__('Zadajte Heslo')}}" name="password" value="">
+                                <span class="text-danger">@error('password') {{$message}} @enderror</span>
+                            </div>
+                            <br>
+                            <div class="form-group" style="margin-top:15px">
+                                <button type="submit" class="btn btn-block btn-primary">{{__('Přihlásit se')}}</button>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+                <footer>
+                    <div class="footer">
+                        <span>Copyright &copy; 2023 VUT</span>
+                    </div>
+                </footer>
+            </div>
         </div>
     </body>
 </html>

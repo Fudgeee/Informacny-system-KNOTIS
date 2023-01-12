@@ -6,6 +6,38 @@
         let menu = document.querySelector(".kontakt_info_hidden");
         menu.classList.toggle("toggleContact");
     }
+
+    var mainNodeNameSkupiny = "TR";    
+    function deleteInput(obj){
+        while(obj.nodeName != mainNodeNameSkupiny){
+            obj = obj.parentNode;
+        }
+        obj.parentNode.removeChild(obj);
+    }
+
+    function addInputEmail(idSkupiny){
+        var html = "";
+        var row	= document.getElementById(idSkupiny).insertRow(-1);     
+        html += '<td><span class="kontakt_info_item_span1">Mail:</span><input type="text" style="margin-right:5px" size="25" maxlength="255" name="gmail" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="gmail-popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
+        // vlozeni HTML kodu do znacky
+        row.innerHTML = html;
+    }
+
+    function addInputTelefon(idSkupiny){
+        var html = "";
+        var row	= document.getElementById(idSkupiny).insertRow(-1);     
+        html += '<td><span class="kontakt_info_item_span1">Telefon:</span><input type="text" style="margin-right:5px" size="25" maxlength="255" name="telefon" title="{{__('Váš kontaktní telefon')}}" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="telefon-popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
+        // vlozeni HTML kodu do znacky
+        row.innerHTML = html;
+    }
+
+    function addInputOther(idSkupiny){
+        var html = "";
+        var row	= document.getElementById(idSkupiny).insertRow(-1);     
+        html += '<td><input type="text" style="margin-right:5px" size="12" maxlength="255" name="other-typ" title="TODO" value="" placeholder="typ kontaktu"><input type="text" style="margin-right:5px" size="25" maxlength="255" name="other" title="TODO" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="other-popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
+        // vlozeni HTML kodu do znacky
+        row.innerHTML = html;
+    }
 </script>
     <div class="kontaktne_udaje">
         <form action="{{route('update_kontaktne_info')}}" method="post">
@@ -20,46 +52,52 @@
                 <div class="kontakt_info_h1">
                     <h2>{{__('Kontaktní Údaje')}}</h2>
                 </div>
-                <div class="kontakt_info_item_gdpr">
-                    {{__('Poskytnuté kontaktní informace (telefon, e-mail apod.) budou využity výhradně za účelem komunikace v rámci výzkumné skupiny ohledně smluvené práce a souvisejících problémů po dobu aktivity účtu v KNOTIS. V KNOTIS budou kontaktní informace automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.')}}
-                </div>
-                <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">{{__('Telefon')}}:</div>
-                    <input type="text" size="25" maxlength="21"  name="telefon" title="{{__('Váš kontaktní telefon')}}" value="{{$data->telefon}}">
-                    <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>             
-                </div>
-                <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">Mail:</div>                   
-                    <input type="text" size="25" maxlength="255" name="gmail" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value="{{$data->gmail}}">
-                    <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
-                </div>
-                <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">Facebook:</div>
-                    <input type="text" size="25" maxlength="255" name="facebook" title="{{__('Váš kontaktní Facebook účet')}}" value="{{$data->facebook}}">
-                </div>
-                <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">Discord:</div>                   
-                    <input type="text" size="25" maxlength="255" name="discord" title="{{__('Váš kontaktní Discord účet')}}" value="{{$data->discord}}">
-                </div>
-                <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">Skype:</div>      
-                    <input type="text" size="25" maxlength="127" name="skype" title="{{__('Váš kontaktní Skype účet')}}" value="{{$data->skype}}">             
-                </div>
-                <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">ICQ:</div>  
-                    <input type="text" size="25" maxlength="15" name="icq" title="{{__('Váše kontaktní ICQ')}}" value="{{$data->icq}}">                 
-                </div>
-                <div class="kontakt_info_item">
-                    <div class="kontakt_info_item_span">Jabber:</div>                   
-                    <input type="text" size="25" maxlength="127" name="jabber" title="{{__('Váš kontaktní jabber účet')}}" value="{{$data->jabber}}">
-                </div>
-                <div class="kontakt_info_item">                  
-                    <a href="#">{{__('Přidat jiný kontakt')}}</a> <!--TODO-->
-                </div>
+            </div>
+            <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+            <div class="kontakt_info_l">
+                <table id="emaily">
+                    <tr>
+                        <td>
+                            <div class="kontakt_info_item_span1">                
+                                <span>Mail:</span>
+                                <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
+                            </div>              
+                            <input type="text" size="25" maxlength="255" name="gmail" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value="{{$data->gmail}}">
+                            <input type="text" size="25" maxlength="255" name="gmail-popis" title="TODO" value="" placeholder="popis">
+                            <a href="javascript:void(0)" onclick="addInputEmail('emaily');"><img src="green-plus.gif" style="width:20px" title="TODO" alt="TODO"/></a>
+                        </td>
+                    </tr>
+                </table>
+                <table id="telefony">
+                    <tr>
+                        <td>
+                            <div class="kontakt_info_item_span1">                
+                                <span>{{__('Telefon')}}:</span>
+                                <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
+                            </div>              
+                            <input type="text" size="25" maxlength="255" name="telefon" title="{{__('Váš kontaktní telefon')}}" value="{{$data->telefon}}">
+                            <input type="text" size="25" maxlength="255" name="telefon-popis" title="TODO" value="" placeholder="popis">
+                            <a href="javascript:void(0)" onclick="addInputTelefon('telefony');"><img src="green-plus.gif" style="width:20px" title="TODO" alt="TODO"/></a>
+                        </td>
+                    </tr>
+                </table>
+                <table id="other" style="width:100%">
+                    <tr>
+                        <td>
+                            <div class="kontakt_info_button_add">
+                                <a href="#" onclick="addInputOther('other');" class="btn btn-primary">{{__('Přidat jiný kontakt')}}</a>
+                            </div>    
+                        </td>
+                    </tr>
+                </table>
+                <div class="medzera" style="height:20px"></div>
                 <div class="kontakt_info_item">
                     <div class="kontakt_info_button">
                         <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>
                     </div> 
+                </div>
+                <div class="kontakt_info_item_gdpr">
+                    {{__('Poskytnuté kontaktní informace (telefon, e-mail apod.) budou využity výhradně za účelem komunikace v rámci výzkumné skupiny ohledně smluvené práce a souvisejících problémů po dobu aktivity účtu v KNOTIS. V KNOTIS budou kontaktní informace automaticky vymazány do 3 měsíců od vypršení aktivity účtu a zjištění zániku účtu na serveru merlin (ukončení studia) - pak již aktivitu účtu nelze znovu obnovit.')}}
                 </div>
             </div>                                                    
         </form> 

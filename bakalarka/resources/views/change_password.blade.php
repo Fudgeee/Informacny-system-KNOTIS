@@ -25,7 +25,7 @@
                 <input type="password" name="new_password_confirmation" class="form-control" placeholder="{{__('Zadajte heslo znovu')}}"> 
             </div>
             <br>
-            <div class="form-group">
+            <div class="form-group" style="margin-top:15px; margin-bottom:5px">
                 <button type="submit" class="btn btn-block btn-primary">{{__('Změnit heslo')}}</button>
             </div>
         </form>

@@ -14,7 +14,9 @@
     <div class="top-menu">
         <ul>
             <li>
-                <a href="#" onclick="toggleClass()">{{ $data->jmeno. " " .$data->prijmeni }}<i class="fa-sharp fa-solid fa-chevron-down"></i></a>
+                <div class="top-menu-name">
+                    <a href="#" onclick="toggleClass()">{{ $data->jmeno. " " .$data->prijmeni }}<i class="fa-sharp fa-solid fa-chevron-down"></i></a>
+                </div>
                 <ul class="top-hamburger">
                     <li>
                         <a href="change_password"><i class="fa-solid fa-key"></i>{{__('Změna hesla')}}</a>
@@ -34,7 +36,7 @@
                 </ul>
             </li>
             <li>
-                <a href="help"><i class="fa-solid fa-person-circle-question" style="font-size:26px"></i></a>
+                <a href="help"><i class="fa-solid fa-person-circle-question"></i></a>
             </li>
             <li>
                 <a href="#" onclick="toggleClass2()"><img src="flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}.svg" class="flag-icon"></a>

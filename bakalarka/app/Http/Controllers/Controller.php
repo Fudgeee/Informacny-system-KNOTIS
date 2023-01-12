@@ -214,7 +214,7 @@ class Controller extends BaseController
             )
             ) AS tmp
             GROUP BY tmp.id_server
-            
+            ORDER BY tmp.nazev
             ");
             $server->execute();
             while ($row = $server->fetch((\PDO::FETCH_ASSOC)))
@@ -322,13 +322,28 @@ class Controller extends BaseController
                 'ip6_tables' => (!is_null($request->ip6_tables) ? $request->ip6_tables : "")
             ]);
             $ipAdresy = $request->upravIp;
-            //dd($ipAdresy);                    TODO
-            foreach($ipAdresy as $host){
-                //dd($ipAdresy[$id]);
-                $host = DB::table('osoba_hosts_ip')->where('id_osoby','=',Session::get('loginId'))->update([
-                    'ip' => (!is_null($host) ? $host : "")
-                ]);
+            $idAdresy = $request->ipId;
+            $osobaId = Session::get('loginId');
+            //dd($request);
+            foreach($ipAdresy as $id => $host){
+                $data = null;
+                if (isset($idAdresy[$id])){
+                    $data = DB::table('osoba_hosts_ip')->where('id', '=', $idAdresy[$id])->first();
+                }
+                if ($data == null || $data == ''){
+                    $data = DB::table('osoba_hosts_ip')->insert(['id_osoby' => $osobaId, 'ip' => $host]);
+                }
+                else{
+                    $data = DB::table('osoba_hosts_ip')->where('id', '=', $idAdresy[$id])->update([
+                        'ip' => $host
+                    ]);
+                }
+                //if $tmp = DB::table('osoba_hosts_ip')->where('ip', '=', $idAdresy[$id])            
             }
+            // $ips = $request->upravIp;
+            // if $tmp = DB::table('osoba_hosts_ip')->where('ip', '=', $idAdresy[$id])
+            // dd($ips);
+            //dd($request);
             return back()->with('success',__('Konfigurace byla úspěšně změněna'));
         }
     }
