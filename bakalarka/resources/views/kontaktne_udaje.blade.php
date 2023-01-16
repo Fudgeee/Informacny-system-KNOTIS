@@ -18,7 +18,7 @@
     function addInputEmail(idSkupiny){
         var html = "";
         var row	= document.getElementById(idSkupiny).insertRow(-1);     
-        html += '<td><span class="kontakt_info_item_span1">Mail:</span><input type="text" style="margin-right:5px" size="25" maxlength="255" name="gmail" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="gmail-popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
+        html += '<td><input type="text" style="margin-right:5px" size="13" maxlength="255" name="typ" title="TODO" value="Mail"><input type="text" style="margin-right:5px" size="25" maxlength="255" name="hodnota" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
         // vlozeni HTML kodu do znacky
         row.innerHTML = html;
     }
@@ -26,7 +26,7 @@
     function addInputTelefon(idSkupiny){
         var html = "";
         var row	= document.getElementById(idSkupiny).insertRow(-1);     
-        html += '<td><span class="kontakt_info_item_span1">Telefon:</span><input type="text" style="margin-right:5px" size="25" maxlength="255" name="telefon" title="{{__('Váš kontaktní telefon')}}" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="telefon-popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
+        html += '<td><input type="text" style="margin-right:5px" size="13" maxlength="255" name="typ" title="TODO" value="Telefon"><input type="text" style="margin-right:5px" size="25" maxlength="255" name="hodnota" title="{{__('Váš kontaktní telefon')}}" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
         // vlozeni HTML kodu do znacky
         row.innerHTML = html;
     }
@@ -34,7 +34,7 @@
     function addInputOther(idSkupiny){
         var html = "";
         var row	= document.getElementById(idSkupiny).insertRow(-1);     
-        html += '<td><input type="text" style="margin-right:5px" size="12" maxlength="255" name="other-typ" title="TODO" value="" placeholder="typ kontaktu"><input type="text" style="margin-right:5px" size="25" maxlength="255" name="other" title="TODO" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="other-popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
+        html += '<td><input type="text" style="margin-right:5px" size="13" maxlength="255" name="typ" title="TODO" value="" placeholder="typ kontaktu"><input type="text" style="margin-right:5px" size="25" maxlength="255" name="hodnota" title="TODO" value=""><input type="text" style="margin-right:5px" size="25" maxlength="255" name="popis" title="TODO" value="" placeholder="popis"><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px" title="TODO" alt="TODO"/></a></td>';
         // vlozeni HTML kodu do znacky
         row.innerHTML = html;
     }
@@ -62,8 +62,8 @@
                                 <span>Mail:</span>
                                 <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                             </div>              
-                            <input type="text" size="25" maxlength="255" name="gmail" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value="{{$data->gmail}}">
-                            <input type="text" size="25" maxlength="255" name="gmail-popis" title="TODO" value="" placeholder="popis">
+                            <input type="text" size="25" maxlength="255" name="mail" title="{{__('Váš Gmail účet nebo školní e-mail')}}" value="{{$data->gmail}}">
+                            <input type="text" size="25" maxlength="255" name="mail-popis" title="TODO" value="" placeholder="popis">
                             <a href="javascript:void(0)" onclick="addInputEmail('emaily');"><img src="green-plus.gif" style="width:20px" title="TODO" alt="TODO"/></a>
                         </td>
                     </tr>

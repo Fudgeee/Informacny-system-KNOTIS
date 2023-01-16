@@ -280,7 +280,7 @@ hr{
 .osobne_info,
 .kontaktne_udaje,
 .konfiguracia_l{
-    background: lightgray;
+    background: #7dd6ff;
     padding: 20px;
     overflow: hidden;
 }
@@ -365,7 +365,7 @@ hr{
 }
 
 .kontakt_info_item_span1{
-    width: 150px;
+    width: 157px;
     float: left;
 }
 

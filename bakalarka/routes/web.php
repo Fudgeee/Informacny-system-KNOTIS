@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\KontaktneUdajeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +31,8 @@ Route::get('/dashboard', [AuthController::class,'dashboard'])->middleware('isLog
 // napoveda
 Route::get('/help', [Controller::class,'Help']);
 // kontaktne udaje
-Route::get('/kontaktne_udaje', [Controller::class,'kontaktneUdaje']);
-Route::post('/kontaktne_udaje', [Controller::class,'updateKontaktneInfo'])->name('update_kontaktne_info');
+Route::get('/kontaktne_udaje', [KontaktneUdajeController::class,'kontaktneUdaje']);
+Route::post('/kontaktne_udaje', [KontaktneUdajeController::class,'updateKontaktneInfo'])->name('update_kontaktne_info');
 
 // osobne nastavenia
 Route::get('/osobne_informacie', [Controller::class,'osobneInformacie'])->name('osobne_informacie');

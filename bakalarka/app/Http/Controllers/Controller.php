@@ -24,14 +24,6 @@ class Controller extends BaseController
         return view('help', compact('data'));
     }
 
-    public function kontaktneUdaje(){
-        $data = array();
-        if(Session::has('loginId')){
-            $data = Osoba::where('id','=',Session::get('loginId'))->first();
-        }
-        return view('kontaktne_udaje', compact('data'));
-    }
-
     public function osobneInformacie(){
         $data = array();
         $dpp_udaje = array();
@@ -231,30 +223,6 @@ class Controller extends BaseController
             }
         }
         return view('konfiguracia', compact('data', 'servery', 'ipAdresy'));
-    }
-    
-    public function updateKontaktneInfo(Request $request){
-        $validator = Validator::make($request->all(), [
-            'telefon'=>'required',
-            'gmail'=>'required'
-        ]);
-        if ($validator->fails()){
-            return back()->with('fail1',__('Prosím vyplňte všechna povinná pole'));
-        }
-        else{
-            $osoba= Osoba::where('id','=',Session::get('loginId'))->update([
-                'jmeno' => $request->jmeno,
-                'prijmeni' => $request->prijmeni,
-                'telefon' => $request->telefon,
-                'gmail' => $request->gmail,
-                'facebook' => $request->facebook,
-                'discord' => $request->discord,
-                'skype' => $request->skype,
-                'icq' => $request->icq,
-                'jabber' => $request->jabber
-            ]);
-            return back()->with('success1',__('Kontaktní údaje byly změněny'));
-        }
     }
 
     public function updateDppInfo(Request $request){
