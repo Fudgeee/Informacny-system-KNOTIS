@@ -7,6 +7,9 @@ use App\Http\Controllers\KontaktneUdajeController;
 use App\Http\Controllers\KonfiguraciaController;
 use App\Http\Controllers\NapovedaController;
 use App\Http\Controllers\OsobneInformacieController;
+use App\Http\Controllers\PracovneVykazyController;
+use App\Http\Controllers\PlanPraceController;
+use App\Http\Controllers\RieseneProjektyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,3 +50,15 @@ Route::post('/konfiguracia', [KonfiguraciaController::class,'updateKonfiguracia'
 
 // zmena jazyka
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => '\App\Http\Controllers\LanguageController@switchLang']);
+
+// pracovne vykazy
+Route::get('/pracovne_vykazy', [PracovneVykazyController::class,'pracovneVykazy']);
+
+// plan prace
+Route::get('/plan_prace', [PlanPraceController::class,'planPrace']);
+
+// riesene projekty
+Route::get('/riesene_projekty', [RieseneProjektyController::class,'rieseneProjekty']);
+
+// zmena zabezpecenia sezeni
+Route::get('/zmena_sezeni', [Controller::class,'zmenaSezeni']);

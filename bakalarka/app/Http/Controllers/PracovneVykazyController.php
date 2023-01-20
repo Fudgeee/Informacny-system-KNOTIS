@@ -12,16 +12,13 @@ use Illuminate\Http\Request;
 use Validator;
 use DB;
 
-
-class Controller extends BaseController
+class PracovneVykazyController extends Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    public function zmenaSezeni(){
+    public function pracovneVykazy(){
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
         }
-        return view('zmena_sezeni', compact('data'));
+        return view('pracovne_vykazy', compact('data'));
     }
 }

@@ -140,7 +140,7 @@
                 <hr class="hr-konfiguracia">
                 <div class="osobne_info_l">
                     <div class="konfiguracia_item">
-                            <a href="#" class="btn btn-block btn-primary">{{__('Změnit zabezpečení sezení')}}</a>
+                            <a href="zmena_sezeni" class="btn btn-block btn-primary">{{__('Změnit zabezpečení sezení')}}</a>
                     </div> 
                     <div class="osobne_info_item">
                         <div class="konfiguracia_item_span">{{__('Opožděné vykazování')}}:</div>

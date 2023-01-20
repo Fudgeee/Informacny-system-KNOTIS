@@ -12,16 +12,13 @@ use Illuminate\Http\Request;
 use Validator;
 use DB;
 
-
-class Controller extends BaseController
+class PlanPraceController extends Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    public function zmenaSezeni(){
+    public function planPrace(){
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
         }
-        return view('zmena_sezeni', compact('data'));
+        return view('plan_prace', compact('data'));
     }
 }
