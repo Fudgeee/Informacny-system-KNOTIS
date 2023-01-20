@@ -24,22 +24,38 @@ i{
 
 hr{
     opacity: unset;
-}
-
-.alert{
-    position: unset;
+    clear: both;
 }
 
 .medzera{
     overflow: hidden;
     width: 100%;
-    height: 40px;
+    height: 20px;
     display: block;
 }
 
-/*HEADER*/
+.hidden{
+    display: none;
+}
+
+/*ALERTY*/
+.alert{
+    position: unset;
+}
+
+/*VLAJKY*/
+.flag-icon{
+    height: 30px;
+    box-shadow: 0px 5px 30px black;
+}
+
+.flag-icon1{
+    height: 30px;
+}
+
+/*HEADER LOGO*/
 .main-logo{
-    width:215px;
+    width: 215px;
     padding: 0px 20px;
     float: left;
     display: block;
@@ -55,6 +71,59 @@ hr{
 }
 
 /*LOGIN PAGE*/
+.top-hamburger-login{
+    display: none;
+}
+
+.top-hamburger-login.toggleClsLog{
+    display: block;
+    background: #86b6d9;
+    position: absolute;
+    width: 100px;
+    top: 75px;
+    text-align: center;
+    padding-left: 0;
+    right: 0px;
+    margin-right: 5px;
+    z-index: 999;
+    padding-bottom: 5px;
+}
+
+.top-hamburger-login li{
+    list-style-type: none;
+    line-height: 2.5em;
+    clear: both;
+}
+
+.top-hamburger-login li a{
+    color: black;
+    font-weight: 700;
+}
+
+#body-login{
+    background-image: url("bg.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
+.container{
+    background-color: white;
+    height: 100%;
+    padding: 0;
+    position: relative;
+}
+
+.login-language{
+    float: right;
+    padding: 31px;
+}
+
+.hr1{
+    border-top: 3px solid black;
+}
+
 .login-form{
     margin: 0 auto;
     padding: 40px 10px;
@@ -66,6 +135,10 @@ hr{
     background: radial-gradient(#2fb8f8, #3391bd);
 }
 
+.login-form h4{
+    text-align: center;
+}
+
 .login-form hr{
     width: 95%;
     margin: 0 auto;
@@ -75,30 +148,24 @@ hr{
 }
 
 .form-group{
-    margin:auto;
-    width:360px;
+    margin: auto;
+    width: 360px;
 }
+
+.form-group:last-child{
+    margin-top: 15px;
+}
+
 .form-group button{
-    width:360px;
+    width: 360px;
 }
 
-.login-language{
-    float: right;
-    padding: 31px;
-}
-
-.top-hamburger-login.toggleClsLog{
-    display: block;
-    background: #86b6d9;
+.footer{
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    color: gray;
     position: absolute;
-    width: 100px;
-    top: 23px;
-    text-align: center;
-    padding-left: 0;
-    right: 90px;
-    margin-right: 5px;
-    z-index: 999;
-    padding-bottom: 5px;
+    bottom: 0;
 }
 
 /*DASHBOARD*/
@@ -108,54 +175,15 @@ hr{
     padding-top: 56.77px;
 }
 
+/*MAIN CONTENT*/
+.main-content{
+    margin-left: 215px;
+    padding-top: 1px;
+}
+
 /*TOP MENU*/
-.top-menu{
-    float: right;
-    height: 100%;
-    padding: 10px;
-}
-
-.top-menu>ul{
-    height: 100%;
-    margin: 0;
-    padding-left: 0;
-}
-
-.top-menu li{
-    list-style-type: none;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.fa-solid{
-    margin: 5px;
-}
-
-.menu1{
-    height: 56.77px;
-    position: fixed;
-    display: block;
-    width: 100%;
-    background-image: url("bg.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    top: 0%;
-}
-
-.top-menu a{
-    color: black;
-    margin-right: 5px;
-    z-index: 500;
-}
-.top-menu a::after,
-.top-menu a:hover{
-    color: #0d6efd;
-}
-
 .top-hamburger,
-.top-hamburger2,
-.top-hamburger-login{
+.top-hamburger2{
     display: none;
 }
 
@@ -199,16 +227,10 @@ hr{
 }
 
 .top-hamburger li,
-.top-hamburger2 li,
-.top-hamburger-login li{
+.top-hamburger2 li{
     list-style-type: none;
     line-height: 2.5em;
     clear: both;
-}
-
-.top-hamburger-login li a{
-    color: black;
-    font-weight: 700;
 }
 
 .top-hamburger li a i{
@@ -219,12 +241,56 @@ hr{
     margin: 0;
 }
 
-.flag-icon{
-    height: 30px;
-    box-shadow: 0px 5px 30px black;
+.menu1{
+    height: 56.77px;
+    position: fixed;
+    display: block;
+    width: 100%;
+    background-image: url("bg.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    top: 0%;
 }
-.flag-icon1{
-    height: 30px;
+
+.top-menu{
+    float: right;
+    height: 100%;
+    padding: 10px;
+}
+
+.top-menu > ul{
+    height: 100%;
+    margin: 0;
+    padding-left: 0;
+}
+
+.top-menu li{
+    list-style-type: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.top-menu a{
+    color: black;
+    margin-right: 5px;
+    z-index: 500;
+}
+.top-menu a::after,
+.top-menu a:hover{
+    color: #0d6efd;
+}
+
+.top-menu-name a{
+    color: white;
+}
+
+.top-menu-name a:hover{
+    color: #40C2FF;
+}
+
+.fa-solid{
+    margin: 5px;
 }
 
 .fa-person-circle-question{
@@ -233,14 +299,6 @@ hr{
 }
 
 .fa-person-circle-question:hover{
-    color: #40C2FF;
-}
-
-.top-menu-name a{
-    color: white;
-}
-
-.top-menu-name a:hover{
     color: #40C2FF;
 }
 
@@ -258,10 +316,6 @@ hr{
     padding: 15px;
 }
 
-.left-menu-item{
-
-}
-
 .left-menu-item a{
     color: white;
 }
@@ -270,7 +324,23 @@ hr{
     color: #40C2FF;
 }
 
-/*OSOBNE INFORMACIE*/
+.old-link{
+    width: 185px;
+}
+
+/*ZMENA HESLA*/
+.change-password{
+    background: #7dd6ff;
+    width: 540px;
+    padding: 40px 10px;
+    margin: 120px auto;
+}
+
+.form-group-change-pw{
+    margin-bottom: 5px;
+}
+
+/*OSOBNE INFORMACIE, KONTAKTNE UDAJE, KONFIGURACIA*/
 .osobne_informacie,
 .kontaktne_udaje,
 .konfiguracia{
@@ -283,6 +353,7 @@ hr{
     background: #7dd6ff;
     padding: 20px;
     overflow: hidden;
+    padding-bottom: 40px;
 }
 
 .osobne_info_l,
@@ -297,6 +368,7 @@ hr{
 
 .kontakt_info_l{
     padding-bottom: 10px;
+    padding-top: 20px;
 }
 
 .osobne_info_h1,
@@ -329,6 +401,7 @@ hr{
 .pristup_redmine_item_span{
     width: 175px;
     display: inline-block;
+    margin-bottom: 15px;
 }
 
 .td-server{
@@ -422,7 +495,7 @@ hr{
 }
 
 .opravnenia_k_serverom{
-    background: lightgray;
+    background: #7dd6ff;
     padding: 20px;
     overflow: hidden;
     padding-bottom: 40px;
@@ -447,49 +520,13 @@ hr{
     margin: 0 auto;
 }
 
-/*MAIN CONTENT*/
-.main-content{
-    margin-left: 215px;
-    padding-top: 1px;
-}
-
-#body-login{
-    background-image: url("bg.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-}
-
-.container{
-    background-color: white;
-    height: 100%;
-    padding:0;
-    position: relative;
-}
-
-.change-password{
-    background: lightgray;
-    width: 540px;
-    padding: 40px 10px;
-    margin: 120px auto;
-}
-
-.footer{
-    margin: 0 auto;
-    padding: 0.5rem 1rem;
-    color: gray;
-    position: absolute;
-    bottom: 0;
-}
-
 .sipka{
     cursor:default;
 }
 
 .vyrazneCervene{
-    color:#a90000;
-    font-weight:bold;
+    color: #a90000;
+    font-weight: bold;
     vertical-align: top;
 }
 
@@ -502,29 +539,21 @@ hr{
     height: 33px;
 }
 
-textarea {
-    background-color:#ffffff;
-    color:#000000;
-    border-color:#000000;
-    border-width:1px;
-    border-style:solid;
-    font-family:"Arial CE", "Helvetica CE", Arial, helvetica, sans-serif;
-    font-size:12px;
+textarea{
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #000000;
+    border-width: 1px;
+    border-style: solid;
+    font-family: "Arial CE", "Helvetica CE", Arial, helvetica, sans-serif;
+    font-size: 12px;
     resize: both;
     margin-bottom: 10px;
   }
 
-.field_hosts {
+.field_hosts{
     width: 400px;
     height: 100px;
-}
-
-.hidden{
-    display: none;
-}
-
-.old-link{
-    width: 185px;
 }
 
 #ipAdresy{
@@ -553,4 +582,44 @@ textarea {
 #ipAdresy input:focus,
 .osobne_info input:focus{
     border: 3px solid black;
+}
+
+.hr-osobne-info,
+.hr-konfiguracia,
+.hr-kontaktne-udaje{
+    border-top: 3px solid black; 
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.osobne_info_item a{
+    margin-left: 25px;
+    color: blue;
+}
+
+.vyplnene-udaje{
+    color: #15D400;
+    font-weight: 700;
+}
+
+.nevyplnene-udaje{
+    color: red;
+    font-weight: 700;
+}
+
+.hr2-osobne-info{
+    border-top: 3px solid black;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.ip-adresy{
+    padding: 2px 12px;
+    margin-bottom: 5px;
+}
+
+#other{
+    width: 100%;
 }

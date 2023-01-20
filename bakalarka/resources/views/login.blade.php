@@ -19,7 +19,7 @@
         <div id="body-login">
             <div class="container">
                 <header> 
-                    <a href="/"><img class="main-logo" src="logo.gif" alt="logo"></a>            
+                    <a href="#"><img class="main-logo" src="logo.gif" alt="logo_knotis"></a>            
                     <a href="#" class="login-language" onclick="toggleClassLog()"><img src="flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}.svg" class="flag-icon"></a>
                     <ul class="top-hamburger-login">
                         @foreach (Config::get('languages') as $lang => $language)
@@ -31,12 +31,12 @@
                         @endforeach             
                     </ul>              
                 </header>
-                <hr style="clear:both; border-top:3px solid black">
+                <hr class="hr1">
                 <main>
                     <div class="login-form">
-                        <h4 style="text-align:center">{{__('Přihlášení do Informačního systému KNOTIS')}}</h4>
+                        <h4>{{__('Přihlášení do Informačního systému KNOTIS')}}</h4>
                         <hr>
-                        <div class="medzera" style="height:20px"></div>
+                        <div class="medzera"></div>
                         <form action="{{route('login-user')}}" method="post">
                             @if(Session::has('success'))
                             <div class="alert alert-success">{{Session::get('success')}}</div>
@@ -56,7 +56,7 @@
                                 <span class="text-danger">@error('password') {{$message}} @enderror</span>
                             </div>
                             <br>
-                            <div class="form-group" style="margin-top:15px">
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-block btn-primary">{{__('Přihlásit se')}}</button>
                             </div>
                         </form>

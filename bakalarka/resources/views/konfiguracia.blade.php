@@ -137,14 +137,14 @@
                         <h1>{{__('Konfigurace')}}</h1>
                     </div>
                 </div>
-                <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+                <hr class="hr-konfiguracia">
                 <div class="osobne_info_l">
                     <div class="konfiguracia_item">
                             <a href="#" class="btn btn-block btn-primary">{{__('Změnit zabezpečení sezení')}}</a>
                     </div> 
                     <div class="osobne_info_item">
-                        <div class="konfiguracia_item_span" style="margin-top:5.5px">{{__('Opožděné vykazování')}}:</div>
-                        <input type="text" style="border: 1px solid black;" size="29" style="height:29px" maxlength="2" name="zpozdeni_vykazu" title="{{__('Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin.')}}" value="{{$data->zpozdeni_vykazu}}">
+                        <div class="konfiguracia_item_span">{{__('Opožděné vykazování')}}:</div>
+                        <input type="text" size="29" style="height:29px" maxlength="2" name="zpozdeni_vykazu" title="{{__('Zde si můžete nastavit, do kolika hodin v pondělí budete mít ještě předvolený minulý týden pro vykazování výkazů z předešlého týdne. Maximální hodnota je 24 hodin.')}}" value="{{$data->zpozdeni_vykazu}}">
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>    
                 </div>
@@ -189,8 +189,9 @@
                         <table id="ipAdresy">
                             <tr>
                                 <td>
-                                    <a href="javascript:void(0)" onclick="addInput('ipAdresy', 'upravIp');" class="btn btn-primary" style="padding:2px 12px; margin-bottom:5px">{{__('Přidat')}} +</a>
-                                </td><td></td>
+                                    <a href="javascript:void(0)" onclick="addInput('ipAdresy', 'upravIp');" class="btn btn-primary ip-adresy">{{__('Přidat')}} +</a>
+                                </td>
+                                <td></td>
                             </tr>
                             <?php foreach ($ipAdresy as $host): ?>
                                 <div class="td-server"><?php echo vypisZoznamIpAdries($host); ?></div>
@@ -215,19 +216,19 @@
                 </div>               
             </form>
         </div>
-        <div class="medzera" style="height:20px"></div>
+        <div class="medzera"></div>
         <div class="opravnenia_k_serverom">
             <div class="opravnenia">
                 <h1>{{__('Oprávnění k serverům')}}</h1>
             </div>
-            <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+            <hr class="hr-konfiguracia">
             <div class="opravnenia">
-                <div class="osobne_info_item" style="margin-bottom:15px">
+                <div class="osobne_info_item">
                     <div class="pristup_redmine_item_span">{{__('Přístup k Redmine')}}:</div>
                     @if($data->pristup_k_redmine === 0)
-                        <span style="color:red; font-weight:700">{{__('Ne')}}</span>
+                        <span class="nevyplnene-udaje">{{__('Ne')}}</span>
                     @else
-                        <span style="color:#15D400; font-weight:700">{{__('Ano')}} &nbsp</span><a href="https://knot.fit.vutbr.cz/redmine" title="{{__('Odkaz na Redmine')}}" target="_blank">https://knot.fit.vutbr.cz/redmine</a>
+                        <span class="vyplnene-udaje">{{__('Ano')}} &nbsp</span><a href="https://knot.fit.vutbr.cz/redmine" title="{{__('Odkaz na Redmine')}}" target="_blank">https://knot.fit.vutbr.cz/redmine</a>
                     @endif
                 </div>
                 <div class="osobne_info_items">
@@ -237,6 +238,6 @@
                 </div>
             </div>
         </div>
-        <div class="medzera" style="height:20px"></div>
+        <div class="medzera"></div>
     </div>
 @endsection

@@ -14,7 +14,7 @@
     </head>
     <body class="dashboard">
         <header>
-            <a href="/dashboard"><img class="main-logo main-logo-m" src="logo-m.png" alt="logo"></a>
+            <a href="#"><img class="main-logo main-logo-m" src="logo-m.png" alt="logo_knotis"></a>
             @include('top_menu')
             @include('left_menu')
         </header>

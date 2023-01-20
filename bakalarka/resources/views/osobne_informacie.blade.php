@@ -158,7 +158,7 @@
                     <h1>{{$data->jmeno. " " .$data->prijmeni}}</h1>
                 </div>
             </div>
-            <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+            <hr class="hr-osobne-info">
             <div class="osobne_info_l">
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span">{{__('Číslo')}}:</div>
@@ -183,31 +183,31 @@
                     @else
                         {{$data->odpracovat_od. " - " .$data->odpracovat_do}}
                     @endif
-                    <a href="#" style="margin-left:25px; color:blue">Pracovní výkazy</a>
+                    <a href="#">Pracovní výkazy</a>
                 </div> 
             </div>                                                    
         </div>
-        <div class="medzera" style="height:20px"></div>                                           
-        <div class="osobne_info" style="padding-bottom:40px">
+        <div class="medzera"></div>                                           
+        <div class="osobne_info">
             <div class="podklady_l">
                 <?php $dppUdajeKompletni = plneVyplnenDPP($dppUdaje); 
                     $stipUdajeKompletni = plneVyplnenStip($dppUdaje); ?>
                     <div class="kontakt_info_item">{{__('Podklady pro DPP')}}: &nbsp
                     @if ($dppUdajeKompletni)
-                        <span style="color:#15D400; font-weight:700">{{__('Vyplněny')}}</span>
+                        <span class="vyplnene-udaje">{{__('Vyplněny')}}</span>
                     @else
-                    <span style="color:red; font-weight:700">{{__('Nevyplněny')}}</span>
+                    <span class="nevyplnene-udaje">{{__('Nevyplněny')}}</span>
                     @endif      
                 </div>
                 <div class="kontakt_info_item">{{__('Podklady pro Stip')}}: &nbsp
                     @if ($stipUdajeKompletni)
-                        <span style="color:#15D400; font-weight:700">{{__('Vyplněny')}}</span>
+                        <span class="vyplnene-udaje">{{__('Vyplněny')}}</span>
                     @else
-                        <span style="color:red; font-weight:700">{{__('Nevyplněny')}}</span>
+                        <span class="vyplnene-udaje">{{__('Nevyplněny')}}</span>
                     @endif      
                 </div>
             </div>
-            <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+            <hr class="hr2-osobne-info">
             <form action="{{route('update_dpp_info')}}" method="post">
                 @if(Session::has('success2'))
                     <div class="alert alert-success">{{Session::get('success2')}}</div>
@@ -227,7 +227,7 @@
                         <div class="kontakt_info_item_span_add2">{{__('Volitelné údaje')}}</div>
                     </a>
                 </div>
-                <div class="kontakt_info_l" style="padding-top:20px">              
+                <div class="kontakt_info_l">              
                     <div class="kontakt_info_item osobne_info_hidden_vol">
                         <div class="kontakt_info_item_span">{{__('Titul před jménem')}}:</div>
                         <input type="text" size="29" maxlength="31" name="titul_pred" title="{{__('Titul před jménem')}}" value="{{$dppUdaje->titul_pred}}">
@@ -337,6 +337,6 @@
                 </div> 
             </form>  
         </div>    
-        <div class="medzera" style="height:20px"></div>                                                    
+        <div class="medzera"></div>                                                    
     </div>
 @endsection

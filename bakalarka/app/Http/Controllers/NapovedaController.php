@@ -12,9 +12,13 @@ use Illuminate\Http\Request;
 use Validator;
 use DB;
 
-
-class Controller extends BaseController
+class NapovedaController extends Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
+    public function Help(){
+        $data = array();
+        if(Session::has('loginId')){
+            $data = Osoba::where('id','=',Session::get('loginId'))->first();
+        }
+        return view('help', compact('data'));
+    }
 }

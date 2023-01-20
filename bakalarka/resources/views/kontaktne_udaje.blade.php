@@ -53,7 +53,7 @@
                     <h2>{{__('Kontaktní Údaje')}}</h2>
                 </div>
             </div>
-            <hr style="border-top:3px solid black; width:90%; margin:0 auto; margin-bottom:20px">
+            <hr class="hr-kontaktne-udaje">
             <div class="kontakt_info_l">
                 <table id="emaily">
                     <tr>
@@ -81,7 +81,7 @@
                         </td>
                     </tr>
                 </table>
-                <table id="other" style="width:100%">
+                <table id="other">
                     <tr>
                         <td>
                             <div class="kontakt_info_button_add">
@@ -90,7 +90,7 @@
                         </td>
                     </tr>
                 </table>
-                <div class="medzera" style="height:20px"></div>
+                <div class="medzera"></div>
                 <div class="kontakt_info_item">
                     <div class="kontakt_info_button">
                         <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>
