@@ -156,7 +156,7 @@ hr{
     margin-top: 15px;
 }
 
-.form-group button{
+.form-group:last-child button{
     width: 360px;
 }
 
@@ -166,6 +166,7 @@ hr{
     color: gray;
     position: absolute;
     bottom: 0;
+    width: auto;
 }
 
 /*DASHBOARD*/
@@ -438,7 +439,7 @@ hr{
 }
 
 .kontakt_info_item_span1{
-    width: 157px;
+    width: 160px;
     float: left;
 }
 
@@ -552,8 +553,8 @@ textarea{
   }
 
 .field_hosts{
-    width: 400px;
-    height: 100px;
+    width: 335px;
+    height: 90px;
 }
 
 #ipAdresy{
@@ -574,14 +575,7 @@ textarea{
     -webkit-transition: 0.2s;
     transition: 0.2s;
     border: 1px solid black;
-}
-
-#emaily input:focus,
-#telefony input:focus,
-#other input:focus,
-#ipAdresy input:focus,
-.osobne_info input:focus{
-    border: 3px solid black;
+    padding-left: 5px;
 }
 
 .hr-osobne-info,
@@ -599,7 +593,7 @@ textarea{
 }
 
 .vyplnene-udaje{
-    color: #15D400;
+    color: #13bd00;
     font-weight: 700;
 }
 
@@ -622,4 +616,8 @@ textarea{
 
 #other{
     width: 100%;
+}
+
+#typList{
+    float: left;
 }

@@ -14,17 +14,46 @@ use DB;
 
 class KontaktneUdajeController extends Controller
 {
+    function key_compare_func($a, $b){
+        if ($a === $b) {
+            return 0;
+        }
+        return ($a > $b)? 1:-1;
+    }
+
     public function kontaktneUdaje(){
         $data = array();
-        $kontakt_data = array();
+        $kontakt_data_mail = array();
+        $kontakt_data_telefon = array();
+        $kontakt_data_other = array();
         if(Session::has('loginId')){
-            $kontakt_data = DB::table('kontakt')->where('id_osoby','=',Session::get('loginId'))->first();
-            $data= Osoba::where('id','=',Session::get('loginId'))->first();
+            $osobaId = Session::get('loginId');
+            $kontakt_data_mail = DB::table('kontakt')->where([
+                ['id_osoby','=',$osobaId],
+                ['typ','=','Mail']
+            ])->get();
+            $kontakt_data_telefon = DB::table('kontakt')->where([
+                ['id_osoby','=',$osobaId],
+                ['typ','=','Telefon']
+            ])->get();
+            $kontakt_data_other = DB::table('kontakt')->where([
+                ['id_osoby','=',$osobaId],
+                ['typ', '!=', 'Mail'],
+                ['typ', '!=', 'Telefon']
+            ])->get();
+            $data= Osoba::where('id','=',$osobaId)->first();
         }
-        return view('kontaktne_udaje', compact('data', 'kontakt_data'));
+        return view('kontaktne_udaje', compact('data', 'kontakt_data_mail', 'kontakt_data_telefon', 'kontakt_data_other'));
     }
 
     public function updateKontaktneInfo(Request $request){
+        $tmp = null;
+        $kontaktId = array();
+        $kontakt_id = array();
+        $kontakt_hodnota = array();
+        $kontakt_data = array();
+        $kontakt_data_all = array();
+        $osobaId = Session::get('loginId');
         $validator = Validator::make($request->all(), [
              'telefon'=>'required',
              'mail'=>'required'
@@ -33,17 +62,72 @@ class KontaktneUdajeController extends Controller
             return back()->with('fail1',__('Prosím vyplňte všechna povinná pole'));
         }
         else{
-            //dd($request);
-            // $data= DB::table('osoba')->where('id','=',Session::get('loginId'))->update([
-            //     'telefon' => $request->telefon,
-            //     'gmail' => $request->mail,
-            // ]);
-            $kontakt_data = DB::table('kontakt')->where('id_osoby','=',Session::get('loginId'))->update([
-                'typ' => $request->typ,
-                'hodnota' => $request->hodnota,
-                'popis' => (!is_null($request->popis) ? $request->popis : "")
+            $data = DB::table('osoba')->where('id','=',Session::get('loginId'))->update([
+                'telefon' => $request->telefon,
+                'gmail' => $request->mail,
+                'telefon_popis' => (!is_null($request->telefon_popis) ? $request->telefon_popis : ""),
+                'gmail_popis' => (!is_null($request->mail_popis) ? $request->mail_popis : "")
             ]);
-            return back()->with('success1',__('Kontaktní údaje byly změněny'));
+            $kontakt_id = $request->id;
+            $kontakt_hodnota = $request->hodnota;
+            $kontakt_data_all = DB::table('kontakt')->where('id_osoby','=',Session::get('loginId'))->get('id')->toArray();
+            if (count(is_countable($kontakt_data_all) ? $kontakt_data_all : []) > 0){
+                foreach($kontakt_data_all as $id1 => $kontakt1){
+                    $kontaktId[$id1] = $kontakt1->id;
+                }
+            } 
+            if (count(is_countable($kontakt_hodnota) ? $kontakt_hodnota : []) > 0){
+                foreach($kontakt_hodnota as $id => $hodn){
+                    $kontakt_data = [
+                        'typ' => $request->typ[$id],
+                        'hodnota' => $request->hodnota[$id],
+                        'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
+                    ];
+                    if ($request->id[$id] == null || $request->id[$id] == ''){
+                        DB::table('kontakt')->insert([
+                            'id_osoby' => $osobaId,
+                            'typ' => $request->typ[$id],
+                            'hodnota' => $request->hodnota[$id],
+                            'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
+                        ]);
+                    }
+                    else{
+                        DB::table('kontakt')->where([
+                            ['id', '=', $request->id[$id]],
+                            ['id_osoby', '=', $osobaId]
+                        ])->update([
+                            'typ' => $request->typ[$id],
+                            'hodnota' => $request->hodnota[$id],
+                            'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
+                        ]);
+                    }
+                }
+            }
+            if ($kontakt_hodnota == null || $kontakt_hodnota == ''){
+                DB::table('kontakt')->where('id_osoby', '=', $osobaId)->delete();
+                
+            }
+            else{
+                if ($kontaktId != null){
+                    $tmp = array_diff($kontaktId, $kontakt_id);
+                    DB::table('kontakt')->where('id_osoby', '=', $osobaId)->whereIn('id', $tmp)->delete();
+                }
+            }
+            
+            return back()->with('success1',__('Kontaktní údaje byly změněny'));      
+        }
+    }
+
+    public function fetch(Request $request){
+        if ($request->get('query')){
+            $query = $request->get('query');
+            $data1 = DB::table('kontakt')->where('typ', 'LIKE', "%{$query}%")->get();
+            $output = '<ul class="dropdown-menu" style="display:block; position:relative; width:100%;">';
+            foreach($data1 as $row){
+                $output .= '<li><a class="dropdown-item" href="#">'.$row->typ.'</a></li>';
+            }
+            $output .='</ul>';
+            echo $output;
         }
     }
 }

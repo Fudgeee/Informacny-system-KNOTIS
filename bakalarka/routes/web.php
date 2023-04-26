@@ -39,6 +39,7 @@ Route::get('/help', [NapovedaController::class,'Help']);
 // kontaktne udaje
 Route::get('/kontaktne_udaje', [KontaktneUdajeController::class,'kontaktneUdaje']);
 Route::post('/kontaktne_udaje', [KontaktneUdajeController::class,'updateKontaktneInfo'])->name('update_kontaktne_info');
+Route::get('/kontaktne_udaje/fetch', [KontaktneUdajeController::class,'fetch'])->name('kontaktne_udaje.fetch');
 
 // osobne nastavenia
 Route::get('/osobne_informacie', [OsobneInformacieController::class,'osobneInformacie'])->name('osobne_informacie');

@@ -206,6 +206,10 @@ class KonfiguraciaController extends Controller
     }
 
     public function updateKonfiguracia(Request $request){
+        $tmp = array();
+        $ipAll = array();
+        $ipAdresy = array();
+        $ipAdresyAll = array();
         $validator = Validator::make($request->all(), [
             'zpozdeni_vykazu'=>'required',
             'zasilat_kopie'=>'required',
@@ -228,28 +232,47 @@ class KonfiguraciaController extends Controller
                 'ip6_tables' => (!is_null($request->ip6_tables) ? $request->ip6_tables : "")
             ]);
             $ipAdresy = $request->upravIp;
-            $idAdresy = $request->ipId;
             $osobaId = Session::get('loginId');
-            //dd($request);
-            foreach($ipAdresy as $id => $host){
-                $data = null;
-                if (isset($idAdresy[$id])){
-                    $data = DB::table('osoba_hosts_ip')->where('id', '=', $idAdresy[$id])->first();
+            $ipAdresyAll = DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->get('ip');
+            if (count(is_countable($ipAdresyAll) ? $ipAdresyAll : []) > 0){
+                foreach($ipAdresyAll as $id1 => $host1){
+                    $ipAll[$id1] = $host1->ip;
                 }
-                if ($data == null || $data == ''){
-                    $data = DB::table('osoba_hosts_ip')->insert(['id_osoby' => $osobaId, 'ip' => $host]);
-                }
-                else{
-                    $data = DB::table('osoba_hosts_ip')->where('id', '=', $idAdresy[$id])->update([
-                        'ip' => $host
-                    ]);
-                }
-                //if $tmp = DB::table('osoba_hosts_ip')->where('ip', '=', $idAdresy[$id])            
             }
-            // $ips = $request->upravIp;
-            // if $tmp = DB::table('osoba_hosts_ip')->where('ip', '=', $idAdresy[$id])
-            // dd($ips);
-            //dd($request);
+            if (count(is_countable($ipAdresy) ? $ipAdresy : []) > 0){
+                foreach($ipAdresy as $id => $host){
+                    $data = null;
+                    if (isset($ipAdresy[$id])){
+                        $data = DB::table('osoba_hosts_ip')->where([
+                            ['id_osoby', '=', $osobaId],
+                            ['ip', '=', $ipAdresy[$id]]
+                        ])->first();
+                    }
+                    if ($data == null || $data == ''){
+                        $data = DB::table('osoba_hosts_ip')->insert([
+                            'id_osoby' => $osobaId,
+                            'ip' => $host
+                        ]);
+                    }
+                    else{
+                        $data = DB::table('osoba_hosts_ip')->where([
+                            ['id_osoby', '=', $osobaId],
+                            ['ip', '=', $ipAdresy[$id]]
+                        ])->update([
+                            'ip' => $host
+                        ]);
+                    }
+                }
+            }
+            if ($ipAdresy == null || $ipAdresy == ''){
+                DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->delete();
+            }
+            else{
+                if ($ipAll != null){
+                    $tmp = array_diff($ipAll, $ipAdresy);
+                    DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->whereIn('ip', $tmp)->delete();
+                }
+            } 
             return back()->with('success',__('Konfigurace byla úspěšně změněna'));
         }
     }

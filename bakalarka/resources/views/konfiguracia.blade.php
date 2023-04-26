@@ -89,8 +89,8 @@
 
     function vypisZoznamIpAdries($host){
         $vysledek = '';
-        $vysledek = '<tr><td><input type="text" size="40" maxlength="63" name="upravIp[]" value="'.$host->ip.'"><input type="text" class="hidden" name="ipId[]" id="ipId" value="'.$host->id.'"></td>';
-        $vysledek .= '<td><a href="#" onclick="deleteInputFromDB(); deleteInput(this);return false;"><img src="red-x.gif" style="width:20px"/></a></td></tr>';
+        $vysledek = '<tr><td><input type="text" size="40" maxlength="63" name="upravIp[]" value="'.$host->ip.'"></td>';
+        $vysledek .= '<td><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px"/></a></td></tr>';
         return $vysledek;
     }  
 ?>
@@ -102,13 +102,6 @@
             obj = obj.parentNode;
         }
         obj.parentNode.removeChild(obj);
-    }
-
-    function deleteInputFromDB(){
-        //$zoznam .= $host_id;
-        // $element = document.getElementById('ipId').value;
-        // console.log($element);
-        // TODO 
     }
 
     function addInput(idSkupiny, nameInputu){

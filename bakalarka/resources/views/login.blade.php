@@ -1,7 +1,7 @@
 <!--LOGIN PAGE-->
 <!DOCTYPE html>
 <script>
-    function toggleClassLog() {
+    function toggleClassLog(){
         let menu = document.querySelector(".top-hamburger-login");
         menu.classList.toggle("toggleClsLog");
     }
@@ -13,6 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         <link rel="stylesheet" href="main.css">
+        <script src="https://kit.fontawesome.com/3addc861d7.js" crossorigin="anonymous"></script>
         <title>KNOTIS</title>
     </head>
     <body>
@@ -47,12 +48,12 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">Login:</label>
-                                <input type="text" class="form-control" placeholder="{{__('Zadajte Login')}}" name="name" value="{{old('name')}}">
+                                <input type="text" class="form-control" placeholder="{{__('Zadajte Login')}}" name="name" value="{{old('name')}}" autofocus>
                                 <span class="text-danger">@error('name') {{$message}} @enderror</span>
                             </div>
                             <div class="form-group">
                                 <label for="password">{{__('Heslo')}}:</label>
-                                <input type="password" class="form-control" placeholder="{{__('Zadajte Heslo')}}" name="password" value="">
+                                <input type="password" id="password" class="form-control" placeholder="{{__('Zadajte Heslo')}}" name="password" value="">
                                 <span class="text-danger">@error('password') {{$message}} @enderror</span>
                             </div>
                             <br>
