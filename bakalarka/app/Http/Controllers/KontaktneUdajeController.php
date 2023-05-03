@@ -26,6 +26,9 @@ class KontaktneUdajeController extends Controller
         $kontakt_data_mail = array();
         $kontakt_data_telefon = array();
         $kontakt_data_other = array();
+        $kontakt_other = array();
+        $kontaktTyp = array();
+        $kontaktPopis = array();
         if(Session::has('loginId')){
             $osobaId = Session::get('loginId');
             $kontakt_data_mail = DB::table('kontakt')->where([
@@ -42,8 +45,18 @@ class KontaktneUdajeController extends Controller
                 ['typ', '!=', 'Telefon']
             ])->get();
             $data= Osoba::where('id','=',$osobaId)->first();
+            $kontakt_other = DB::table('kontakt')->where([
+                ['typ', '!=', 'Mail'],
+                ['typ', '!=', 'Telefon']
+            ])->get();
+            if (count(is_countable($kontakt_other) ? $kontakt_other : []) > 0){
+                foreach($kontakt_other as $typ1 => $t1){
+                    $kontaktTyp[$typ1] = $t1->typ;
+                    $kontaktPopis[$typ1] = $t1->popis;
+                }
+            }
         }
-        return view('kontaktne_udaje', compact('data', 'kontakt_data_mail', 'kontakt_data_telefon', 'kontakt_data_other'));
+        return view('kontaktne_udaje', compact('data', 'kontakt_data_mail', 'kontakt_data_telefon', 'kontakt_data_other', 'kontaktTyp', 'kontaktPopis'));
     }
 
     public function updateKontaktneInfo(Request $request){
@@ -115,19 +128,6 @@ class KontaktneUdajeController extends Controller
             }
             
             return back()->with('success1',__('Kontaktní údaje byly změněny'));      
-        }
-    }
-
-    public function fetch(Request $request){
-        if ($request->get('query')){
-            $query = $request->get('query');
-            $data1 = DB::table('kontakt')->where('typ', 'LIKE', "%{$query}%")->get();
-            $output = '<ul class="dropdown-menu" style="display:block; position:relative; width:100%;">';
-            foreach($data1 as $row){
-                $output .= '<li><a class="dropdown-item" href="#">'.$row->typ.'</a></li>';
-            }
-            $output .='</ul>';
-            echo $output;
         }
     }
 }

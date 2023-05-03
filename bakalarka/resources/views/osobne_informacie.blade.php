@@ -1,14 +1,14 @@
 <!--OSOBNE INFORMACIE-->
 <?php 
     $rodinnyStav[0] = "---";
-    $rodinnyStav[1] = "svobodný/svobodná";
-    $rodinnyStav[2] = "ženatý/vdaná";
-    $rodinnyStav[3] = "rozvedený/á";
-    $rodinnyStav[4] = "vdovec/vdova";
-    $rodinnyStav[5] = "partnertsví";
-    $rodinnyStav[6] = "mrtev/mrtvá";
-    $rodinnyStav[7] = "zaniklé partnerství rozhodnutím";
-    $rodinnyStav[8] = "zaniklé partnerství smrtí";
+    $rodinnyStav[1] = __("svobodný/svobodná");
+    $rodinnyStav[2] = __("ženatý/vdaná");
+    $rodinnyStav[3] = __("rozvedený/á");
+    $rodinnyStav[4] = __("vdovec/vdova");
+    $rodinnyStav[5] = __("partnertsví");
+    $rodinnyStav[6] = __("mrtev/mrtvá");
+    $rodinnyStav[7] = __("zaniklé partnerství rozhodnutím");
+    $rodinnyStav[8] = __("zaniklé partnerství smrtí");
 
     function generujPolozkyVyberuSId($moznosti,$zadna,$zvolena){
         $vysledek = '';
@@ -183,7 +183,7 @@
                     @else
                         {{$data->odpracovat_od. " - " .$data->odpracovat_do}}
                     @endif
-                    <a href="#">Pracovní výkazy</a>
+                    <a href="pracovne_vykazy">Pracovní výkazy</a>
                 </div> 
             </div>                                                    
         </div>

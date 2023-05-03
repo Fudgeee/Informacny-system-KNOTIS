@@ -97,5 +97,13 @@
     "Volitelné údaje": "Optional data",
     "Jste-li student(ka), povinná položka": "Required item, if you are a student",
     "Povinná položka pro DPP": "Required item for DPP",
-    "Povinná položka pro DPP - zadejte číslo OP nebo číslo pasu (alespoň jedno z nich)": "Required item for DPP - select ID number or passport number (at least one of them)"
+    "Povinná položka pro DPP - zadejte číslo OP nebo číslo pasu (alespoň jedno z nich)": "Required item for DPP - select ID number or passport number (at least one of them)",
+    "svobodný/svobodná": "single",
+    "ženatý/vdaná": "married",
+    "rozvedený/á": "divorced",
+    "vdovec/vdova": "widower/widow",
+    "partnertsví": "partnership",
+    "mrtev/mrtvá": "dead",
+    "zaniklé partnerství rozhodnutím": "dissolved partnership by decision",
+    "zaniklé partnerství smrtí": "partnership dissolved by death"
 }

@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "flag-icon-css": "^4.1.7",
-        "flag-icons": "^6.6.6"
+        "flag-icons": "^6.6.6",
+        "jquery-ui-dist": "^1.13.2"
     }
 }

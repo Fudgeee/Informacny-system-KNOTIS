@@ -363,7 +363,7 @@ hr{
     margin: 0 auto;
 }
 .osobne-info-btns{
-    width: 540px;
+    width: 600px;
     margin: 0 auto;
 }
 
@@ -480,7 +480,7 @@ hr{
 }
 
 .kontakt_info_button_add{
-    width: 155px; 
+    width: 175px; 
     margin: 10px 0px 10px 5px;
 }
 
@@ -620,4 +620,25 @@ textarea{
 
 #typList{
     float: left;
+}
+
+.ui-menu{
+    list-style-type: none;
+    background: #000;
+    color: white;
+    width: 150px;
+    padding: 0px;
+}
+
+.ui-menu-item{
+    border-bottom: 1px solid white;
+    padding-left: 7px;
+}
+
+.ui-menu-item:last-child{
+    border-bottom: none;
+}
+
+.ui-helper-hidden-accessible{
+    display: none;
 }
