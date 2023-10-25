@@ -53,6 +53,12 @@ Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => '\App\Http\Controlle
 
 // pracovne vykazy
 Route::get('/pracovne_vykazy', [PracovneVykazyController::class,'pracovneVykazy']);
+Route::post('/pracovne_vykazy_projekt', [PracovneVykazyController::class,'updatePracovneVykazyProjekt'])->name('update_pracovne_vykazy_projekt');
+Route::post('/pracovne_vykazy_tyzden', [PracovneVykazyController::class,'updatePracovneVykazyTyzden'])->name('update_pracovne_vykazy_tyzden');
+Route::post('/pracovne_vykazy_denny', [PracovneVykazyController::class,'updatePracovneVykazyDenny'])->name('update_pracovne_vykazy_denny');
+Route::post('/pracovne_vykazy_tyzdenny', [PracovneVykazyController::class,'updatePracovneVykazyTyzdenny'])->name('update_pracovne_vykazy_tyzdenny');
+Route::post('/pracovne_vykazy_tyzdenny_s_hodinami', [PracovneVykazyController::class,'updatePracovneVykazyTyzdennySHodinami'])->name('update_pracovne_vykazy_tyzdenny_s_hodinami');
+
 
 // plan prace
 Route::get('/plan_prace', [PlanPraceController::class,'planPrace']);

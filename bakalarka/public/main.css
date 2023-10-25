@@ -344,13 +344,15 @@ hr{
 /*OSOBNE INFORMACIE, KONTAKTNE UDAJE, KONFIGURACIA*/
 .osobne_informacie,
 .kontaktne_udaje,
-.konfiguracia{
+.konfiguracia,
+.pracovne_vykazy{
     margin: 20px;
 }
 
 .osobne_info,
 .kontaktne_udaje,
-.konfiguracia_l{
+.konfiguracia_l,
+.pracovne_vykazy_l{
     background: #7dd6ff;
     padding: 20px;
     overflow: hidden;
@@ -358,7 +360,8 @@ hr{
 }
 
 .osobne_info_l,
-.kontakt_info_l{
+.kontakt_info_l,
+.pracovne-vykazy-l{
     width: 80%;
     margin: 0 auto;
 }
@@ -373,7 +376,8 @@ hr{
 }
 
 .osobne_info_h1,
-.kontakt_info_h1{
+.kontakt_info_h1,
+.pracovne-vykazy-h1{
     margin-bottom: 25px;
     margin-top: 10px;
 }
@@ -580,11 +584,60 @@ textarea{
 
 .hr-osobne-info,
 .hr-konfiguracia,
-.hr-kontaktne-udaje{
+.hr-kontaktne-udaje,
+.hr-pracovne-vykazy{
     border-top: 3px solid black; 
     width: 90%;
     margin: 0 auto;
     margin-bottom: 20px;
+}
+.pracovne-vykazy-item{
+    margin-top: 5px;
+}
+.pracovne-vykazy-item-cinnost{
+    vertical-align: top;
+}
+#upravCinnost{
+    margin-bottom: 0;
+}
+.denny_vykaz_btns{
+    padding: 1px 10px;
+    background-color: lightgray;
+    border-radius: 3px;
+}
+#upravNesouvisiSP{
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    margin-top: 3px;
+}
+#odeslatProblemyTlac{
+    margin-top: 8px;
+}
+
+.pracovne-vykazy-item button{
+    display: block;
+    width: 67px;
+    margin-left: 20%;
+    margin-top: 30px;
+}
+
+#vybranyProjekt,
+#vybranyProjektText,
+#vybranyTyzdenText{
+    border: none;
+    background: none;
+    font-size: inherit;
+    width: auto;
+    padding: 0;
+    outline: none;
+    font-weight: 700;
+    color: blue;
+}
+
+#vybranyTyzden,
+#idTyzdna{
+    display: none;
 }
 
 .osobne_info_item a{
