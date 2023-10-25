@@ -16,6 +16,8 @@ class PracovneVykazyController extends Controller
 {
     public function pracovneVykazy(){
         $data = array();
+        $tmp = array();
+        $tyzdenny_vykaz_db = array();
         $projektNazov = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
@@ -49,8 +51,14 @@ class PracovneVykazyController extends Controller
                 ->where('pondeli', '<=', DB::raw('NOW()'))
                 ->where('nedele', '>=', DB::raw('NOW()'))
                 ->value('id');
+                $tmp = DB::table('tydenni_v')->where([
+                    ['id_osoby','=',Session::get('loginId')],
+                    ['id_tydne','=',$aktualnyTyzden + 1],
+                    ['id_projektu','=',$projekty[0]->id]
+                ])->get();
+                $tyzdenny_vykaz_db = $tmp[0];
         }
-        return view('pracovne_vykazy', compact('data', 'projekty', 'projektNazov', 'tyzdne', 'aktualnyTyzden'));
+        return view('pracovne_vykazy', compact('data', 'projekty', 'projektNazov', 'tyzdne', 'aktualnyTyzden', 'tyzdenny_vykaz_db'));
     }
 
     public function updatePracovneVykazyProjekt(Request $request){
@@ -72,6 +80,7 @@ class PracovneVykazyController extends Controller
             for ($i=0; $i<count($projekty); $i++){
                 $projektNazov[$i] = $projekty[$i]->id . '. ' . $projekty[$i]->nazev;
             }
+
         }
         return view('pracovne_vykazy', compact('projekty', 'projektNazov', 'data'));
     }
@@ -108,9 +117,7 @@ class PracovneVykazyController extends Controller
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
             $projekt_id = array();
-            $tyzden_id = array();
             $castiP = null;
-            $castiT = null;
             $pocetMinut = null;
 
             $validator = Validator::make($request->all(), [
@@ -125,8 +132,6 @@ class PracovneVykazyController extends Controller
             else{
                 $castiP = explode('.', $request->vybranyProjekt);
                 $projekt_id = $castiP[0];
-                $castiT = explode('.', $request->vybranyTyzden);
-                $tyzden_id = $castiT[0];
 
                 $pocetMinut = ((($request->upravHodin)*60) + $request->upravMin);
 
@@ -156,6 +161,7 @@ class PracovneVykazyController extends Controller
             $tyzden_id1 = array();
             $castiPT = null;
             $castiTV = null;
+            $control = null;
 
             $validator = Validator::make($request->all(), [
                 'upravSouhrn'=>'required',
@@ -173,20 +179,39 @@ class PracovneVykazyController extends Controller
                 $upravTVykaz = $request->has('upravTVykaz');
                 $odesliProblemy = $request->has('odesliProblemy');
 
-                $tyzdennyVykaz = DB::table('tydenni_v')->insert([
-                    'id_osoby' => $data['id'],
-                    'id_tydne' => $tyzden_id1,
-                    'id_projektu' => $projekt_id1,
-                    'souhrn' => $request->upravSouhrn,
-                    'plan' => $request->upravPlan,
-                    'problemy' => $request->upravProblemy,
-                    'omluvy' => $request->upravOmluvy,
-                    'odeslano' => $upravTVykaz,
-                    'problemy_odeslany' => $odesliProblemy
-                ]);
-
-            // TODO KONTROLA ULOZENIA JEDNEHO VYKAZU VIACKRAT  
-
+                $control = DB::table('tydenni_v')->where([
+                    ['id_osoby','=',Session::get('loginId')],
+                    ['id_tydne','=',$request->idTyzdna1],
+                    ['id_projektu','=',$projekt_id1]
+                ])->get();
+                
+                if (count(is_countable($control) ? $control : []) == 0){
+                    DB::table('tydenni_v')->insert([
+                        'id_osoby' => $data['id'],
+                        'id_tydne' => $request->idTyzdna1,
+                        'id_projektu' => $projekt_id1,
+                        'souhrn' => $request->upravSouhrn,
+                        'plan' => $request->upravPlan,
+                        'problemy' => (!is_null($request->upravProblemy) ? $request->upravProblemy : ""),
+                        'omluvy' => (!is_null($request->upravOmluvy) ? $request->upravOmluvy : ""),
+                        'odeslano' => $upravTVykaz, // QUESTION - 1 ak odoslem aj T-Vykaz bez hodin??
+                        'problemy_odeslany' => $odesliProblemy // QUESTION - iba ak odoslem iba problemy, alebo aj ked poslem T-V bez problemov??
+                    ]);
+                }
+                else{
+                    DB::table('tydenni_v')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$request->idTyzdna1],
+                        ['id_projektu','=',$projekt_id1]
+                    ])->update([
+                        'souhrn' => $request->upravSouhrn,
+                        'plan' => $request->upravPlan,
+                        'problemy' => (!is_null($request->upravProblemy) ? $request->upravProblemy : ""),
+                        'omluvy' => (!is_null($request->upravOmluvy) ? $request->upravOmluvy : ""),
+                        'odeslano' => $upravTVykaz, // QUESTION - 1 ak odoslem aj T-Vykaz bez hodin??
+                        'problemy_odeslany' => $odesliProblemy // QUESTION - iba ak odoslem iba problemy, alebo aj ked poslem T-V bez problemov??
+                    ]);
+                } 
             }    
             return back()->with('success2',__('Změny v týdenním výkazu byly úspěšně uloženy'));      
         }
@@ -196,9 +221,7 @@ class PracovneVykazyController extends Controller
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
             // $projekt_id = array();
-            // $tyzden_id = array();
             // $castiP = null;
-            // $castiT = null;
             // $pocetMinut = null;
 
             // $validator = Validator::make($request->all(), [
@@ -213,8 +236,6 @@ class PracovneVykazyController extends Controller
             // else{
             //     $castiP = explode('.', $request->vybranyProjekt);
             //     $projekt_id = $castiP[0];
-            //     $castiT = explode('.', $request->vybranyTyzden);
-            //     $tyzden_id = $castiT[0];
 
             //     $pocetMinut = ((($request->upravHodin)*60) + $request->upravMin);
 
@@ -233,7 +254,9 @@ class PracovneVykazyController extends Controller
             //     ]);
 
             // }    
-            // return back()->with('success2',__('Změny v týdenním výkazu byly úspěšně uloženy'));      
+            // return back()->with('success2',__('Změny v týdenním výkazu byly úspěšně uloženy'));   
+              
+             // TODO KONTROLA ULOZENIA JEDNEHO VYKAZU VIACKRAT  
         }
     }
 }

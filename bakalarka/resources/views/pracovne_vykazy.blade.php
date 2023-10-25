@@ -39,17 +39,30 @@
         const vybranyProjekt = document.getElementById('vybranyProjekt');
         const vybranyProjektText = document.getElementById('vybranyProjektText');
         const vybranaMoznost = selectProjekt.options[selectProjekt.selectedIndex];
+
+        //const vybranyProjekt1 = document.getElementById('vybranyProjekt1');
+
+        // const upravSouhrn = document.getElementById('upravSouhrn');
+
         vybranyProjekt.value = vybranaMoznost.textContent;
         vybranyProjektText.value = vybranaMoznost.textContent;
+        //vybranyProjekt1.value = vybranaMoznost.textContent;
         vybranyProjekt.style.width = (vybranyProjekt.value.length + 2) + 'ch';
+        //vybranyProjekt1.style.width = (vybranyProjekt1.value.length + 2) + 'ch';
         vybranyProjektText.style.width = (vybranyProjektText.value.length + 2) + 'ch';
 
             selectProjekt.addEventListener('change', function() {
                 const vybranaMoznost = selectProjekt.options[selectProjekt.selectedIndex];
                 vybranyProjekt.value = vybranaMoznost.textContent;
+                //vybranyProjekt1.value = vybranaMoznost.textContent;
                 vybranyProjektText.value = vybranaMoznost.textContent;
                 vybranyProjekt.style.width = (vybranyProjekt.value.length + 2) + 'ch';
+                //vybranyProjekt1.style.width = (vybranyProjekt1.value.length + 2) + 'ch';
                 vybranyProjektText.style.width = (vybranyProjektText.value.length + 2) + 'ch';
+
+                // const cislo = vybranyProjekt.value.split('.')[0];
+                // upravSouhrn.value = cislo;
+                // console.log(vybranaMoznost.value);
             });
 
 
@@ -63,10 +76,13 @@
         const vybranyTyzden = document.getElementById('vybranyTyzden');
         const vybranyTyzdenText = document.getElementById('vybranyTyzdenText');
         const idTyzdna = document.getElementById('idTyzdna');
+        const idTyzdna1 = document.getElementById('idTyzdna1');
+
 
         const updateVybranyTyzden = () => {
             const vybranaMoznost1 = selectTyzden.options[selectTyzden.selectedIndex];
             idTyzdna.value = selectTyzden.selectedIndex + 1;
+            idTyzdna1.value = selectTyzden.selectedIndex + 1;
             vybranyTyzden.value = vybranaMoznost1.textContent;
             vybranyTyzdenText.value = vybranaMoznost1.textContent;
             vybranyTyzden.style.width = (vybranyTyzden.value.length + 2) + 'ch';
@@ -181,7 +197,8 @@
                 <hr class="hr-pracovne-vykazy">
                 <div class="osobne_info_l">
                     <div class="pracovne-vykazy-item">
-                        <label for="zoznam_projektov" style="width:70px">{{__('Projekt')}}:</label>
+                        <!--input type="text" id="vybranyProjekt1" name="vybranyProjekt1" readonly-->
+                        <label for="nastavProjekt" style="width:70px">{{__('Projekt')}}:</label>
                         <select name="zoznam_projektov" id="nastavProjekt" title="{{__('Projekt, na kterém byla práce odpracována')}}" size="1">
                             <?php echo generujPolozkyVyberuProjektu($projektNazov,$projektNazov[0]);?>
                         </select>
@@ -193,7 +210,7 @@
                 @csrf
                 <div class="osobne_info_l">
                     <div class="pracovne-vykazy-item">
-                        <label for="zoznam_tyzdnov" style="width:70px">{{__('Týden')}}:</label>
+                        <label for="nastavTyzden" style="width:70px">{{__('Týden')}}:</label>
                         <select name="zoznam_tyzdnov" id="nastavTyzden" title="{{__('Projekt, na kterém byla práce odpracována')}}" size="1">
                             <?php echo generujTyzdne($tyzdneVypis,$aktualnyTyzden);?>
                         </select>
@@ -266,30 +283,29 @@
                     <h2>{{__('Týdenní výkaz')}}:</h2>
                     <div class="medzera"></div>
                     <div class="pracovne-vykazy-item">
-                        <input type="text" id="vybranyProjektText" name="vybranyProjektText" readonly>
-                    </div>
-                    <div class="pracovne-vykazy-item">
+                        <input type="text" id="vybranyProjektText" name="vybranyProjektText" readonly style="display:block">
                         <input type="text" id="vybranyTyzdenText" name="vybranyTyzdenText" readonly>
+                        <input type="text" id="idTyzdna1" name="idTyzdna1" readonly>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="upravSouhrn" style="width:100px;float:left" class="pracovne-vykazy-item-cinnost">{{__('Souhrn')}}:</label>
-                        <textarea name="upravSouhrn" id="upravSouhrn" title="{{__('Souhrn')}}" cols="75" rows="10"></textarea>
+                        <textarea name="upravSouhrn" id="upravSouhrn" title="{{__('Souhrn')}}" cols="75" rows="10">{{ $tyzdenny_vykaz_db->souhrn }}</textarea>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="upravPlan" style="width:100px;float:left" class="pracovne-vykazy-item-cinnost">{{__('Plán')}}:</label>
-                        <textarea name="upravPlan" id="upravPlan" title="{{__('Plán na příští týden')}}" cols="75" rows="3"></textarea>
+                        <textarea name="upravPlan" id="upravPlan" title="{{__('Plán na příští týden')}}" cols="75" rows="3">{{ $tyzdenny_vykaz_db->plan }}</textarea>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="upravProblemy" class="pracovne-vykazy-item-cinnost" style="float:left;width:100px">{{__('Problémy a nejasnosti')}}:</label>
-                        <textarea name="upravProblemy" id="upravProblemy" style="float:left;margin-right:5px" title="{{__('Problémy a nejasnosti')}}" cols="50" rows="4"></textarea>
+                        <textarea name="upravProblemy" id="upravProblemy" style="float:left;margin-right:5px" title="{{__('Problémy a nejasnosti')}}" cols="50" rows="4">{{ $tyzdenny_vykaz_db->problemy }}</textarea>
                         <span class="pracovne-vykazy-item-cinnost" style="display:inline-block;width:200px">{{__('(nemáte-li problémy, ponechte prázdné)')}}</span>
                         <input type="submit" id="odeslatProblemyTlac" name="odesliProblemy" title="{{__('Uložit a odeslat problémy (pokud problémy brání v pokračování v práci)')}}" value="{{__('Odeslat problémy')}}" class="btn btn-block btn-primary">
                     </div>
                     <div class="pracovne-vykazy-item" style="clear:both">
                         <label for="upravOmluvy" class="pracovne-vykazy-item-cinnost" style="width:95px">{{__('Omluvy a výmluvy')}}:</label>
-                        <textarea name="upravOmluvy" id="upravOmluvy" title="{{__('Omluvy a výmluvy')}}" cols="75" rows="3"></textarea>
+                        <textarea name="upravOmluvy" id="upravOmluvy" title="{{__('Omluvy a výmluvy')}}" cols="75" rows="3">{{ $tyzdenny_vykaz_db->omluvy }}</textarea>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <button type="submit" id="ulozitTVTlac" name="upravTVykaz" class="btn btn-block btn-primary" style="width:300px; margin-left:10%" title="{{__('Uložit změny v týdenním výkazu (neuloží denní výkaz)')}}">{{__('Uložit pouze týdenní výkaz (bez hodin)')}}</button>
