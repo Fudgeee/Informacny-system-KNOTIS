@@ -143,5 +143,11 @@
     "Odeslat výkaz (výkaz za tento týden dokončen, pokud výkaz neodešlete do pondělí následujícího týdne, bude v úterý zaslán automaticky)": "Odeslat výkaz (výkaz za tento týden dokončen, pokud výkaz neodešlete do pondělí následujícího týdne, bude v úterý zaslán automaticky)",
     "Odeslat výkaz": "Odeslat výkaz",
     "Denní výkaz byl úspěšně uložen": "Denní výkaz byl úspěšně uložen",
-    "Změny v týdenním výkazu byly úspěšně uloženy": "Změny v týdenním výkazu byly úspěšně uloženy"
+    "Změny v týdenním výkazu byly úspěšně uloženy": "Změny v týdenním výkazu byly úspěšně uloženy",
+    "Hodin": "Hodin",
+    "Od": "Od",
+    "Do": "Do",
+    "Operace": "Operace",
+    "Činnost souvisí přímo s projektem": "Činnost souvisí přímo s projektem",
+    "Celkem": "Celkem"
 }

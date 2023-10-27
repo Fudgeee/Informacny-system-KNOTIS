@@ -125,7 +125,7 @@
     "Odpracováno": "Work done",
     "Počet odpracovaných hodin": "Number of worked hours",
     "Počet odpracovaných minut": "Number of worked minutes",
-    "Činnost": "Work",
+    "Činnost": "Activity",
     "Činnost nesouvisí přímo s projektem": "Work isn't directly related to the project",
     "Denní výkaz": "Daily report",
     "Týdenní výkaz": "Weekly report",
@@ -144,5 +144,11 @@
     "Odeslat výkaz (výkaz za tento týden dokončen, pokud výkaz neodešlete do pondělí následujícího týdne, bude v úterý zaslán automaticky)": "Send timesheet (this week's timesheet will be finished unless you send it till next week's monday, timesheet will be sent automatically)",
     "Odeslat výkaz": "Send timesheet",
     "Denní výkaz byl úspěšně uložen": "Daily report was successfully saved",
-    "Změny v týdenním výkazu byly úspěšně uloženy": "Changes in weekly report were successfully saved"
+    "Změny v týdenním výkazu byly úspěšně uloženy": "Changes in weekly report were successfully saved",
+    "Hodin": "Time",
+    "Od": "From",
+    "Do": "To",
+    "Operace": "Operation",
+    "Činnost souvisí přímo s projektem": "Work is directly related to the project",
+    "Celkem": "Total"
 }

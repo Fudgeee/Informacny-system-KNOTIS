@@ -36,6 +36,7 @@ class PracovneVykazyController extends Controller
                 for ($i=0; $i<count($projekty); $i++){
                     $projektNazov[$i] = $projekty[$i]->id . '. ' . $projekty[$i]->nazev;
                 }
+
                 $tyzden = DB::table('tyden')
                     ->select('id', 'cislo', 
                         DB::raw('DATE_FORMAT(tyden.pondeli, "%d.%m.%Y") as pondeli'),
@@ -46,19 +47,28 @@ class PracovneVykazyController extends Controller
                 for ($j=0; $j<count($tyzden); $j++){
                     $tyzdne[$j] = $tyzden[$j]->cislo . '. (' . $tyzden[$j]->pondeli . ' - ' . $tyzden[$j]->nedele . ')'; 
                 }
+
                 $aktualnyTyzden = DB::table('tyden')
                 ->selectRaw('id - 1 as id')
                 ->where('pondeli', '<=', DB::raw('NOW()'))
                 ->where('nedele', '>=', DB::raw('NOW()'))
                 ->value('id');
+
                 $tmp = DB::table('tydenni_v')->where([
                     ['id_osoby','=',Session::get('loginId')],
                     ['id_tydne','=',$aktualnyTyzden + 1],
-                    ['id_projektu','=',$projekty[0]->id]
+                    ['id_projektu','=',$projekty[0]->id]    //TODO vypis vybraneho nie prveho
                 ])->get();
                 $tyzdenny_vykaz_db = $tmp[0];
+
+                $denny_vykaz = DB::table('vykaz')->where([
+                    ['id_osoby','=',Session::get('loginId')],
+                    ['id_tydne','=',$aktualnyTyzden + 1],
+                    ['id_projektu','=',$projekty[0]->id]    //TODO vypis vybraneho nie prveho
+                ])->get();
+                //dd($denny_vykaz);
         }
-        return view('pracovne_vykazy', compact('data', 'projekty', 'projektNazov', 'tyzdne', 'aktualnyTyzden', 'tyzdenny_vykaz_db'));
+        return view('pracovne_vykazy', compact('data', 'projekty', 'projektNazov', 'tyzdne', 'aktualnyTyzden', 'tyzdenny_vykaz_db', 'denny_vykaz'));
     }
 
     public function updatePracovneVykazyProjekt(Request $request){
@@ -255,7 +265,7 @@ class PracovneVykazyController extends Controller
 
             // }    
             // return back()->with('success2',__('Změny v týdenním výkazu byly úspěšně uloženy'));   
-              
+
              // TODO KONTROLA ULOZENIA JEDNEHO VYKAZU VIACKRAT  
         }
     }

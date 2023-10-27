@@ -32,6 +32,24 @@
         return $vysledek;
     }
 
+    function vypisZoznamVykazov($denny){
+        $datumCarbon = \Carbon\Carbon::parse($denny->datum); // prevod na Carbon objekt
+        $datumUpraveny = $datumCarbon->format('d.m.Y');
+        $casOdUpraveny = date('H:i', strtotime($denny->cas_od));
+        $casDoUpraveny = date('H:i', strtotime($denny->cas_do));
+        $hodiny = intdiv($denny->minut, 60);
+        $minuty = ($denny->minut % 60);
+        $tmp = $denny->nesouvisi_sp;
+        if ($tmp == 0){
+            $suvisi = 'A';
+        }
+        else{
+            $suvisi = 'N';
+        }
+        $vysledek = '';
+        $vysledek = '<tr><td style="border-left: black solid 3px;width:150px"><input type="text" style="width:100%" value="'.$datumUpraveny.'" readonly></td><td style="width:65px"><input type="text" style="width:100%;text-align:center" value="'.$hodiny.':'.$minuty.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casOdUpraveny.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casDoUpraveny.'" readonly></td><td style="width:400px"><input type="text" style="width:100%" value="'.$denny->cinnost.'" readonly></td><td style="width:150px"></td><td style="width:50px;border-right:black solid 3px"><input type="text" style="width:100%;text-align:center" value="'.$suvisi.'" readonly></td></tr>';
+        return $vysledek;
+    } 
 ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -173,16 +191,37 @@
 
 
 
-        
+        // Funkcia na výpočet celkových hodín v pracovnych vykazoch
+        function spocitajCelkoveHodiny() {
+            let sumaHodin = 0;
+            const tbody = document.querySelector("#vykazy-tabulka tbody");
+            const riadky = tbody.querySelectorAll("tr");
+
+            // Prejdite všetky riadky v tbody okrem posledného riadku v foot
+            for (let i = 0; i < riadky.length - 1; i++) {
+                const riadok = riadky[i];
+                const hodinyStlpec = riadok.querySelector("td:nth-child(2)");
+                const hodiny = parseInt(hodinyStlpec.textContent, 10);
+
+                if (!isNaN(hodiny)) {
+                    sumaHodin += hodiny;
+                }
+            }
+
+            // Nastavte výsledok do buniek v tfoot
+            const celkoveHodiny = document.getElementById("celkoveHodiny");
+            celkoveHodiny.textContent = sumaHodin;
+        }
+
+        // Zavolajte funkciu na výpočet pri načítaní stránky a pri zmene tabuľky
+        window.addEventListener("load", spocitajCelkoveHodiny);
+        document.querySelector("#vykazy-tabulka").addEventListener("input", spocitajCelkoveHodiny);      
 });
 
 
-
-
-
-
 </script>
-
+<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 @extends('dashboard')
 @section('content')
     <div class="pracovne_vykazy">
@@ -291,7 +330,7 @@
                         <label for="upravSouhrn" style="width:100px;float:left" class="pracovne-vykazy-item-cinnost">{{__('Souhrn')}}:</label>
                         <textarea name="upravSouhrn" id="upravSouhrn" title="{{__('Souhrn')}}" cols="75" rows="10">{{ $tyzdenny_vykaz_db->souhrn }}</textarea>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
-                    </div>
+                    </div><!-- TODO - update textov pri zmene tyzdna alebo projektu -->
                     <div class="pracovne-vykazy-item">
                         <label for="upravPlan" style="width:100px;float:left" class="pracovne-vykazy-item-cinnost">{{__('Plán')}}:</label>
                         <textarea name="upravPlan" id="upravPlan" title="{{__('Plán na příští týden')}}" cols="75" rows="3">{{ $tyzdenny_vykaz_db->plan }}</textarea>
@@ -301,7 +340,7 @@
                         <label for="upravProblemy" class="pracovne-vykazy-item-cinnost" style="float:left;width:100px">{{__('Problémy a nejasnosti')}}:</label>
                         <textarea name="upravProblemy" id="upravProblemy" style="float:left;margin-right:5px" title="{{__('Problémy a nejasnosti')}}" cols="50" rows="4">{{ $tyzdenny_vykaz_db->problemy }}</textarea>
                         <span class="pracovne-vykazy-item-cinnost" style="display:inline-block;width:200px">{{__('(nemáte-li problémy, ponechte prázdné)')}}</span>
-                        <input type="submit" id="odeslatProblemyTlac" name="odesliProblemy" title="{{__('Uložit a odeslat problémy (pokud problémy brání v pokračování v práci)')}}" value="{{__('Odeslat problémy')}}" class="btn btn-block btn-primary">
+                        <input type="submit" id="odeslatProblemyTlac" name="odesliProblemy" title="{{__('Uložit a odeslat problémy (pokud problémy brání v pokračování v práci)')}}" value="{{__('Odeslat problémy')}}" class="btn btn-block btn-primary"><!-- QUESTION - funkcionalita odoslania problemov -->
                     </div>
                     <div class="pracovne-vykazy-item" style="clear:both">
                         <label for="upravOmluvy" class="pracovne-vykazy-item-cinnost" style="width:95px">{{__('Omluvy a výmluvy')}}:</label>
@@ -319,7 +358,7 @@
                     <div class="medzera"></div>
                     <div class="pracovne-vykazy-item">
                         <a href="" class="btn btn-block btn-primary" style="width:250px" >{{__('Import výkazů ze souboru')}}</a> <!-- TODO FUNKCIONALITA-->
-                        <button type="submit" id="odeslatTVTlac" name="odesliTVykaz" style="width:140px; display:inline-block; margin:0; margin-left:30px" class="btn btn-block btn-primary" title="{{__('Odeslat výkaz (výkaz za tento týden dokončen, pokud výkaz neodešlete do pondělí následujícího týdne, bude v úterý zaslán automaticky)')}}">{{__('Odeslat výkaz')}}</button> <!-- TODO odoslat automaticky X hodin po termine podla konfiguracie-->
+                        <button type="submit" id="odeslatTVTlac" name="odesliTVykaz" style="width:140px; display:inline-block; margin:0; margin-left:30px" class="btn btn-block btn-primary" title="{{__('Odeslat výkaz (výkaz za tento týden dokončen, pokud výkaz neodešlete do pondělí následujícího týdne, bude v úterý zaslán automaticky)')}}">{{__('Odeslat výkaz')}}</button> <!-- TODO odoslat automaticky X hodin po termine podla konfiguracie--><!-- QUESTION - funkcionalita odoslania TVykazu -->
                     </div>
                 </div>
                 <div class="medzera"></div>
@@ -329,7 +368,35 @@
                     <h2>{{__('Pracovní výkazy')}}:</h2>
                     <div class="medzera"></div>
                     <div class="pracovne-vykazy-item">
-                        <!-- TODO TABULKA-->
+                    <table id="vykazy-tabulka">
+                        <thead>
+                            <tr style="border: black solid 3px;border-bottom:black solid 2px">
+                                <th style="width:150px">{{__('Datum')}}</th>
+                                <th style="width:65px">{{__('Hodin')}}</th>
+                                <th style="width:60px">{{__('Od')}}</th>
+                                <th style="width:60px">{{__('Do')}}</th>
+                                <th style="width:400px">{{__('Činnost')}}</th>
+                                <th style="width:150px;text-align:center">{{__('Operace')}}</th>
+                                <th style="width:50px;text-align:center" title="{{__('Činnost souvisí přímo s projektem')}}">{{__('SSP')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($denny_vykaz as $denny): ?>
+                                <div class="vykaz-den"><?php echo vypisZoznamVykazov($denny); ?></div>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr style="border: black solid 3px;border-top:black solid 2px">
+                                <th>Celkem</th>
+                                <td style="text-align:center"><input type="text" id="celkoveHodiny" name="celkoveHodiny" style="width:65px" readonly></td><!-- vypocet celkovych hodin v danom tyzdni -->
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                </table>
                     </div>
                 </div>
             </form>

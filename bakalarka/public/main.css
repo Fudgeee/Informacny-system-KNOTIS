@@ -697,3 +697,16 @@ textarea{
 .ui-helper-hidden-accessible{
     display: none;
 }
+
+#vykazy-tabulka table,
+#vykazy-tabulka tr,
+#vykazy-tabulka th,
+#vykazy-tabulka td{
+    border: black solid 2px;
+    padding: 5px;
+}
+#vykazy-tabulka tbody input[readonly]{
+    background: none;
+    border: none;
+    cursor: default;
+}
