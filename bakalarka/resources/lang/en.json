@@ -151,5 +151,6 @@
     "Operace": "Operation",
     "Činnost souvisí přímo s projektem": "Work is directly related to the project",
     "Celkem": "Total",
-    "Vymazat": "Delete"
+    "Vymazat": "Delete",
+    "Pracovní výkaz byl úspěšně vymazán": "The timesheet was successfully deleted"
 }

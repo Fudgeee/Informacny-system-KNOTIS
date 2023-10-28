@@ -227,6 +227,14 @@ class PracovneVykazyController extends Controller
         }
     }
 
+    public function pracovneVykazyDelete(Request $request){
+        if(Session::has('loginId')){
+
+
+            return back()->with('success3',__('Pracovní výkaz byl úspěšně vymazán'));      
+        }
+    }
+
     public function updatePracovneVykazyTyzdennySHodinami(Request $request){
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();

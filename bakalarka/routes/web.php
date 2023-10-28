@@ -58,6 +58,7 @@ Route::post('/pracovne_vykazy_tyzden', [PracovneVykazyController::class,'updateP
 Route::post('/pracovne_vykazy_denny', [PracovneVykazyController::class,'updatePracovneVykazyDenny'])->name('update_pracovne_vykazy_denny');
 Route::post('/pracovne_vykazy_tyzdenny', [PracovneVykazyController::class,'updatePracovneVykazyTyzdenny'])->name('update_pracovne_vykazy_tyzdenny');
 Route::post('/pracovne_vykazy_tyzdenny_s_hodinami', [PracovneVykazyController::class,'updatePracovneVykazyTyzdennySHodinami'])->name('update_pracovne_vykazy_tyzdenny_s_hodinami');
+Route::post('/pracovne_vykazy-vymazanie-vykazu', [PracovneVykazyController::class, 'pracovneVykazyDelete'])->name('pracovne_vykazy-vymazanie-vykazu');
 
 
 // plan prace

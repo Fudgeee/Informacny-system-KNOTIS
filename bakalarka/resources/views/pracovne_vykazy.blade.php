@@ -235,25 +235,8 @@
 
 
         // Vymazanie pracovneho vykazu z tabulky
-        function deleteInput(element) {
-            if (confirm("Ste si istý, že chcete vymazať tento pracovný výkaz?")) {
-                // Kód na vymazanie z databázy
-                // Tu môžete zavolať AJAX alebo poslať požiadavku na server pre vymazanie záznamu
-
-                // Príklad ako môže vyzerať odoslanie requestu AJAX s pomocou knižnice Axios:
-                axios.post('/delete-work-report', {
-                    workReportId: 123 // ID pracovného výkazu, ktorý sa má vymazať
-                })
-                .then(response => {
-                    // Tu môžete spracovať odpoveď po úspešnom vymazaní z databázy
-                    console.log("Pracovný výkaz bol úspešne vymazaný.");
-                })
-                .catch(error => {
-                    // Ak nastane chyba pri vymazaní z databázy
-                    console.error("Chyba pri vymazaní pracovného výkazu:", error);
-                });
-            }
-        }
+        
+        // TODO
 });
 
 
