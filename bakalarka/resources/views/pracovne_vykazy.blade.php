@@ -47,7 +47,7 @@
             $suvisi = 'N';
         }
         $vysledek = '';
-        $vysledek = '<tr><td style="border-left: black solid 3px;width:150px"><input type="text" style="width:100%" value="'.$datumUpraveny.'" readonly></td><td style="width:65px"><input type="text" style="width:100%;text-align:center" value="'.$hodiny.':'.$minuty.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casOdUpraveny.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casDoUpraveny.'" readonly></td><td style="width:400px"><input type="text" style="width:100%" value="'.$denny->cinnost.'" readonly></td><td style="width:150px"></td><td style="width:50px;border-right:black solid 3px"><input type="text" style="width:100%;text-align:center" value="'.$suvisi.'" readonly></td></tr>';
+        $vysledek = '<tr><td style="border-left: black solid 3px;width:150px"><input type="text" style="width:100%" value="'.$datumUpraveny.'" readonly></td><td style="width:65px"><input type="text" style="width:100%;text-align:center" value="'.$hodiny.':'.$minuty.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casOdUpraveny.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casDoUpraveny.'" readonly></td><td style="width:400px"><input type="text" style="width:100%" value="'.$denny->cinnost.'" readonly></td><td style="width:150px;text-align:center"><a href="#" onclick="editInput(this);return false;"><img src="edit.gif" style="width:23px;margin-right:5px" title="TODO" alt="Edit"/></a><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px;margin-left:5px" title="TODO" alt="Delete"/></a></td><td style="width:50px;border-right:black solid 3px"><input type="text" style="width:100%;text-align:center" value="'.$suvisi.'" readonly></td></tr>';// TODO nejde "{__('todo')}" v title
         return $vysledek;
     } 
 ?>
@@ -191,31 +191,69 @@
 
 
 
-        // Funkcia na výpočet celkových hodín v pracovnych vykazoch
+        // Funkcia na výpočet celkových hodín v pracovných výkazoch
+
         function spocitajCelkoveHodiny() {
-            let sumaHodin = 0;
-            const tbody = document.querySelector("#vykazy-tabulka tbody");
-            const riadky = tbody.querySelectorAll("tr");
+        let sumaMinut = 0;
 
-            // Prejdite všetky riadky v tbody okrem posledného riadku v foot
-            for (let i = 0; i < riadky.length - 1; i++) {
-                const riadok = riadky[i];
-                const hodinyStlpec = riadok.querySelector("td:nth-child(2)");
-                const hodiny = parseInt(hodinyStlpec.textContent, 10);
+        const tbody = document.querySelector("#vykazy-tabulka tbody");
+        const riadky = tbody.querySelectorAll("tr");
 
-                if (!isNaN(hodiny)) {
-                    sumaHodin += hodiny;
-                }
+        for (let i = 0; i < riadky.length; i++) {
+            const riadok = riadky[i];
+            const hodinyStlpec = riadok.querySelector("td:nth-child(2)");
+            const inputVstup = hodinyStlpec.querySelector("input");
+            const hodinyMinuty = inputVstup.value.split(':');
+
+            const hodiny = parseInt(hodinyMinuty[0], 10);
+            const minuty = parseInt(hodinyMinuty[1], 10);
+            
+
+            if (!isNaN(hodiny)) {
+            sumaMinut += hodiny * 60;
             }
 
-            // Nastavte výsledok do buniek v tfoot
-            const celkoveHodiny = document.getElementById("celkoveHodiny");
-            celkoveHodiny.textContent = sumaHodin;
+            if (!isNaN(minuty)) {
+            sumaMinut += minuty;
+            }
+            
         }
 
-        // Zavolajte funkciu na výpočet pri načítaní stránky a pri zmene tabuľky
+        const celkoveHodinyInput = document.getElementById("celkoveHodiny");
+        
+        // Vypočítame celkové hodiny a minúty získané z celkového počtu minút
+        const sumaHodin = Math.floor(sumaMinut / 60);
+        const zostavajuceMinuty = sumaMinut % 60;
+
+        celkoveHodinyInput.value = `${sumaHodin}:${zostavajuceMinuty}`;
+
+        celkoveHodinyInput.setAttribute("readonly", true);
+        }
+
         window.addEventListener("load", spocitajCelkoveHodiny);
-        document.querySelector("#vykazy-tabulka").addEventListener("input", spocitajCelkoveHodiny);      
+        document.querySelector("#vykazy-tabulka").addEventListener("input", spocitajCelkoveHodiny);
+
+
+        // Vymazanie pracovneho vykazu z tabulky
+        function deleteInput(element) {
+            if (confirm("Ste si istý, že chcete vymazať tento pracovný výkaz?")) {
+                // Kód na vymazanie z databázy
+                // Tu môžete zavolať AJAX alebo poslať požiadavku na server pre vymazanie záznamu
+
+                // Príklad ako môže vyzerať odoslanie requestu AJAX s pomocou knižnice Axios:
+                axios.post('/delete-work-report', {
+                    workReportId: 123 // ID pracovného výkazu, ktorý sa má vymazať
+                })
+                .then(response => {
+                    // Tu môžete spracovať odpoveď po úspešnom vymazaní z databázy
+                    console.log("Pracovný výkaz bol úspešne vymazaný.");
+                })
+                .catch(error => {
+                    // Ak nastane chyba pri vymazaní z databázy
+                    console.error("Chyba pri vymazaní pracovného výkazu:", error);
+                });
+            }
+        }
 });
 
 
@@ -388,7 +426,7 @@
                         <tfoot>
                             <tr style="border: black solid 3px;border-top:black solid 2px">
                                 <th>Celkem</th>
-                                <td style="text-align:center"><input type="text" id="celkoveHodiny" name="celkoveHodiny" style="width:65px" readonly></td><!-- vypocet celkovych hodin v danom tyzdni -->
+                                <td><input type="text" id="celkoveHodiny" name="celkoveHodiny" style="width:100%;text-align:center" readonly></td><!-- vypocet celkovych hodin v danom tyzdni -->
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -401,6 +439,6 @@
                 </div>
             </form>
         </div>
-        <div class="medzera"></div>
+        <div class="medzera"></div><!-- TODO oznacovanie readonly INPUTOV po kliknuti na ne -->
     </div><!-- TODO sirka textov kontrola pri ANJ vsade -->
 @endsection

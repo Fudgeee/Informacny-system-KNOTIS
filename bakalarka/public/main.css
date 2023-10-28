@@ -704,9 +704,12 @@ textarea{
 #vykazy-tabulka td{
     border: black solid 2px;
     padding: 5px;
+    background-color: #f0f0f0;
 }
-#vykazy-tabulka tbody input[readonly]{
+#vykazy-tabulka tbody input[readonly],
+#celkoveHodiny{
     background: none;
     border: none;
-    cursor: default;
-}
+    pointer-events:none;
+
+} /* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú */
