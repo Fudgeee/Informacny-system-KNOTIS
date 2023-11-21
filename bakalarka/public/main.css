@@ -345,18 +345,32 @@ hr{
 .osobne_informacie,
 .kontaktne_udaje,
 .konfiguracia,
-.pracovne_vykazy{
+.pracovne_vykazy,
+.import-vykazov-zo-suboru,
+.riesene-projekty{
     margin: 20px;
 }
 
 .osobne_info,
 .kontaktne_udaje,
 .konfiguracia_l,
-.pracovne_vykazy_l{
+.pracovne_vykazy_l,
+.import-vykazov-zo-suboru-l,
+.riesene-projekty-l{
     background: #7dd6ff;
     padding: 20px;
     overflow: hidden;
     padding-bottom: 40px;
+}
+
+.riesene-projekty{
+    width: max-content;
+    overflow-x: auto;
+}
+
+.riesene-projekty-tabulka  tbody tr,
+.riesene-projekty-tabulka tbody td{
+    border: black solid 2px;
 }
 
 .osobne_info_l,
@@ -711,5 +725,11 @@ textarea{
     background: none;
     border: none;
     pointer-events:none;
+}
+.projekty-table-thead-th{
+    text-align:center;
+    border:black solid 2px;
+    padding:10px;
+}
 
-} /* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú */
+/* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú */

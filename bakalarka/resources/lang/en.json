@@ -152,5 +152,20 @@
     "Činnost souvisí přímo s projektem": "Work is directly related to the project",
     "Celkem": "Total",
     "Vymazat": "Delete",
-    "Pracovní výkaz byl úspěšně vymazán": "The timesheet was successfully deleted"
+    "Pracovní výkaz byl úspěšně vymazán": "The timesheet was successfully deleted",
+    "Import výkazů - výběr souboru s výkazy": "Import timesheets - selection of file with timesheets",
+    "Vyberte soubor pro import": "Select a file to import",
+    "Soubor": "File",
+    "Odeslat": "Send",
+    "Osoba": "Person",
+    "Zkratka": "Abbrevation",
+    "Název": "Name",
+    "Termín ukončení": "Term of end of work",
+    "Typ": "Type",
+    "Stav": "State",
+    "Vedoucí": "Supervisor",
+    "Kód": "Code",
+    "Projekt zadán": "Project assigned",
+    "Zahájení řešení": "Date of commencement of work",
+    "Poznámka": "Note"
 }

@@ -33,6 +33,7 @@
     }
 
     function vypisZoznamVykazov($denny){
+        $idVykazu = $denny->id_vykazu;
         $datumCarbon = \Carbon\Carbon::parse($denny->datum); // prevod na Carbon objekt
         $datumUpraveny = $datumCarbon->format('d.m.Y');
         $casOdUpraveny = date('H:i', strtotime($denny->cas_od));
@@ -47,7 +48,7 @@
             $suvisi = 'N';
         }
         $vysledek = '';
-        $vysledek = '<tr><td style="border-left: black solid 3px;width:150px"><input type="text" style="width:100%" value="'.$datumUpraveny.'" readonly></td><td style="width:65px"><input type="text" style="width:100%;text-align:center" value="'.$hodiny.':'.$minuty.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casOdUpraveny.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casDoUpraveny.'" readonly></td><td style="width:400px"><input type="text" style="width:100%" value="'.$denny->cinnost.'" readonly></td><td style="width:150px;text-align:center"><a href="#" onclick="editInput(this);return false;"><img src="edit.gif" style="width:23px;margin-right:5px" title="TODO" alt="Edit"/></a><a href="#" onclick="deleteInput(this);return false;"><img src="red-x.gif" style="width:20px;margin-left:5px" title="TODO" alt="Delete"/></a></td><td style="width:50px;border-right:black solid 3px"><input type="text" style="width:100%;text-align:center" value="'.$suvisi.'" readonly></td></tr>';// TODO nejde "{__('todo')}" v title
+        $vysledek = '<tr data-record-id="'.$idVykazu.'"><td style="border-left: black solid 3px;width:150px"><input type="text" style="width:100%" value="'.$datumUpraveny.'" readonly></td><td style="width:65px"><input type="text" style="width:100%;text-align:center" value="'.$hodiny.':'.$minuty.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casOdUpraveny.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casDoUpraveny.'" readonly></td><td style="width:400px"><input type="text" style="width:100%" value="'.$denny->cinnost.'" readonly></td><td style="width:150px;text-align:center"><a href="#" onclick="editInput(this);return false;"><img src="edit.gif" style="width:23px;margin-right:5px" title="TODO" alt="Edit"/></a><a href="#" class="vymazVykaz" data-record-id="'.$idVykazu.'"><img src="red-x.gif" style="width:20px;margin-left:5px" title="TODO" alt="Delete"/></a></td><td style="width:50px;border-right:black solid 3px"><input type="text" style="width:100%;text-align:center" value="'.$suvisi.'" readonly></td></tr>';// TODO nejde "{__('todo')}" v title
         return $vysledek;
     } 
 ?>
@@ -80,7 +81,7 @@
 
                 // const cislo = vybranyProjekt.value.split('.')[0];
                 // upravSouhrn.value = cislo;
-                // console.log(vybranaMoznost.value);
+                // console.log(vybranyProjekt.value);
             });
 
 
@@ -237,7 +238,17 @@
         // Vymazanie pracovneho vykazu z tabulky
         
         // TODO
+        document.querySelectorAll('.vymazVykaz').forEach(form => {
+            form.addEventListener('click', function(e) {
+                e.preventDefault();
+                const recordId = this.getAttribute('data-record-id');
+                console.log(recordId);
+            });
+        });
+
+
 });
+
 
 
 </script>
@@ -277,7 +288,7 @@
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                         <input type="submit" id="nastavTydenTlacPredminuly" class="denny_vykaz_btns" name="nastavTydenTlacPredminuly" title="{{ __('Nastavit předminulý týden a zvolený projekt') }}" value="{{ __('předminulý') }}">
                         <input type="submit" id="nastavTydenTlacMinuly" class="denny_vykaz_btns" name="nastavTydenTlacMinuly" title="{{ __('Nastavit minulý týden a zvolený projekt') }}" value="{{ __('minulý') }}">
-                        <input type="submit" id="nastavTydenTlacSoucasny" class="denny_vykaz_btns" name="nastavTydenTlacSoucasny" title="{{ __('Nastavit současný týden a zvolený projekt') }}" value="{{ __('současný') }}">
+                        <input type="submit" id="nastavTydenTlacSoucasny" class="denny_vykaz_btns" name="nastavTydenTlacSoucasny" title="{{ __('Nastavit současný týden a zvolený projekt') }}" value="{{ __('současný') }}"> <!-- TODO  ked je zakliknute jedno z nich zvyraznit-->
                     </div>
                 </div>
             </form>
@@ -302,7 +313,7 @@
                     <div class="pracovne-vykazy-item">
                         <label for="datumVykazu" style="width:70px">{{__('Datum')}}:</label>
                         <input type="datetime-local" id="datumVykazu" name="datumVykazu" value="{{ \Carbon\Carbon::now('Europe/Prague')->format('Y-m-d\TH:i') }}">
-                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
+                        <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span> <!-- zmena formatu na iba datum a poradie den.mesiac.rok bez hodin -->
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="casVykazuOd" style="width:70px">{{__('Čas: od')}}:</label>
@@ -349,23 +360,23 @@
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="upravSouhrn" style="width:100px;float:left" class="pracovne-vykazy-item-cinnost">{{__('Souhrn')}}:</label>
-                        <textarea name="upravSouhrn" id="upravSouhrn" title="{{__('Souhrn')}}" cols="75" rows="10">{{ $tyzdenny_vykaz_db->souhrn }}</textarea>
+                        <textarea name="upravSouhrn" id="upravSouhrn" title="{{__('Souhrn')}}" cols="75" rows="10">@if ($tyzdenny_vykaz_db != null){{ $tyzdenny_vykaz_db->souhrn }}@endif</textarea>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div><!-- TODO - update textov pri zmene tyzdna alebo projektu -->
                     <div class="pracovne-vykazy-item">
                         <label for="upravPlan" style="width:100px;float:left" class="pracovne-vykazy-item-cinnost">{{__('Plán')}}:</label>
-                        <textarea name="upravPlan" id="upravPlan" title="{{__('Plán na příští týden')}}" cols="75" rows="3">{{ $tyzdenny_vykaz_db->plan }}</textarea>
+                        <textarea name="upravPlan" id="upravPlan" title="{{__('Plán na příští týden')}}" cols="75" rows="3">@if ($tyzdenny_vykaz_db != null){{ $tyzdenny_vykaz_db->plan }}@endif</textarea>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="upravProblemy" class="pracovne-vykazy-item-cinnost" style="float:left;width:100px">{{__('Problémy a nejasnosti')}}:</label>
-                        <textarea name="upravProblemy" id="upravProblemy" style="float:left;margin-right:5px" title="{{__('Problémy a nejasnosti')}}" cols="50" rows="4">{{ $tyzdenny_vykaz_db->problemy }}</textarea>
+                        <textarea name="upravProblemy" id="upravProblemy" style="float:left;margin-right:5px" title="{{__('Problémy a nejasnosti')}}" cols="50" rows="4">@if ($tyzdenny_vykaz_db != null){{ $tyzdenny_vykaz_db->problemy }}@endif</textarea>
                         <span class="pracovne-vykazy-item-cinnost" style="display:inline-block;width:200px">{{__('(nemáte-li problémy, ponechte prázdné)')}}</span>
                         <input type="submit" id="odeslatProblemyTlac" name="odesliProblemy" title="{{__('Uložit a odeslat problémy (pokud problémy brání v pokračování v práci)')}}" value="{{__('Odeslat problémy')}}" class="btn btn-block btn-primary"><!-- QUESTION - funkcionalita odoslania problemov -->
                     </div>
                     <div class="pracovne-vykazy-item" style="clear:both">
                         <label for="upravOmluvy" class="pracovne-vykazy-item-cinnost" style="width:95px">{{__('Omluvy a výmluvy')}}:</label>
-                        <textarea name="upravOmluvy" id="upravOmluvy" title="{{__('Omluvy a výmluvy')}}" cols="75" rows="3">{{ $tyzdenny_vykaz_db->omluvy }}</textarea>
+                        <textarea name="upravOmluvy" id="upravOmluvy" title="{{__('Omluvy a výmluvy')}}" cols="75" rows="3">@if ($tyzdenny_vykaz_db != null){{ $tyzdenny_vykaz_db->omluvy }}@endif</textarea>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <button type="submit" id="ulozitTVTlac" name="upravTVykaz" class="btn btn-block btn-primary" style="width:300px; margin-left:10%" title="{{__('Uložit změny v týdenním výkazu (neuloží denní výkaz)')}}">{{__('Uložit pouze týdenní výkaz (bez hodin)')}}</button>
@@ -378,7 +389,7 @@
                     <h2>{{__('Odeslání týdenního výkazu')}}:</h2>
                     <div class="medzera"></div>
                     <div class="pracovne-vykazy-item">
-                        <a href="" class="btn btn-block btn-primary" style="width:250px" >{{__('Import výkazů ze souboru')}}</a> <!-- TODO FUNKCIONALITA-->
+                        <a href="/import_vykazov" class="btn btn-block btn-primary" style="width:250px" >{{__('Import výkazů ze souboru')}}</a> <!-- TODO FUNKCIONALITA-->
                         <button type="submit" id="odeslatTVTlac" name="odesliTVykaz" style="width:140px; display:inline-block; margin:0; margin-left:30px" class="btn btn-block btn-primary" title="{{__('Odeslat výkaz (výkaz za tento týden dokončen, pokud výkaz neodešlete do pondělí následujícího týdne, bude v úterý zaslán automaticky)')}}">{{__('Odeslat výkaz')}}</button> <!-- TODO odoslat automaticky X hodin po termine podla konfiguracie--><!-- QUESTION - funkcionalita odoslania TVykazu -->
                     </div>
                 </div>

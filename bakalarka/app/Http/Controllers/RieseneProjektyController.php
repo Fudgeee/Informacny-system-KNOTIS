@@ -18,7 +18,15 @@ class RieseneProjektyController extends Controller
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
+            $projekty = DB::table('projekt')
+                    ->join('resi', 'projekt.id', '=', 'resi.id_projektu')
+                    ->where('resi.id_osoby', '=', $data['id'])
+                    ->get();
+        //dd($projekty);        
+            for ($i=0; $i<count($projekty); $i++){
+                $projektNazov[$i] = $projekty[$i]->id . '. ' . $projekty[$i]->nazev;
+            }
         }
-        return view('riesene_projekty', compact('data'));
+        return view('riesene_projekty', compact('data', 'projekty'));
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\NapovedaController;
 use App\Http\Controllers\OsobneInformacieController;
 use App\Http\Controllers\PracovneVykazyController;
 use App\Http\Controllers\PlanPraceController;
+use App\Http\Controllers\ImportVykazovController;
 use App\Http\Controllers\RieseneProjektyController;
 
 /*
@@ -58,7 +59,12 @@ Route::post('/pracovne_vykazy_tyzden', [PracovneVykazyController::class,'updateP
 Route::post('/pracovne_vykazy_denny', [PracovneVykazyController::class,'updatePracovneVykazyDenny'])->name('update_pracovne_vykazy_denny');
 Route::post('/pracovne_vykazy_tyzdenny', [PracovneVykazyController::class,'updatePracovneVykazyTyzdenny'])->name('update_pracovne_vykazy_tyzdenny');
 Route::post('/pracovne_vykazy_tyzdenny_s_hodinami', [PracovneVykazyController::class,'updatePracovneVykazyTyzdennySHodinami'])->name('update_pracovne_vykazy_tyzdenny_s_hodinami');
-Route::post('/pracovne_vykazy-vymazanie-vykazu', [PracovneVykazyController::class, 'pracovneVykazyDelete'])->name('pracovne_vykazy-vymazanie-vykazu');
+//Route::post('/pracovne_vykazy-vymazanie-vykazu', [PracovneVykazyController::class, 'pracovneVykazyDelete'])->name('pracovne_vykazy-vymazanie-vykazu');
+//Route::post('/delete-record/{id}', [PracovneVykazyController::class, 'deleteRecord']);
+
+// import pracovnych vykazov zo suboru
+Route::get('/import_vykazov', [ImportVykazovController::class,'importVykazov']);
+Route::post('/import_vykazov', [ImportVykazovController::class,'uploadAndSendEmail'])->name('import_vykazov');
 
 
 // plan prace
