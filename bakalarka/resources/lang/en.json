@@ -167,5 +167,15 @@
     "Kód": "Code",
     "Projekt zadán": "Project assigned",
     "Zahájení řešení": "Date of commencement of work",
-    "Poznámka": "Note"
+    "Poznámka": "Note",
+    "Pracovní výkazy osoby": "Person's timesheets",
+    "Informace o osobě": "Information about the person",
+    "Číslo, typ": "Number, type",
+    "rozsah aktivity účtu": "range of account activity",
+    "rozsah plánované pracovní aktivity": "range of planned work activity",
+    "Odpracovat": "Work off",
+    "Odpracovat zbývá": "Remaining work time to do",
+    "Problémy": "Problems",
+    "Operace T": "Operation T",
+    "Operace D": "Operation D"
 }

@@ -347,7 +347,8 @@ hr{
 .konfiguracia,
 .pracovne_vykazy,
 .import-vykazov-zo-suboru,
-.riesene-projekty{
+.riesene-projekty,
+.pracovne-vykazy-osoby{
     margin: 20px;
 }
 
@@ -356,20 +357,24 @@ hr{
 .konfiguracia_l,
 .pracovne_vykazy_l,
 .import-vykazov-zo-suboru-l,
-.riesene-projekty-l{
+.riesene-projekty-l,
+.pracovne-vykazy-osoby-l{
     background: #7dd6ff;
     padding: 20px;
     overflow: hidden;
     padding-bottom: 40px;
 }
 
-.riesene-projekty{
+.riesene-projekty,
+.pracovne-vykazy-osoby{
     width: max-content;
     overflow-x: auto;
 }
 
 .riesene-projekty-tabulka  tbody tr,
-.riesene-projekty-tabulka tbody td{
+.riesene-projekty-tabulka tbody td,
+.pracovne-vykazy-osoby-tabulka tbody tr,
+.pracovne-vykazy-osoby-tabulka tbody td{
     border: black solid 2px;
 }
 
@@ -726,7 +731,8 @@ textarea{
     border: none;
     pointer-events:none;
 }
-.projekty-table-thead-th{
+.projekty-table-thead-th,
+.pracovne-vykazy-osoby-table-thead-th{
     text-align:center;
     border:black solid 2px;
     padding:10px;

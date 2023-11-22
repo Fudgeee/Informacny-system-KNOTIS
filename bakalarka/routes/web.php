@@ -11,6 +11,7 @@ use App\Http\Controllers\PracovneVykazyController;
 use App\Http\Controllers\PlanPraceController;
 use App\Http\Controllers\ImportVykazovController;
 use App\Http\Controllers\RieseneProjektyController;
+use App\Http\Controllers\PracovneVykazyOsobyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,10 @@ Route::post('/pracovne_vykazy_tyzdenny', [PracovneVykazyController::class,'updat
 Route::post('/pracovne_vykazy_tyzdenny_s_hodinami', [PracovneVykazyController::class,'updatePracovneVykazyTyzdennySHodinami'])->name('update_pracovne_vykazy_tyzdenny_s_hodinami');
 //Route::post('/pracovne_vykazy-vymazanie-vykazu', [PracovneVykazyController::class, 'pracovneVykazyDelete'])->name('pracovne_vykazy-vymazanie-vykazu');
 //Route::post('/delete-record/{id}', [PracovneVykazyController::class, 'deleteRecord']);
+
+// pracovne vykazy osoby
+Route::get('/pracovne_vykazy_osoby', [PracovneVykazyOsobyController::class,'pracovneVykazy']);
+
 
 // import pracovnych vykazov zo suboru
 Route::get('/import_vykazov', [ImportVykazovController::class,'importVykazov']);

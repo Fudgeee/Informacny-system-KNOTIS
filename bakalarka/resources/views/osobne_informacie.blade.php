@@ -183,7 +183,7 @@
                     @else
                         {{$data->odpracovat_od. " - " .$data->odpracovat_do}}
                     @endif
-                    <a href="pracovne_vykazy">{{__('Pracovní výkazy')}}</a><!-- TODO stranka vypisu vsetkych prac. vykazov -->
+                    <a href="pracovne_vykazy_osoby">{{__('Pracovní výkazy')}}</a>
                 </div> 
             </div>                                                    
         </div>
