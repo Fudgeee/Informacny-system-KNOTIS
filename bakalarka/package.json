@@ -24,6 +24,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "datatables.net": "^1.13.8",
         "flag-icon-css": "^4.1.7",
         "flag-icons": "^6.6.6",
         "jquery-ui-dist": "^1.13.2"

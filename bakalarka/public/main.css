@@ -315,6 +315,7 @@ hr{
     position: fixed;
     margin-top: 0px;
     padding: 15px;
+    z-index: 999;
 }
 
 .left-menu-item a{
@@ -377,7 +378,14 @@ hr{
 .pracovne-vykazy-osoby-tabulka tbody td{
     border: black solid 2px;
 }
+table.dataTable{
+    border-collapse: collapse;
+}
 
+table.dataTable tbody th,
+table.dataTable tbody td{
+    background-color: #7dd6ff;
+}
 .osobne_info_l,
 .kontakt_info_l,
 .pracovne-vykazy-l{
@@ -736,6 +744,20 @@ textarea{
     text-align:center;
     border:black solid 2px;
     padding:10px;
+}
+
+.dataTables_filter{
+    float: left !important;
+}
+
+.dataTables_paginate{
+    float: none !important;
+    text-align: left !important;
+    margin-left: 500px;
+}
+
+.dataTables_length{
+    float: none !important;
 }
 
 /* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú */
