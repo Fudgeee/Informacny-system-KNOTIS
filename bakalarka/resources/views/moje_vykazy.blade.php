@@ -1,20 +1,5 @@
-<!--pracovne vykazy osoby-->
+<!--moje vykazy-->
 <?php
-
-    $typOsoby[0] = __("Bakalář");
-    $typOsoby[1] = __("Diplomant");
-    $typOsoby[2] = __("Doktorand");
-    $typOsoby[3] = __("Ext. doktorand");
-    $typOsoby[4] = __("Stud. spolupracovník");
-    $typOsoby[5] = __("Zaměstnanec");
-    $typOsoby[6] = __("Ostatní");
-    $typOsoby[7] = __("Bakalář + SS");
-    $typOsoby[8] = __("Diplomant + SS");
-    $typOsoby[9] = __("Předmět");
-    $typOsoby[10] = __("Zkušební doba");
-    $typOsoby[11] = __("Nový stud. spolupracovník");
-    $typOsoby[12] = __("Diplomant + Předmět"); 
-
     function vypisZoznamVykazov($vykaz){
         $tyzden = $vykaz->cislo_tydne . "(" . $vykaz->pondeli . " - " . $vykaz->nedele . ")";
         $projekt = $vykaz->nazev;
@@ -51,42 +36,38 @@
 @section('content')
     <div class="pracovne-vykazy-osoby">
         <div class="pracovne-vykazy-osoby-l">
-            <h1>{{__('Pracovní výkazy osoby')}}</h1>
+            <h1>{{__('Moje výkazy')}}</h1>
             <hr>
-            <h3>{{__('Informace o osobě')}}:</h3>
+            <h3>{{__('Údaje o projektu')}}:</h3>
             <div class="medzera"></div>
                 <div class="osobne_info_item">
-                    <div class="osobne_info_item_span" style="width:180px">{{__('Číslo, typ')}}:</div>
-                    {{ $data->id . ", " . $typOsoby[$data->typ] }} <!-- TODO kde najdem typy uzivatelov -->
+                    <div class="osobne_info_item_span" style="width:180px">{{__('Číslo')}}:</div>
+                    {{$data->id}}
                 </div>
                 <div class="osobne_info_item">
-                    <div class="osobne_info_item_span" style="width:180px">{{__('Jméno')}}:</div>
+                    <div class="osobne_info_item_span" style="width:180px">{{__('Typ')}}:</div>
                     {{ $data->prijmeni . " " . $data->jmeno . ", " . $data->titul_pred . ", " . $data->titul_za . "(" . $data->login . ")" }}
                 </div>
-                @if ($data->email != "")
-                    <div class="osobne_info_item">
-                        <div class="osobne_info_item_span" style="width:180px">e-mail:</div>
-                        <a href="mailto:$data->email">{{$data->email}}</a>
-                    </div> 
-                @endif
                 <div class="osobne_info_item">
-                    <div class="osobne_info_item_span" style="width:180px">{{__('Aktivní')}}:</div>
-                    @if (($data->aktivni_do == "0000-00-00 00:00:00") || ($data->aktivni_do == ""))
-                        {{$data->aktivni_od. " - "}} &infin;
-                    @else
-                        {{$data->aktivni_od. " - " .$data->aktivni_do}}
-                    @endif
-                    ({{__('rozsah aktivity účtu')}})
-                </div>
+                    <div class="osobne_info_item_span" style="width:180px">{{__('Zkratka')}}</div>
+                    <a href="mailto:$data->email">{{$data->email}}</a>
+                </div> 
                 <div class="osobne_info_item">
-                    <div class="osobne_info_item_span" style="width:180px">{{__('Práce')}}:</div>
-                    @if (($data->odpracovat_do == "0000-00-00 00:00:00") || ($data->odpracovat_do == ""))
-                        {{$data->odpracovat_od. " - "}} &infin;
-                    @else
-                        {{$data->odpracovat_od. " - " .$data->odpracovat_do}}
-                    @endif
-                    ({{__('rozsah plánované pracovní aktivity')}})
-                </div>
+                    <div class="osobne_info_item_span" style="width:180px">{{__('Název')}}</div>
+                    <a href="mailto:$data->email">{{$data->email}}</a>
+                </div> 
+                <div class="osobne_info_item">
+                    <div class="osobne_info_item_span" style="width:180px">URL</div>
+                    <a href="mailto:$data->email">{{$data->email}}</a>
+                </div> 
+                <div class="osobne_info_item">
+                    <div class="osobne_info_item_span" style="width:180px">{{__('Poznámka')}}</div>
+                    <a href="mailto:$data->email">{{$data->email}}</a>
+                </div> 
+                <div class="osobne_info_item">
+                    <div class="osobne_info_item_span" style="width:180px">{{__('Skupina')}}</div>
+                    <a href="mailto:$data->email">{{$data->email}}</a>
+                </div> 
             <div class="medzera"></div>
             <hr>
             <h3>{{__('Pracovní výkazy')}}:</h3>
@@ -94,7 +75,7 @@
                 <thead>
                     <tr style="border: black solid 4px;border-bottom:black solid 2px">
                         <th class="pracovne-vykazy-osoby-table-thead-th" style="width:250px">{{__('Týden')}}</th>
-                        <th class="pracovne-vykazy-osoby-table-thead-th" style="width:400px">{{__('Projekt')}}</th>
+                        <th class="pracovne-vykazy-osoby-table-thead-th" style="width:400px">{{__('Osoba')}}</th>
                         <th class="pracovne-vykazy-osoby-table-thead-th" style="width:60px">{{__('Odpracováno')}}</th>
                         <th class="pracovne-vykazy-osoby-table-thead-th" style="width:250px">{{__('Souhrn')}}</th>
                         <th class="pracovne-vykazy-osoby-table-thead-th" style="width:110px">{{__('Operace T')}}</th>

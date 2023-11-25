@@ -12,6 +12,7 @@ use App\Http\Controllers\PlanPraceController;
 use App\Http\Controllers\ImportVykazovController;
 use App\Http\Controllers\RieseneProjektyController;
 use App\Http\Controllers\PracovneVykazyOsobyController;
+use App\Http\Controllers\MojeVykazyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,8 @@ Route::post('/pracovne_vykazy_tyzdenny_s_hodinami', [PracovneVykazyController::c
 // pracovne vykazy osoby
 Route::get('/pracovne_vykazy_osoby', [PracovneVykazyOsobyController::class,'pracovneVykazy']);
 
+// moje pracovne vykazy
+Route::get('/moje_vykazy', [MojeVykazyController::class,'mojeVykazy']);
 
 // import pracovnych vykazov zo suboru
 Route::get('/import_vykazov', [ImportVykazovController::class,'importVykazov']);

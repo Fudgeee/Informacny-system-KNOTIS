@@ -32,9 +32,17 @@ class RieseneProjektyController extends Controller
             for ($i=0; $i<count($projekty); $i++){
                 $projektNazov[$i] = $projekty[$i]->id . '. ' . $projekty[$i]->nazev;
             }
+
+            // ciselnik veducich
+            $ciselnikVedoucich = Osoba::join('projekt', 'osoba.id', '=', 'projekt.vedouci')
+            ->select('osoba.id', 'osoba.login')
+            ->distinct()
+            ->orderByRaw('osoba.typ IN (2,3,5) DESC, osoba.typ IN (5) DESC, osoba.prijmeni ASC, osoba.jmeno ASC')
+            ->pluck('osoba.login', 'osoba.id')
+            ->toArray();
         }
     
-        return view('riesene_projekty', compact('data', 'projekty'));
+        return view('riesene_projekty', compact('data', 'projekty', 'ciselnikVedoucich'));
     }
     
 

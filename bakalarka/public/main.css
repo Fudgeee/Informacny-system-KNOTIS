@@ -385,6 +385,7 @@ table.dataTable{
 table.dataTable tbody th,
 table.dataTable tbody td{
     background-color: #7dd6ff;
+    font-weight: 500;
 }
 .osobne_info_l,
 .kontakt_info_l,
@@ -753,11 +754,15 @@ textarea{
 .dataTables_paginate{
     float: none !important;
     text-align: left !important;
-    margin-left: 500px;
+    margin-left: 25%;
 }
 
 .dataTables_length{
     float: none !important;
 }
 
-/* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú */
+.paginate_button{
+    background: none !important;
+    border: none !important;
+}
+/* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú  ?? My timesheets/ My work reports*/
