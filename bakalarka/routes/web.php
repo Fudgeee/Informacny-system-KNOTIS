@@ -68,7 +68,7 @@ Route::post('/pracovne_vykazy_tyzdenny_s_hodinami', [PracovneVykazyController::c
 Route::get('/pracovne_vykazy_osoby', [PracovneVykazyOsobyController::class,'pracovneVykazy']);
 
 // moje pracovne vykazy
-Route::get('/moje_vykazy', [MojeVykazyController::class,'mojeVykazy']);
+Route::get('/moje_vykazy/{id_projektu}', [MojeVykazyController::class,'mojeVykazy']);
 
 // import pracovnych vykazov zo suboru
 Route::get('/import_vykazov', [ImportVykazovController::class,'importVykazov']);

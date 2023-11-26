@@ -19,32 +19,32 @@
                 </div>
                 <ul class="top-hamburger">
                     <li>
-                        <a href="change_password"><i class="fa-solid fa-key"></i>{{__('Změna hesla')}}</a>
+                        <a href="/change_password"><i class="fa-solid fa-key"></i>{{__('Změna hesla')}}</a>
                     </li>
                     <li>
-                        <a href="osobne_informacie"><i class="fa-solid fa-user"></i>{{__('Osobní Informace')}}</a>
+                        <a href="/osobne_informacie"><i class="fa-solid fa-user"></i>{{__('Osobní Informace')}}</a>
                     </li>
                     <li>
-                        <a href="kontaktne_udaje"><i class="fa-solid fa-address-book"></i>{{__('Kontaktní Údaje')}}</a>
+                        <a href="/kontaktne_udaje"><i class="fa-solid fa-address-book"></i>{{__('Kontaktní Údaje')}}</a>
                     </li>
                     <li>
-                        <a href="konfiguracia"><i class="fa-solid fa-user-gear"></i>{{__('Konfigurace')}}</a>
+                        <a href="/konfiguracia"><i class="fa-solid fa-user-gear"></i>{{__('Konfigurace')}}</a>
                     </li>
                     <li>
-                        <a href="logout" class="log-out"><i class="fa-solid fa-right-from-bracket"></i>{{__('Odhlásit se')}}</a>
+                        <a href="/logout" class="log-out"><i class="fa-solid fa-right-from-bracket"></i>{{__('Odhlásit se')}}</a>
                     </li>            
                 </ul>
             </li>
             <li>
-                <a href="help"><i class="fa-solid fa-person-circle-question"></i></a>
+                <a href="/help"><i class="fa-solid fa-person-circle-question"></i></a>
             </li>
             <li>
-                <a href="#" onclick="toggleClass2()"><img src="flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}.svg" class="flag-icon"></a>
+                <a href="#" onclick="toggleClass2()"><img src="{{asset('flag-icon-' . Config::get('languages')[App::getLocale()]['flag-icon'] . '.svg')}}" class="flag-icon"></a>
                 <ul class="top-hamburger2">
                     @foreach (Config::get('languages') as $lang => $language)
                         @if ($lang != App::getLocale())
                             <li>
-                                <a href="{{ route('lang.switch', $lang) }}"><img src="flag-icon-{{$language['flag-icon']}}.svg" class="flag-icon">&nbsp{{$language['display']}}</a>
+                                <a href="{{ route('lang.switch', $lang) }}"><img src="{{asset('flag-icon-' . $language['flag-icon'] . '.svg')}}" class="flag-icon">&nbsp{{$language['display']}}</a>
                             </li>
                         @endif
                     @endforeach             

@@ -252,6 +252,7 @@ hr{
     background-repeat: no-repeat;
     background-size: cover;
     top: 0%;
+    z-index: 998;
 }
 
 .top-menu{
@@ -741,7 +742,8 @@ textarea{
     pointer-events:none;
 }
 .projekty-table-thead-th,
-.pracovne-vykazy-osoby-table-thead-th{
+.pracovne-vykazy-osoby-table-thead-th,
+.moje-vykazy-table-thead-th{
     text-align:center;
     border:black solid 2px;
     padding:10px;
@@ -764,5 +766,15 @@ textarea{
 .paginate_button{
     background: none !important;
     border: none !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+    text-decoration: underline !important;
+    text-decoration-thickness: 1.5px !important;
+    text-underline-offset: 2px !important;
+}
+
+.udaje_o_projekte{
+    margin-left: 50px;
 }
 /* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú  ?? My timesheets/ My work reports*/
