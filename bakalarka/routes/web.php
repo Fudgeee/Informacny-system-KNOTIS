@@ -13,6 +13,7 @@ use App\Http\Controllers\ImportVykazovController;
 use App\Http\Controllers\RieseneProjektyController;
 use App\Http\Controllers\PracovneVykazyOsobyController;
 use App\Http\Controllers\MojeVykazyController;
+use App\Http\Controllers\DetailProjektuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +75,8 @@ Route::get('/moje_vykazy/{id_projektu}', [MojeVykazyController::class,'mojeVykaz
 Route::get('/import_vykazov', [ImportVykazovController::class,'importVykazov']);
 Route::post('/import_vykazov', [ImportVykazovController::class,'uploadAndSendEmail'])->name('import_vykazov');
 
+//detail projektu
+Route::get('/detail_projektu/{id_projektu}', [DetailProjektuController::class,'detailProjektu']);
 
 // plan prace
 Route::get('/plan_prace', [PlanPraceController::class,'planPrace']);

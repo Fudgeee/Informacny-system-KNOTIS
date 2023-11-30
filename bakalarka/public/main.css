@@ -350,7 +350,9 @@ hr{
 .pracovne_vykazy,
 .import-vykazov-zo-suboru,
 .riesene-projekty,
-.pracovne-vykazy-osoby{
+.pracovne-vykazy-osoby,
+.moje-vykazy,
+.detail-projektu{
     margin: 20px;
 }
 
@@ -360,7 +362,9 @@ hr{
 .pracovne_vykazy_l,
 .import-vykazov-zo-suboru-l,
 .riesene-projekty-l,
-.pracovne-vykazy-osoby-l{
+.pracovne-vykazy-osoby-l,
+.moje-vykazy-l,
+.detail-projektu-l{
     background: #7dd6ff;
     padding: 20px;
     overflow: hidden;
@@ -368,9 +372,14 @@ hr{
 }
 
 .riesene-projekty,
-.pracovne-vykazy-osoby{
+.pracovne-vykazy-osoby,
+.moje-vykazy{
     width: max-content;
     overflow-x: auto;
+}
+
+.moje-vykazy-l{
+    margin-right: 20px;
 }
 
 .riesene-projekty-tabulka  tbody tr,
@@ -777,4 +786,5 @@ textarea{
 .udaje_o_projekte{
     margin-left: 50px;
 }
+
 /* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú  ?? My timesheets/ My work reports*/

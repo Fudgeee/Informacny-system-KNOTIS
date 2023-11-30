@@ -16,6 +16,7 @@ class MojeVykazyController extends Controller     // TODO kliknutim na moje vyka
 {
     public function mojeVykazy($id_projektu){
         $data = array();
+    
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
             $projekt = DB::table('projekt')
@@ -42,46 +43,31 @@ class MojeVykazyController extends Controller     // TODO kliknutim na moje vyka
             ->leftJoin('projekt_skupina', 'skupina_proj.id', '=', 'projekt_skupina.id_skupina')
             ->where('projekt_skupina.id_projekt', $id_projektu)
             ->first();
-    //dd($skupina);
-            
-            $vykazy = DB::table('tydenni_v')
+    
+            $vykazyT = DB::table('tydenni_v')
             ->select(
-                'tyden.cislo as cislo_tydne',
-                'tydenni_v.id_osoby as id_osoby',
+                'tyden.cislo as cislo_tydne', 
+                'tydenni_v.id_osoby as id_osoby', 
                 'tydenni_v.id_projektu as id_projektu',
-                DB::raw('(SELECT Sum(minut) FROM vykaz WHERE id_tydne=tydenni_v.id_tydne AND id_osoby=tydenni_v.id_osoby AND id_projektu=tydenni_v.id_projektu) as odpracovano'),
-                DB::raw('NULL as operace'),
-                'tydenni_v.souhrn as souhrn',
+                DB::raw('(SELECT SUM(minut) FROM vykaz WHERE id_tydne=tydenni_v.id_tydne AND id_osoby=tydenni_v.id_osoby AND id_projektu=tydenni_v.id_projektu) as odpracovano'), 
+                'tydenni_v.souhrn as souhrn', 
                 'tydenni_v.plan as plan',
-                'tydenni_v.problemy as problemy',
+                'tydenni_v.problemy as problemy', 
                 'tydenni_v.omluvy as omluvy',
                 DB::raw('DATE_FORMAT(tyden.pondeli,"%d.%m.%Y") as pondeli'),
                 DB::raw('DATE_FORMAT(tyden.nedele,"%d.%m.%Y") as nedele'),
-                'tydenni_v.id_tydne as id_tydne',
-                'tydenni_v.id_vykazu as id_vykazu',
-                'vykaz.id_osoby as id_osoby_vykaz',
-                'vykaz.id_projektu as id_projektu_vykaz',
-                'vykaz.minut as minut',
-                DB::raw('TIME_FORMAT(vykaz.cas_od,"%H:%i") as cas_od'),
-                DB::raw('TIME_FORMAT(vykaz.cas_do,"%H:%i") as cas_do'),
-                'vykaz.cinnost as cinnost',
-                'vykaz.nesouvisi_sp as nesouvisi_sp',
-                'vykaz.id_vykazu as id_vykazu_vykaz',
-                DB::raw('DATE_FORMAT(vykaz.datum,"%d.%m.%Y") as datum')
+                'tydenni_v.id_tydne as id_tydne', 
+                'tydenni_v.id_vykazu as id_vykazu'
             )
             ->leftJoin('projekt', 'tydenni_v.id_projektu', '=', 'projekt.id')
-            ->leftJoin('vykaz', function ($join) {
-                $join->on('tydenni_v.id_tydne', '=', 'vykaz.id_tydne')
-                    ->on('tydenni_v.id_osoby', '=', 'vykaz.id_osoby')
-                    ->on('tydenni_v.id_projektu', '=', 'vykaz.id_projektu');
-            })
             ->join('tyden', 'tydenni_v.id_tydne', '=', 'tyden.id')
-            ->where('tydenni_v.id_projektu', $id_projektu)
-            ->where('tydenni_v.id_osoby', $data['id'])
-            ->orderByDesc('tyden.id')
+            ->where('tydenni_v.id_projektu', '=', $id_projektu)
+            ->where('tydenni_v.id_osoby', '=', $data['id'])
+            ->orderBy('tyden.id', 'DESC')
             ->get();
-        //dd($vykazy);
+            
+        //dd($vykazyD);
         }
-        return view('moje_vykazy', compact('data', 'projekt', 'skupina', 'vykazy'));
+        return view('moje_vykazy', compact('data', 'projekt', 'skupina', 'vykazyT'));
     }
 }
