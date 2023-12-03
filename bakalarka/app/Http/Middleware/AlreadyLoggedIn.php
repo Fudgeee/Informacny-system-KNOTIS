@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AlreadyLoggedIn
 {
@@ -16,9 +17,10 @@ class AlreadyLoggedIn
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session()->has('loginId') && (url('login')==$request->url())){
+        if (Auth::check() && (url('login') == url()->current())) {
             return back();
         }
+        
         return $next($request);
     }
 }

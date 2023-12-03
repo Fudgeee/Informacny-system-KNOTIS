@@ -221,7 +221,9 @@
     "Cesta": "Path",
     "Prostředek je adresářem projektu": "Resource is project's directory",
     "Server": "Server",
-    "Oprávnění": "Authorization",
+    "Oprávnění": "Permissions",
     "Čtení": "Read",
-    "Zápis": "Write"
+    "Zápis": "Write",
+    "předchozí": "previous",
+    "další": "next"
 }

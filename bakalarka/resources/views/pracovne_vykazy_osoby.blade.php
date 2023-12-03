@@ -95,6 +95,7 @@
             <div class="medzera"></div>
             <hr>
             <h3>{{__('Pracovní výkazy')}}:</h3>
+            <div class="medzera"></div>
             <table id="pracovne-vykazy-osoby-tabulka">
                 <thead>
                     <tr style="border: black solid 4px;border-bottom:black solid 2px">
@@ -143,6 +144,35 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        </div> 
+            <div class="pagination" style="margin-top:20px;margin-left:20%">
+                <!-- Predchádzajúca stránka -->
+                @if ($vykazyT->onFirstPage())
+                    <!-- Predchádzajúca stránka -->
+                @else
+                    <a href="{{ $vykazyT->previousPageUrl() }}" style="margin-right:25px">{{__('předchozí')}}</a>
+                @endif
+                <!-- Prvá stránka -->
+                @if ($vykazyT->currentPage() > 2)
+                    <a href="{{ $vykazyT->url(1) }}" style="margin-right:4px;color: --bs-link-color">1</a>
+                    <span class="ellipsis" style="margin-right:4px">...</span>
+                @endif
+                <!-- Zobrazenie aktuálnej a okolitých stránok -->
+                @for ($i = max(1, $vykazyT->currentPage() - 1); $i <= min($vykazyT->lastPage(), $vykazyT->currentPage() + 1); $i++)
+                    <a href="{{ $vykazyT->url($i) }}" class="{{ $i == $vykazyT->currentPage() ? 'active' : '' }}" style="margin-right:4px;color: {{ $i == $vykazyT->currentPage() ? 'red' : '--bs-link-color' }}">{{ $i }}</a>
+                @endfor
+                <!-- Posledná stránka -->
+                @if ($vykazyT->currentPage() < $vykazyT->lastPage() - 1)
+                    <span class="ellipsis" style="margin-right:4px">...</span>
+                    <a href="{{ $vykazyT->url($vykazyT->lastPage()) }}">{{ $vykazyT->lastPage() }}</a>
+                @endif
+                <!-- Nasledujúca stránka -->
+                @if ($vykazyT->hasMorePages())
+                    <a href="{{ $vykazyT->nextPageUrl() }}" style="margin-left:25px">{{__('další')}}</a>
+                @else
+                    <!-- Nasledujúca stránka -->
+                @endif
+            </div>
+        </div>
+        <div class="medzera"></div>
     </div>
 @endsection

@@ -39,7 +39,7 @@ class PracovneVykazyOsobyController extends Controller
             ->join('tyden', 'tydenni_v.id_tydne', '=', 'tyden.id')
             ->where('tydenni_v.id_osoby', '=', $data['id'])
             ->orderByDesc('tyden.id')
-            ->get();
+            ->paginate(10);
 
             // dd($vykazyT);
         }

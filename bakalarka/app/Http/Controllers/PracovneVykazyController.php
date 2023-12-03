@@ -68,7 +68,9 @@ class PracovneVykazyController extends Controller
                     ['id_osoby','=',Session::get('loginId')],
                     ['id_tydne','=',$aktualnyTyzden + 1],
                     ['id_projektu','=',$projekty[0]->id]    //TODO vypis vybraneho nie prveho
-                ])->get();
+                ])
+                ->orderByDesc('id_vykazu')
+                ->get();
                 //dd($aktualnyTyzden);
         }
         return view('pracovne_vykazy', compact('data', 'projekty', 'projektNazov', 'tyzdne', 'aktualnyTyzden', 'tyzdenny_vykaz_db', 'denny_vykaz'));
@@ -230,17 +232,17 @@ class PracovneVykazyController extends Controller
         }
     }
 
-    // public function deleteRecord(Request $request, $id){
-    //     if(Session::has('loginId')){
-    //         dd($id);
-    //         $tmp = DB::table('vykaz')->where([
-    //             ['id_osoby','=',Session::get('loginId')],
-    //             ['id_vykazu','=',$id]
-    //         ])->get();
-    //             dd($tmp);
-    //         return back()->with('success3',__('Pracovní výkaz byl úspěšně vymazán'));      
-    //     }
-    // }
+    public function deleteVykaz(Request $request){
+        if(Session::has('loginId')){
+            dd($request);
+            $tmp = DB::table('vykaz')->where([
+                ['id_osoby','=',Session::get('loginId')],
+                ['id_vykazu','=',$id]
+            ])->get();
+                dd($tmp);
+            return back()->with('success3',__('Pracovní výkaz byl úspěšně vymazán'));      
+        }
+    }
 
     public function updatePracovneVykazyTyzdennySHodinami(Request $request){
         if(Session::has('loginId')){

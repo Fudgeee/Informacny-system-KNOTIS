@@ -40,6 +40,7 @@
         $casDoUpraveny = date('H:i', strtotime($denny->cas_do));
         $hodiny = intdiv($denny->minut, 60);
         $minuty = ($denny->minut % 60);
+        $zaokruhleneMinuty = sprintf("%02d", $minuty);
         $tmp = $denny->nesouvisi_sp;
         if ($tmp == 0){
             $suvisi = 'A';
@@ -48,10 +49,14 @@
             $suvisi = 'N';
         }
         $vysledek = '';
-        $vysledek = '<tr data-record-id="'.$idVykazu.'"><td style="border-left: black solid 3px;width:150px"><input type="text" style="width:100%" value="'.$datumUpraveny.'" readonly></td><td style="width:65px"><input type="text" style="width:100%;text-align:center" value="'.$hodiny.':'.$minuty.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casOdUpraveny.'" readonly></td><td style="width:60px"><input type="text" style="width:100%" value="'.$casDoUpraveny.'" readonly></td><td style="width:400px"><input type="text" style="width:100%" value="'.$denny->cinnost.'" readonly></td><td style="width:150px;text-align:center"><a href="#" onclick="editInput(this);return false;"><img src="edit.gif" style="width:23px;margin-right:5px" title="' . __('Upravit') . '" alt="Edit"/></a><a href="#" class="vymazVykaz" data-record-id="'.$idVykazu.'"><img src="red-x.gif" style="width:20px;margin-left:5px" title="' . __('Vymazat') . '" alt="Delete"/></a></td><td style="width:50px;border-right:black solid 3px"><input type="text" style="width:100%;text-align:center" value="'.$suvisi.'" readonly></td></tr>';
+        $vysledek = '<tr data-record-id="'.$idVykazu.'"><td style="border-left: black solid 3px;width:150px">'.$datumUpraveny.'</td><td style="width:65px;text-align:center">'.$hodiny.':'.$zaokruhleneMinuty.'</td><td style="width:60px">'.$casOdUpraveny.'</td><td style="width:60px">'.$casDoUpraveny.'</td><td style="width:400px">'.$denny->cinnost.'</td><td style="width:150px;text-align:center"><a href="#" onclick="editInput(this);return false;"><img src="edit.gif" style="width:23px;margin-right:5px" title="' . __('Upravit') . '" alt="Edit"/></a><a href="#" class="vymazVykaz" data-record-id="'.$idVykazu.'"><img src="red-x.gif" style="width:20px;margin-left:5px" title="' . __('Vymazat') . '" alt="Delete"/></a></td><td style="width:50px;border-right:black solid 3px;text-align:center">'.$suvisi.'</td></tr>';
         return $vysledek;
-    } 
+    }
 ?>
+
+<script src="{{asset('https://code.jquery.com/jquery-3.6.0.min.js')}}"></script>
+<script src="{{asset('https://code.jquery.com/ui/1.13.0/jquery-ui.min.js')}}"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const selectProjekt = document.getElementById('nastavProjekt');
@@ -170,11 +175,7 @@
             upravMin.value = rozdilMinut;
             const CelkovoMinut = (rozdilHodin*60) + rozdilMinut;
         };
-
-
-
-        //
-
+        
 
 
         // aktualizovanie hodnoty casu v datume denneho vykazu
@@ -203,8 +204,7 @@
         for (let i = 0; i < riadky.length; i++) {
             const riadok = riadky[i];
             const hodinyStlpec = riadok.querySelector("td:nth-child(2)");
-            const inputVstup = hodinyStlpec.querySelector("input");
-            const hodinyMinuty = inputVstup.value.split(':');
+            const hodinyMinuty = hodinyStlpec.textContent.split(':');
 
             const hodiny = parseInt(hodinyMinuty[0], 10);
             const minuty = parseInt(hodinyMinuty[1], 10);
@@ -225,8 +225,9 @@
         // Vypočítame celkové hodiny a minúty získané z celkového počtu minút
         const sumaHodin = Math.floor(sumaMinut / 60);
         const zostavajuceMinuty = sumaMinut % 60;
+        let zaokruhleneZostavajuceMinuty = String(zostavajuceMinuty).padStart(2, '0');
 
-        celkoveHodinyInput.value = `${sumaHodin}:${zostavajuceMinuty}`;
+        celkoveHodinyInput.value = `${sumaHodin}:${zaokruhleneZostavajuceMinuty}`;
 
         celkoveHodinyInput.setAttribute("readonly", true);
         }
@@ -236,24 +237,38 @@
 
 
         // Vymazanie pracovneho vykazu z tabulky
-        
-        // TODO
-        document.querySelectorAll('.vymazVykaz').forEach(form => {
-            form.addEventListener('click', function(e) {
+        document.querySelectorAll('.vymazVykaz').forEach(link => {
+            link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const recordId = this.getAttribute('data-record-id');
-                console.log(recordId);
+                const confirmed = confirm('Naozaj chcete vymazať tento záznam?');
+
+                if (confirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/delete-vykaz',
+                        data: {
+                            id: recordId,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (data) {
+                            // Prípadné aktualizácie rozhrania po úspešnom vymazaní
+                            $(`tr[data-record-id=${recordId}]`).remove();
+                            alert('Výkaz bol úspešne vymazaný.');
+                        },
+                        error: function (error) {
+                            console.error('Chyba pri vymazávaní výkazu:', error);
+                            alert('Chyba pri vymazávaní výkazu.');
+                        }
+                    });
+                }
             });
         });
-
+        
 
 });
 
-
-
 </script>
-<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="//code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 @extends('dashboard')
 @section('content')
     <div class="pracovne_vykazy">
@@ -320,7 +335,7 @@
                         <input type="time" id="casVykazuOd" name="casVykazuOd" style="margin-right:8px">
                         <label for="casVykazuDo">{{__('do')}}:</label>
                         <input type="time" id="casVykazuDo" name="casVykazuDo" value="{{ \Carbon\Carbon::now('Europe/Prague')->format('H:i') }}" style="margin-right:8px">
-                        <label for="upravHodin">{{__('Odpracováno')}}:</label>
+                        <label for="upravHodin" style="margin-left:32px">{{__('Odpracováno')}}:</label>
                         <input type="text" size="2" maxlength="10" id="upravHodin" name="upravHodin" title="{{ __('Počet odpracovaných hodin')}}">
                         <span>:</span>
                         <input type="text" size="2" maxlength="10" id="upravMin" name="upravMin" title="{{ __('Počet odpracovaných minut')}}">

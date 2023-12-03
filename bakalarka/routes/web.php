@@ -63,7 +63,7 @@ Route::post('/pracovne_vykazy_denny', [PracovneVykazyController::class,'updatePr
 Route::post('/pracovne_vykazy_tyzdenny', [PracovneVykazyController::class,'updatePracovneVykazyTyzdenny'])->name('update_pracovne_vykazy_tyzdenny');
 Route::post('/pracovne_vykazy_tyzdenny_s_hodinami', [PracovneVykazyController::class,'updatePracovneVykazyTyzdennySHodinami'])->name('update_pracovne_vykazy_tyzdenny_s_hodinami');
 //Route::post('/pracovne_vykazy-vymazanie-vykazu', [PracovneVykazyController::class, 'pracovneVykazyDelete'])->name('pracovne_vykazy-vymazanie-vykazu');
-//Route::post('/delete-record/{id}', [PracovneVykazyController::class, 'deleteRecord']);
+Route::post('/delete-vykaz', [PracovneVykazyController::class, 'deleteVykaz']);
 
 // pracovne vykazy osoby
 Route::get('/pracovne_vykazy_osoby', [PracovneVykazyOsobyController::class,'pracovneVykazy']);

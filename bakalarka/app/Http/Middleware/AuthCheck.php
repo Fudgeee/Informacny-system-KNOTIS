@@ -16,8 +16,15 @@ class AuthCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Session()->has('loginId')){
-            return redirect('login')->with('fail','neprihlaseny uzivatel');
+        if(!session()->has('loginId')){
+            $lastActivity = session('loginId' . '_last_activity', 0);
+            $sessionLifetime = config('session.lifetime') * 60; // V sekundách
+
+            if (time() - $lastActivity > $sessionLifetime) {
+                // Relácia vypršala, odhlásime užívateľa
+                auth()->logout();
+                return redirect('login')->with('fail', 'Platnosť relácie vypršala. Prosím, prihláste sa znovu.');
+            }
         }
         return $next($request);
     }

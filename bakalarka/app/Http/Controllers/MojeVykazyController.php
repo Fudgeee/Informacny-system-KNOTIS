@@ -64,9 +64,9 @@ class MojeVykazyController extends Controller     // TODO kliknutim na moje vyka
             ->where('tydenni_v.id_projektu', '=', $id_projektu)
             ->where('tydenni_v.id_osoby', '=', $data['id'])
             ->orderBy('tyden.id', 'DESC')
-            ->get();
-            
-        //dd($vykazyD);
+            ->paginate(10);
+
+        //dd($vykazyT);
         }
         return view('moje_vykazy', compact('data', 'projekt', 'skupina', 'vykazyT'));
     }
