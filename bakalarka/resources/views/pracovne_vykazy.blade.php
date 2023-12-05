@@ -35,9 +35,9 @@
     function vypisZoznamVykazov($denny){
         $idVykazu = $denny->id_vykazu;
         $datumCarbon = \Carbon\Carbon::parse($denny->datum); // prevod na Carbon objekt
-        $datumUpraveny = $datumCarbon->format('d.m.Y');
-        $casOdUpraveny = date('H:i', strtotime($denny->cas_od));
-        $casDoUpraveny = date('H:i', strtotime($denny->cas_do));
+        $datumUpraveny = $datumCarbon->isoFormat('D.M.Y');
+        $casOdUpraveny = \Carbon\Carbon::parse($denny->cas_od)->format('H:i');
+        $casDoUpraveny = \Carbon\Carbon::parse($denny->cas_do)->format('H:i');
         $hodiny = intdiv($denny->minut, 60);
         $minuty = ($denny->minut % 60);
         $zaokruhleneMinuty = sprintf("%02d", $minuty);
@@ -49,7 +49,7 @@
             $suvisi = 'N';
         }
         $vysledek = '';
-        $vysledek = '<tr data-record-id="'.$idVykazu.'"><td style="border-left: black solid 3px;width:150px">'.$datumUpraveny.'</td><td style="width:65px;text-align:center">'.$hodiny.':'.$zaokruhleneMinuty.'</td><td style="width:60px">'.$casOdUpraveny.'</td><td style="width:60px">'.$casDoUpraveny.'</td><td style="width:400px">'.$denny->cinnost.'</td><td style="width:150px;text-align:center"><a href="#" onclick="editInput(this);return false;"><img src="edit.gif" style="width:23px;margin-right:5px" title="' . __('Upravit') . '" alt="Edit"/></a><a href="#" class="vymazVykaz" data-record-id="'.$idVykazu.'"><img src="red-x.gif" style="width:20px;margin-left:5px" title="' . __('Vymazat') . '" alt="Delete"/></a></td><td style="width:50px;border-right:black solid 3px;text-align:center">'.$suvisi.'</td></tr>';
+        $vysledek = '<tr data-record-id="'.$idVykazu.'"><td style="border-left: black solid 3px;width:150px">'.$datumUpraveny.'</td><td style="width:65px;text-align:center">'.$hodiny.':'.$zaokruhleneMinuty.'</td><td style="width:60px">'.$casOdUpraveny.'</td><td style="width:60px">'.$casDoUpraveny.'</td><td style="width:400px">'.$denny->cinnost.'</td><td style="width:150px;text-align:center"><a href="#" onclick="editInput(this);return false;" data-record-id="'.$idVykazu.'"><img src="edit.gif" style="width:23px;margin-right:5px" title="' . __('Upravit') . '" alt="Upravit"/></a><a href="#" class="vymazVykaz" data-record-id="'.$idVykazu.'"><img src="red-x.gif" style="width:20px;margin-left:5px" title="' . __('Vymazat') . '" alt="Vymazat"/></a></td><td style="width:50px;border-right:black solid 3px;text-align:center">'.$suvisi.'</td></tr>';
         return $vysledek;
     }
 ?>
@@ -206,12 +206,12 @@
             const hodinyStlpec = riadok.querySelector("td:nth-child(2)");
             const hodinyMinuty = hodinyStlpec.textContent.split(':');
 
-            const hodiny = parseInt(hodinyMinuty[0], 10);
+            const hodiny1 = parseInt(hodinyMinuty[0], 10);
             const minuty = parseInt(hodinyMinuty[1], 10);
             
 
-            if (!isNaN(hodiny)) {
-            sumaMinut += hodiny * 60;
+            if (!isNaN(hodiny1)) {
+            sumaMinut += hodiny1 * 60;
             }
 
             if (!isNaN(minuty)) {
@@ -254,7 +254,7 @@
                         success: function (data) {
                             // Prípadné aktualizácie rozhrania po úspešnom vymazaní
                             $(`tr[data-record-id=${recordId}]`).remove();
-                            alert('Výkaz bol úspešne vymazaný.');
+                            //alert('Výkaz bol úspešne vymazaný.');
                         },
                         error: function (error) {
                             console.error('Chyba pri vymazávaní výkazu:', error);
@@ -266,9 +266,61 @@
         });
         
 
-});
 
+        
+});
+    // Uprava denneho vykazu
+    function editInput(element) {
+        const recordId1 = element.getAttribute('data-record-id');
+        // Získame informácie o dennom výkaze zo značky <tr>
+        const row = element.closest('tr');
+        const datum = row.cells[0].innerText;
+        const hodin = row.cells[1].innerText;
+        const od = row.cells[2].innerText;
+        const doo = row.cells[3].innerText;
+        const datumParts = datum.split('.');
+        const timeParts1 = doo.split(':');
+        const timeParts2 = od.split(':');
+        let formattedDatum = `${datumParts[2]}-${datumParts[1].padStart(2, '0')}-${datumParts[0].padStart(2, '0')}T${timeParts1[0].padStart(2, '0')}:${timeParts1[1].padStart(2, '0')}`;
+        const cinnost = row.cells[4].innerText;
+        let nesouvisiSP = row.cells[6].innerText === 'A' ? 0 : 1;
+    
+        const time1 = parseInt(timeParts1[0].padStart(2, '0')) * 60 + parseInt(timeParts1[1].padStart(2, '0'));
+        const time2 = parseInt(timeParts2[0].padStart(2, '0')) * 60 + parseInt(timeParts2[1].padStart(2, '0'));
+        let rozdiel1 = Math.floor((time1 - time2) / 60); // hodiny
+        let rozdiel2 = (time1 - time2) % 60; // minuty
+
+        if (rozdiel2 < 0) {
+            rozdiel2 += 60;
+            rozdiel1 --;
+        }
+        if (rozdiel1 < 0) {
+            rozdiel1 += 24;
+        }
+    
+        // Nastavíme hodnoty do formulára
+        document.getElementById('datumVykazu').value = formattedDatum;
+        document.getElementById('casVykazuOd').value = od;
+        document.getElementById('casVykazuDo').value = doo;
+        document.getElementById('upravHodin').value = rozdiel1;
+        document.getElementById('upravMin').value = rozdiel2;
+        document.getElementById('upravCinnost').value = cinnost;
+        document.getElementById('upravNesouvisiSP').checked = nesouvisiSP === 1;
+        document.getElementById('vykazId').value = recordId1;  
+        
+        //document.getElementById('formular-denny').scrollIntoView({ behavior: 'smooth' });
+        const formularElement = document.getElementById('formular-denny');
+        const formularTop = formularElement.getBoundingClientRect().top + window.scrollY;
+
+        // Nastavit scrollTop tak, aby posunul formulář o 100 pixelů výše
+        window.scrollTo({
+            top: formularTop - 100,
+            behavior: 'smooth'
+        });
+
+    }
 </script>
+
 @extends('dashboard')
 @section('content')
     <div class="pracovne_vykazy">
@@ -309,7 +361,7 @@
             </form>
             <div class="medzera"></div>
             <hr class="hr-pracovne-vykazy">
-            <form action="{{route('update_pracovne_vykazy_denny')}}" method="post">
+            <form action="{{route('update_pracovne_vykazy_denny')}}" method="post" id="formular-denny">
                 @if(Session::has('success1'))
                     <div class="alert alert-success">{{Session::get('success1')}}</div>
                 @endif
@@ -324,6 +376,7 @@
                         <input type="text" id="vybranyProjekt" name="vybranyProjekt" readonly>
                         <input type="text" id="vybranyTyzden" name="vybranyTyzden" readonly>
                         <input type="text" id="idTyzdna" name="idTyzdna" readonly>
+                        <input type="hidden" id="vykazId" name="vykazId">
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="datumVykazu" style="width:70px">{{__('Datum')}}:</label>
@@ -414,36 +467,39 @@
                 <div class="osobne_info_l">
                     <h2>{{__('Pracovní výkazy')}}:</h2>
                     <div class="medzera"></div>
+                    <!-- @if(Session::has('success4'))
+                        <div class="alert alert-success">{{Session::get('success4')}}</div>
+                    @endif -->
                     <div class="pracovne-vykazy-item">
-                    <table id="vykazy-tabulka">
-                        <thead>
-                            <tr style="border: black solid 3px;border-bottom:black solid 2px">
-                                <th style="width:150px">{{__('Datum')}}</th>
-                                <th style="width:65px">{{__('Hodin')}}</th>
-                                <th style="width:60px">{{__('Od')}}</th>
-                                <th style="width:60px">{{__('Do')}}</th>
-                                <th style="width:400px">{{__('Činnost')}}</th>
-                                <th style="width:150px;text-align:center">{{__('Operace')}}</th>
-                                <th style="width:50px;text-align:center" title="{{__('Činnost souvisí přímo s projektem')}}">{{__('SSP')}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($denny_vykaz as $denny): ?>
-                                <div class="vykaz-den"><?php echo vypisZoznamVykazov($denny); ?></div>
-                            <?php endforeach; ?>
-                        </tbody>
-                        <tfoot>
-                            <tr style="border: black solid 3px;border-top:black solid 2px">
-                                <th>Celkem</th>
-                                <td><input type="text" id="celkoveHodiny" name="celkoveHodiny" style="width:100%;text-align:center" readonly></td><!-- vypocet celkovych hodin v danom tyzdni -->
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                </table>
+                        <table id="vykazy-tabulka">
+                            <thead>
+                                <tr style="border: black solid 3px;border-bottom:black solid 2px">
+                                    <th style="width:150px">{{__('Datum')}}</th>
+                                    <th style="width:65px">{{__('Hodin')}}</th>
+                                    <th style="width:60px">{{__('Od')}}</th>
+                                    <th style="width:60px">{{__('Do')}}</th>
+                                    <th style="width:400px">{{__('Činnost')}}</th>
+                                    <th style="width:150px;text-align:center">{{__('Operace')}}</th>
+                                    <th style="width:50px;text-align:center" title="{{__('Činnost souvisí přímo s projektem')}}">{{__('SSP')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($denny_vykaz as $denny): ?>
+                                    <?php echo vypisZoznamVykazov($denny); ?><!-- <div class="vykaz-den"></div>  TODO zrusit vsetky divy vo foreach cykloch -->
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr style="border: black solid 3px;border-top:black solid 2px">
+                                    <th>Celkem</th>
+                                    <td><input type="text" id="celkoveHodiny" name="celkoveHodiny" style="width:100%;text-align:center" readonly></td><!-- vypocet celkovych hodin v danom tyzdni -->
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </form>

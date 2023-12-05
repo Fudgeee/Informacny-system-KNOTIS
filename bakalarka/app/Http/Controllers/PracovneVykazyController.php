@@ -141,10 +141,10 @@ class PracovneVykazyController extends Controller
                 'upravMin'=>'required',
                 'upravCinnost'=> 'required'
             ]);
-            if ($validator->fails()){
+            if ($validator->fails()) {
                 return back()->with('fail1',__('Prosím vyplňte všechna povinná pole'));
             }
-            else{
+            else {
                 $castiP = explode('.', $request->vybranyProjekt);
                 $projekt_id = $castiP[0];
 
@@ -152,18 +152,34 @@ class PracovneVykazyController extends Controller
 
                 $upravNesouvisiSP = $request->has('upravNesouvisiSP');
                 
-                $dennyVykaz = DB::table('vykaz')->insert([
-                    'id_osoby' => $data['id'],
-                    'datum' => $request->datumVykazu,
-                    'id_projektu' => $projekt_id,
-                    'minut' => $pocetMinut,
-                    'cas_od' => $request->casVykazuOd,
-                    'cas_do' => $request->casVykazuDo,
-                    'cinnost' => $request->upravCinnost,
-                    'nesouvisi_sp' => $upravNesouvisiSP,
-                    'id_tydne' => $request->idTyzdna
-                ]);
-
+                if ($request->vykazId == null || $request->vykazId == ''){
+                    $dennyVykaz = DB::table('vykaz')->insert([
+                        'id_osoby' => $data['id'],
+                        'datum' => $request->datumVykazu,
+                        'id_projektu' => $projekt_id,
+                        'minut' => $pocetMinut,
+                        'cas_od' => $request->casVykazuOd,
+                        'cas_do' => $request->casVykazuDo,
+                        'cinnost' => $request->upravCinnost,
+                        'nesouvisi_sp' => $upravNesouvisiSP,
+                        'id_tydne' => $request->idTyzdna
+                    ]);
+                }
+                else {
+                    DB::table('vykaz')->where([
+                        ['id_vykazu', '=', $request->vykazId],
+                        ['id_osoby', '=', $data['id']]
+                    ])->update([
+                        'datum' => $request->datumVykazu,
+                        'id_projektu' => $projekt_id,
+                        'minut' => $pocetMinut,
+                        'cas_od' => $request->casVykazuOd,
+                        'cas_do' => $request->casVykazuDo,
+                        'cinnost' => $request->upravCinnost,
+                        'nesouvisi_sp' => $upravNesouvisiSP,
+                        'id_tydne' => $request->idTyzdna
+                    ]);
+                }
             }    
             return back()->with('success1',__('Denní výkaz byl úspěšně uložen'));      
         }
@@ -234,13 +250,11 @@ class PracovneVykazyController extends Controller
 
     public function deleteVykaz(Request $request){
         if(Session::has('loginId')){
-            dd($request);
             $tmp = DB::table('vykaz')->where([
                 ['id_osoby','=',Session::get('loginId')],
-                ['id_vykazu','=',$id]
-            ])->get();
-                dd($tmp);
-            return back()->with('success3',__('Pracovní výkaz byl úspěšně vymazán'));      
+                ['id_vykazu','=',$request->id]
+            ])->delete();
+            return back()->with('success4',__('Pracovní výkaz byl úspěšně vymazán'));      
         }
     }
 
