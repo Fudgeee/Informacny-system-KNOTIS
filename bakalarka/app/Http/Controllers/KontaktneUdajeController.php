@@ -55,79 +55,89 @@ class KontaktneUdajeController extends Controller
                     $kontaktPopis[$typ1] = $t1->popis;
                 }
             }
+            return view('kontaktne_udaje', compact('data', 'kontakt_data_mail', 'kontakt_data_telefon', 'kontakt_data_other', 'kontaktTyp', 'kontaktPopis'));
         }
-        return view('kontaktne_udaje', compact('data', 'kontakt_data_mail', 'kontakt_data_telefon', 'kontakt_data_other', 'kontaktTyp', 'kontaktPopis'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
     public function updateKontaktneInfo(Request $request){
-        $tmp = null;
-        $kontaktId = array();
-        $kontakt_id = array();
-        $kontakt_hodnota = array();
-        $kontakt_data = array();
-        $kontakt_data_all = array();
-        $osobaId = Session::get('loginId');
-        $validator = Validator::make($request->all(), [
-             'telefon'=>'required',
-             'mail'=>'required'
-        ]);
-        if ($validator->fails()){
-            return back()->with('fail1',__('Prosím vyplňte všechna povinná pole'));
-        }
-        else{
-            $data = DB::table('osoba')->where('id','=',Session::get('loginId'))->update([
-                'telefon' => $request->telefon,
-                'gmail' => $request->mail,
-                'telefon_popis' => (!is_null($request->telefon_popis) ? $request->telefon_popis : ""),
-                'gmail_popis' => (!is_null($request->mail_popis) ? $request->mail_popis : "")
+        if(Session::has('loginId')){
+            $tmp = null;
+            $kontaktId = array();
+            $kontakt_id = array();
+            $kontakt_hodnota = array();
+            $kontakt_data = array();
+            $kontakt_data_all = array();
+            $osobaId = Session::get('loginId');
+            $validator = Validator::make($request->all(), [
+                'telefon'=>'required',
+                'mail'=>'required'
             ]);
-            $kontakt_id = $request->id;
-            $kontakt_hodnota = $request->hodnota;
-            $kontakt_data_all = DB::table('kontakt')->where('id_osoby','=',Session::get('loginId'))->get('id')->toArray();
-            if (count(is_countable($kontakt_data_all) ? $kontakt_data_all : []) > 0){
-                foreach($kontakt_data_all as $id1 => $kontakt1){
-                    $kontaktId[$id1] = $kontakt1->id;
-                }
-            } 
-            if (count(is_countable($kontakt_hodnota) ? $kontakt_hodnota : []) > 0){
-                foreach($kontakt_hodnota as $id => $hodn){
-                    $kontakt_data = [
-                        'typ' => $request->typ[$id],
-                        'hodnota' => $request->hodnota[$id],
-                        'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
-                    ];
-                    if ($request->id[$id] == null || $request->id[$id] == ''){
-                        DB::table('kontakt')->insert([
-                            'id_osoby' => $osobaId,
-                            'typ' => $request->typ[$id],
-                            'hodnota' => $request->hodnota[$id],
-                            'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
-                        ]);
-                    }
-                    else{
-                        DB::table('kontakt')->where([
-                            ['id', '=', $request->id[$id]],
-                            ['id_osoby', '=', $osobaId]
-                        ])->update([
-                            'typ' => $request->typ[$id],
-                            'hodnota' => $request->hodnota[$id],
-                            'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
-                        ]);
-                    }
-                }
-            }
-            if ($kontakt_hodnota == null || $kontakt_hodnota == ''){
-                DB::table('kontakt')->where('id_osoby', '=', $osobaId)->delete();
-                
+            if ($validator->fails()){
+                return back()->with('fail1',__('Prosím vyplňte všechna povinná pole'));
             }
             else{
-                if ($kontaktId != null){
-                    $tmp = array_diff($kontaktId, $kontakt_id);
-                    DB::table('kontakt')->where('id_osoby', '=', $osobaId)->whereIn('id', $tmp)->delete();
+                $data = DB::table('osoba')->where('id','=',Session::get('loginId'))->update([
+                    'telefon' => $request->telefon,
+                    'gmail' => $request->mail,
+                    'telefon_popis' => (!is_null($request->telefon_popis) ? $request->telefon_popis : ""),
+                    'gmail_popis' => (!is_null($request->mail_popis) ? $request->mail_popis : "")
+                ]);
+                $kontakt_id = $request->id;
+                $kontakt_hodnota = $request->hodnota;
+                $kontakt_data_all = DB::table('kontakt')->where('id_osoby','=',Session::get('loginId'))->get('id')->toArray();
+                if (count(is_countable($kontakt_data_all) ? $kontakt_data_all : []) > 0){
+                    foreach($kontakt_data_all as $id1 => $kontakt1){
+                        $kontaktId[$id1] = $kontakt1->id;
+                    }
+                } 
+                if (count(is_countable($kontakt_hodnota) ? $kontakt_hodnota : []) > 0){
+                    foreach($kontakt_hodnota as $id => $hodn){
+                        $kontakt_data = [
+                            'typ' => $request->typ[$id],
+                            'hodnota' => $request->hodnota[$id],
+                            'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
+                        ];
+                        if ($request->id[$id] == null || $request->id[$id] == ''){
+                            DB::table('kontakt')->insert([
+                                'id_osoby' => $osobaId,
+                                'typ' => $request->typ[$id],
+                                'hodnota' => $request->hodnota[$id],
+                                'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
+                            ]);
+                        }
+                        else{
+                            DB::table('kontakt')->where([
+                                ['id', '=', $request->id[$id]],
+                                ['id_osoby', '=', $osobaId]
+                            ])->update([
+                                'typ' => $request->typ[$id],
+                                'hodnota' => $request->hodnota[$id],
+                                'popis' => (!is_null($request->popis[$id]) ? $request->popis[$id] : "")
+                            ]);
+                        }
+                    }
                 }
+                if ($kontakt_hodnota == null || $kontakt_hodnota == ''){
+                    DB::table('kontakt')->where('id_osoby', '=', $osobaId)->delete();
+                    
+                }
+                else{
+                    if ($kontaktId != null){
+                        $tmp = array_diff($kontaktId, $kontakt_id);
+                        DB::table('kontakt')->where('id_osoby', '=', $osobaId)->whereIn('id', $tmp)->delete();
+                    }
+                }
+                
+                return back()->with('success1',__('Kontaktní údaje byly změněny'));      
             }
-            
-            return back()->with('success1',__('Kontaktní údaje byly změněny'));      
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
         }
     }
 }

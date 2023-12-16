@@ -40,10 +40,12 @@ class RieseneProjektyController extends Controller
             ->orderByRaw('osoba.typ IN (2,3,5) DESC, osoba.typ IN (5) DESC, osoba.prijmeni ASC, osoba.jmeno ASC')
             ->pluck('osoba.login', 'osoba.id')
             ->toArray();
+    
+            return view('riesene_projekty', compact('data', 'projekty', 'ciselnikVedoucich'));
         }
-    
-        return view('riesene_projekty', compact('data', 'projekty', 'ciselnikVedoucich'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
-    
-
 }

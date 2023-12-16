@@ -9,10 +9,25 @@
     $typProjektu[5] = __("Obecný projekt a DP");
 
     // Pole stavů projektů
-    $stavProjektu[0] = 'Nezadaný';
-    $stavProjektu[1] = 'Řešený';
-    $stavProjektu[2] = 'Ukončený';
-    $stavProjektu[3] = 'K rozhodnutí';
+    $stavProjektu[0] = __("Nezadaný");
+    $stavProjektu[1] = __("Řešený");
+    $stavProjektu[2] = __("Ukončený");
+    $stavProjektu[3] = __("K rozhodnutí");
+
+    // Pole aktivit řešitelů
+    $aktivitaResitele[0] = __("Ne");
+    $aktivitaResitele[5] = __("Ano");
+
+    // Pole stavy ukolu
+    $stavyUkolu[0] = __("Smazaný");
+    $stavyUkolu[1] = __("Nezadaný");
+    $stavyUkolu[2] = __("Zadaný");
+    $stavyUkolu[3] = __("Řešený");
+    $stavyUkolu[4] = __("Vyřešený");
+    $stavyUkolu[5] = __("Akceptovaný");
+    $stavyUkolu[6] = __("Vrácený");
+    $stavyUkolu[7] = __("Nejasný");
+    $stavyUkolu[8] = __("Zodpovězený");
 
     function vypisOpravneni($opravneni)
     {
@@ -34,19 +49,70 @@
         }
     }
 
+    function vypisZoznamUloh($uloha, $stavyUkolu){
+        $poradie = $uloha->poradi;
+        $zadanie = nl2br($uloha->zadani);
+        $ukoncenie = Carbon\Carbon::parse($uloha->termin)->format('d.m.Y');
+        $hotovo = $uloha->procenta;
+        $komentar = $uloha->komentar;
+        $vysledek = '';
+        $vysledek = '<tr><td style="width:50px;padding:5px">'.$poradie.'</td><td style="width:900px;padding:5px">'.$zadanie.'</td><td style="width:180px;text-align:center;padding:5px">'.$ukoncenie.'</td><td style="width:120px;text-align:center;padding:5px">
+        <select name="stav" class="stav-select">
+        <option value="2" '.($uloha->stav == 2 ? 'selected' : '').'>'.__("Zadaný").'</option>
+        <option value="3" '.($uloha->stav == 3 ? 'selected' : '').'>'.__("Řešený").'</option>
+        <option value="4" '.($uloha->stav == 4 ? 'selected' : '').'>'.__("Vyřešený").'</option>
+        </select>
+        </td><td style="width:60px;text-align:center;padding:5px">
+        <select name="hotovo" class="hotovo-select">';
+        for ($i = 0; $i <= 100; $i++) {
+            $vysledek .= '<option value="'.$i.'" '.($hotovo == $i ? 'selected' : '').'>'.$i.'</option>';
+        }
+        $vysledek .= '</select></td><td style="width:120px;text-align:center;padding:5px"><textarea style="margin:0px;margin-top:7px">'.$komentar.'</textarea></td></tr>';
+        return $vysledek;
+    }
+
     function vypisZoznamProstriedkov($prostriedok, $nazovServeru){
-        $nazov = $prostriedok->nazev;
+        if ($prostriedok->typ_vyuziti == 0){
+            $nazov = $prostriedok->nazev;
+        }
+        else{
+            $nazov = '<span class="bold-red">' . $prostriedok->nazev . ' *</span>';
+        }
         $cesta = $prostriedok->cesta;
         $server = $nazovServeru->nazev;
         $opravnenie = vypisOpravneni($prostriedok->opravneni);
         $adresar = "TODO";
         
         $vysledek = '';
-        $vysledek = '<tr style="border:black solid 2px"><td style="width:200px;border:black solid 2px;border-left: black solid 4px;text-align:center;padding:5px">'.$nazov.'</td><td style="width:350px;border:black solid 2px;padding:5px">'.$cesta.'</td><td style="width:150px;text-align:center;border:black solid 2px;padding:5px">'.$server.'</td><td style="width:150px;border:black solid 2px;text-align:center;padding:5px">'.$opravnenie.'</td><td style="width:350px;text-align:center;border:black solid 2px;padding:5px;border-right: black solid 4px">'.$adresar.'</td></tr>';
+        $vysledek = '<tr style="border:black solid 2px"><td style="width:200px;border:black solid 2px;border-left: black solid 4px;padding:5px">'.$nazov.'</td><td style="width:350px;border:black solid 2px;padding:5px">'.$cesta.'</td><td style="width:150px;text-align:center;border:black solid 2px;padding:5px">'.$server.'</td><td style="width:150px;border:black solid 2px;text-align:center;padding:5px">'.$opravnenie.'</td><td style="width:350px;text-align:center;border:black solid 2px;padding:5px;border-right: black solid 4px">'.$adresar.'</td></tr>';
+        return $vysledek;
+    }
+
+    function vypisUlohy($uloha1, $stavyUloh1, $stavyUkolu){
+        $zadanie_ulohy = nl2br($uloha1->zadani);
+        $odoslanie = Carbon\Carbon::parse($uloha1->termin)->format('d.m.Y');
+        $zadanie_ulohy .= ' (' . $odoslanie .')';
+        $vysledek = '';
+        $vysledek = '<li>'.$zadanie_ulohy.'<ul>';
+        foreach ($stavyUloh1 as $stavy) {
+            $terminDateTime = new DateTime($stavy->odeslano);
+            $formattedDateTime = $terminDateTime->format('d.m.Y H:i');
+            $stavUlohy1 = $stavyUkolu[$stavy->stav];
+            if ($stavy->stav == 3){
+                $percenta = '['.$stavy->procenta.'%]';
+            }
+            else{
+                $percenta = '';
+            }
+
+            $vysledek .= '<li class="vypis-uloh-li">'. $formattedDateTime .' - '. $stavUlohy1 .' '. $percenta .'</li>';
+        }  
+        $vysledek .='</ul></li>';
         return $vysledek;
     }
 
 ?>
+<!-- TODO ukladanie stavu_uloh -->
 @extends('dashboard')
 @section('content')
     <div class="detail-projektu">
@@ -60,12 +126,6 @@
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Číslo')}}:</div>
                     {{$projekt->id}}
-                    <a href="#"><img src="{{asset('detail.gif')}}" style="width:35px;margin-right:5px" title="{{__('Detaily')}}" alt="Detaily"/></a>
-                    <a href="#"><img src="{{asset('edit.gif')}}" style="width:35px;margin-left:5px" title="{{__('Upravit')}}" alt="Upravit"/></a>
-                    <a href="#"><img src="{{asset('vykazy.gif')}}" style="width:35px;margin-right:5px" title="{{__('Pracovní výkazy')}}" alt="Vykazy"/></a>
-                    <a href="#"><img src="{{asset('prostredky.gif')}}" style="width:35px;margin-left:5px" title="{{__('Prostředky')}}" alt="Prostředky"/></a>
-                    <a href="#"><img src="{{asset('resitele.gif')}}" style="width:35px;margin-right:5px" title="{{__('Řešitelé')}}" alt="Řešitelé"/></a>
-                    <a href="#"><img src="{{asset('sleduji.gif')}}" style="width:35px;margin-left:5px" title="{{__('Příjemci zpráv')}}" alt="Příjemci_zpráv"/></a>
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Typ')}}:</div>
@@ -85,7 +145,7 @@
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Zadán dne')}}:</div>
-                    {{$projekt->zadan}}
+                    {{Carbon\Carbon::parse($projekt->zadan)->format('d.m.Y H:i');}}
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Stav')}}:</div>
@@ -97,58 +157,91 @@
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Zahájení a ukončení')}}:</div>
-                    {{"TODO"}}
+                    {{ $riesenie->resi_od . " - " . $riesenie->resi_do }}
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Přístup k prostředkům do')}}:</div>
-                    {{"TODO"}}
+                    {{ $riesenie->resi_do }}
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Aktivní')}}:</div>
-                    {{"TODO"}}
+                    @if ($riesenie->aktivita == 0)
+                        <span class="nevyplnene-udaje">{{ $aktivitaResitele[$riesenie->aktivita] }}</span>
+                    @elseif ($riesenie->aktivita == 5)
+                        <span class="vyplnene-udaje">{{ $aktivitaResitele[$riesenie->aktivita] }}</span>
+                    @endif
                 </div>
-                <div class="medzera"></div>
-            </div>
-            <hr>
-            <div>
-                <h3>{{__('Úkoly')}}:</h3>
+                <div>
+                    <div class="osobne_info_item_span" style="width:60px">{{__('Úkoly')}}:</div>
+                    <table id="ulohy-tabulka">
+                        <thead>
+                            <tr>
+                                <th class="projekty-table-thead-th" style="width:50px" title="{{__('číslo úkolu')}}">{{__('č.ú.')}}</th>
+                                <th class="projekty-table-thead-th" style="width:900px">{{__('Zadání úkolu')}}</th>
+                                <th class="projekty-table-thead-th" style="width:180px">{{__('Termín ukončení')}}</th>
+                                <th class="projekty-table-thead-th" style="width:120px">{{__('Stav úkolu')}}</th>
+                                <th class="projekty-table-thead-th" style="width:60px">{{__('Hotovo')}}</th>
+                                <th class="projekty-table-thead-th" style="width:120px">{{__('Komentář')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($ulohy as $uloha): ?>
+                                <?php                                
+                                    echo vypisZoznamUloh($uloha, $stavyUkolu);
+                                ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <hr>
             <div>
                 <h3>{{__('Prostředky')}}:</h3>
                 <table id="riesene-projekty-tabulka">
-                <thead>
-                    <tr style="border: black solid 4px;border-bottom:black solid 2px">
-                        <th class="projekty-table-thead-th" style="width:200px">{{__('Název')}}</th>
-                       <th class="projekty-table-thead-th" style="width:350px">{{__('Cesta')}}</th>
-                        <th class="projekty-table-thead-th" style="width:150px">{{__('Server')}}</th>
-                        <th class="projekty-table-thead-th" style="width:150px">{{__('Oprávnění')}}</th>
-                        <th class="projekty-table-thead-th" style="width:350px">{{__('Prostředek je adresářem projektu')}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($prostriedky as $prostriedok): ?>
-                        <div class="vypis-prostriedkov">
-                            <?php 
-                                $nazovServeru = DB::table('server')
-                                ->select('id_server', 'nazev')
-                                ->where('id_server', $prostriedok->server)
-                                ->first();
+                    <thead>
+                        <tr style="border: black solid 4px;border-bottom:black solid 2px">
+                            <th class="projekty-table-thead-th" style="width:200px">{{__('Název')}}</th>
+                            <th class="projekty-table-thead-th" style="width:350px">{{__('Cesta')}}</th>
+                            <th class="projekty-table-thead-th" style="width:150px">{{__('Server')}}</th>
+                            <th class="projekty-table-thead-th" style="width:150px">{{__('Oprávnění')}}</th>
+                            <th class="projekty-table-thead-th" style="width:350px">{{__('Prostředek je adresářem projektu')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($prostriedky as $prostriedok): ?>
+                            <div class="vypis-prostriedkov">
+                                <?php 
+                                    $nazovServeru = DB::table('server')
+                                    ->select('id_server', 'nazev')
+                                    ->where('id_server', $prostriedok->server)
+                                    ->first();
 
-                                echo vypisZoznamProstriedkov($prostriedok, $nazovServeru);
-                            ?>
-                        </div>
-                    <?php endforeach; ?>
-                </tbody>
-                <tfoot>
-                <tr style="border: black solid 4px;border-bottom:black solid 2px">
-                </tr>
-                </tfoot>
-            </table>
+                                    echo vypisZoznamProstriedkov($prostriedok, $nazovServeru);
+                                ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                    <tr style="border: black solid 4px;border-bottom:black solid 2px">
+                    </tr>
+                    </tfoot>
+                </table>
             </div>
+            <div class="medzera"></div>
             <hr>
             <div>
                 <h3>{{__('Úkoly')}}:</h3>
+                <ol class="vypis-prostriedkov" style="margin-left:25px">
+                    <?php foreach ($ulohy1 as $uloha1): ?>
+                        <?php 
+                            $stavyUloh1 = DB::table('stavy_ukolu')
+                                ->where('ukol', $uloha1->id)
+                                ->orderBy('id', 'asc')
+                                ->get();    
+                            echo vypisUlohy($uloha1, $stavyUloh1, $stavyUkolu);
+                        ?> 
+                    <?php endforeach; ?>
+                </ol>
             </div>
         </div>
         <div class="medzera"></div>

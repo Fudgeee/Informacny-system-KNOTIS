@@ -20,27 +20,36 @@ class ImportVykazovController extends Controller
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
-        }
         return view('import_vykazov', compact('data'));
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
-    public function uploadAndSendEmail(Request $request)
-    {
-        $request->validate([
-            'file' => 'required',
-            'osoba' => 'required',
-            'login' => 'required'
-        ]);
+    public function uploadAndSendEmail(Request $request){
+        if(Session::has('loginId')){
+            $request->validate([
+                'file' => 'required',
+                'osoba' => 'required',
+                'login' => 'required'
+            ]);
 
-        $file = $request->file('file');
-        $osoba = $request->input('osoba');
-        $login = $request->input('login');
+            $file = $request->file('file');
+            $osoba = $request->input('osoba');
+            $login = $request->input('login');
 
-        // Odoslanie emailu s prílohou
-        Mail::to('ado.matusik@gmail.com')->send(new VykazImported($file, $osoba, $login));
+            // Odoslanie emailu s prílohou
+            Mail::to('ado.matusik@gmail.com')->send(new VykazImported($file, $osoba, $login));
 
-    // Odpoveď alebo presmerovanie
-    return back()->with('success', 'Súbor odoslaný úspešne!');
+            // Odpoveď alebo presmerovanie
+            return back()->with('success', 'Súbor odoslaný úspešne!');
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
 }

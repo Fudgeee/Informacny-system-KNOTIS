@@ -26,7 +26,10 @@ class AuthController extends Controller
             }
             elseif(Hash::check($request->password,$osoba->heslo)){
                 $request->session()->put('loginId',$osoba->id);
-                return redirect('dashboard');
+
+                // Po prihlásení získať a použiť uloženú URL
+                $preLoginUrl = session('preLoginUrl', 'dashboard');
+                return redirect($preLoginUrl);
             }
             else{
                 return back()->with('fail',__('Nespravné Heslo'));
@@ -41,32 +44,46 @@ class AuthController extends Controller
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
-        }
         return view('dashboard', compact('data'));
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
     public function changePassword(){
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
-        }
         return view('change_password', compact('data'));
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
     public function updatePassword(Request $request){
-        $request->validate([
-            'old_password'=>'required',
-            'new_password'=>'required|confirmed|min:5|max:30'
-        ]);
-        $osoba= Osoba::where('id','=',Session::get('loginId'))->first();
-        if (Hash::check($request->old_password,$osoba->heslo)){
-            Osoba::where('id','=',Session::get('loginId'))->update([
-                'heslo' => Hash::make($request->new_password)
+        if(Session::has('loginId')){
+            $request->validate([
+                'old_password'=>'required',
+                'new_password'=>'required|confirmed|min:5|max:30'
             ]);
-            return back()->with('success',__('Heslo bylo změněno'));
+            $osoba= Osoba::where('id','=',Session::get('loginId'))->first();
+            if (Hash::check($request->old_password,$osoba->heslo)){
+                Osoba::where('id','=',Session::get('loginId'))->update([
+                    'heslo' => Hash::make($request->new_password)
+                ]);
+                return back()->with('success',__('Heslo bylo změněno'));
+            }
+            else{
+                return back()->with('fail',__('Aktuální heslo se neshoduje'));
+            }
         }
-        else{
-            return back()->with('fail',__('Aktuální heslo se neshoduje'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
         }
     }
 
@@ -74,6 +91,10 @@ class AuthController extends Controller
         if(Session::has('loginId')){
             Session::pull('loginId');
             return redirect('login');
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
         }
     }
 }

@@ -42,7 +42,11 @@ class PracovneVykazyOsobyController extends Controller
             ->paginate(10);
 
             // dd($vykazyT);
+            return view('pracovne_vykazy_osoby', compact('data', 'vykazyT'));
         }
-        return view('pracovne_vykazy_osoby', compact('data', 'vykazyT'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 }

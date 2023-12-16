@@ -225,5 +225,21 @@
     "Čtení": "Read",
     "Zápis": "Write",
     "předchozí": "previous",
-    "další": "next"
+    "další": "next",
+    "Opravdu chcete smazat tento výkaz?": "Do you really want to delete this timesheet?",
+    "Chyba při mazání výkazu": "Removing of timesheet failed",
+    "Nezadaný": "Unassigned",
+    "Řešený": "Solved",
+    "Ukončený": "Completed",
+    "K rozhodnutí": "To be decided",
+    "č.ú.": "t.n.",
+    "číslo úkolu": "task number",
+    "Smazaný": "Deleted",
+    "Zadaný": "Assigned",
+    "Vyřešený": "Completed",
+    "Akceptovaný": "Accepted",
+    "Vrácený": "Returned",
+    "Nejasný": "Unclear",
+    "Zodpovězený": "Answered",
+    "Vaše přihlášení vypršelo. Přihlašte se prosím znovu.": "Your login has expired. Please login again."
 }

@@ -13,10 +13,19 @@ use Validator;
 use DB;
 
 class PracovneVykazyController extends Controller
-{
-    public function pracovneVykazy(){
+{   // IF je platna session.... pridat ELSE a hodit ma dopice
+    public function pracovneVykazy(Request $request){
+
+        $vybranyProjekt = (!is_null($request->query('vybranyProjekt')) ? $request->query('vybranyProjekt') : '');
+        $vybranyTyzden = (!is_null($request->query('vybranyTyzden')) ? $request->query('vybranyTyzden') : '');
+        $vybranyDennyVykaz = (!is_null($request->query('vybranyDennyVykaz')) ? $request->query('vybranyDennyVykaz') : '');
+
+
         $data = array();
         $tmp = array();
+        $vybranyProjektNazov = '';
+        $vybranyTyzdenNazov = '';
+        $zvolenyDennyVykaz = '';
         $tyzdenny_vykaz_db = array();
         $projektNazov = array();
         if(Session::has('loginId')){
@@ -53,54 +62,131 @@ class PracovneVykazyController extends Controller
                 ->where('pondeli', '<=', DB::raw('NOW()'))
                 ->where('nedele', '>=', DB::raw('NOW()'))
                 ->value('id');
-
-                $tmp = DB::table('tydenni_v')->where([
-                    ['id_osoby','=',Session::get('loginId')],
-                    ['id_tydne','=',$aktualnyTyzden + 1],
-                    ['id_projektu','=',$projekty[0]->id]    //TODO vypis vybraneho nie prveho
-                ])->get();
                 
-                if (count($tmp) > 0) {
-                    $tyzdenny_vykaz_db = $tmp[0];
+                if (($vybranyProjekt != null || $vybranyProjekt != '') && ($vybranyTyzden != null || $vybranyTyzden != '')) {
+                    $tmp = DB::table('tydenni_v')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$vybranyTyzden],
+                        ['id_projektu','=',$vybranyProjekt]
+                    ])->get();
+        
+                    if (count($tmp) > 0) {
+                        $tyzdenny_vykaz_db = $tmp[0];
+                    }
+        
+                    $denny_vykaz = DB::table('vykaz')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$vybranyTyzden],
+                        ['id_projektu','=',$vybranyProjekt]
+                    ])
+                    ->orderByDesc('id_vykazu')
+                    ->get();
                 }
-                
-                $denny_vykaz = DB::table('vykaz')->where([
-                    ['id_osoby','=',Session::get('loginId')],
-                    ['id_tydne','=',$aktualnyTyzden + 1],
-                    ['id_projektu','=',$projekty[0]->id]    //TODO vypis vybraneho nie prveho
-                ])
-                ->orderByDesc('id_vykazu')
-                ->get();
-                //dd($aktualnyTyzden);
+                elseif (($vybranyProjekt != null || $vybranyProjekt != '') && ($vybranyTyzden == null )) {
+                    $tmp = DB::table('tydenni_v')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$aktualnyTyzden + 1],
+                        ['id_projektu','=',$vybranyProjekt]
+                    ])->get();
+        
+                    if (count($tmp) > 0) {
+                        $tyzdenny_vykaz_db = $tmp[0];
+                    }
+        
+                    $denny_vykaz = DB::table('vykaz')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$aktualnyTyzden + 1],
+                        ['id_projektu','=',$vybranyProjekt]
+                    ])
+                    ->orderByDesc('id_vykazu')
+                    ->get();
+                }
+                elseif (($vybranyProjekt == null) && ($vybranyTyzden != null || $vybranyTyzden != '' )) {
+                    $tmp = DB::table('tydenni_v')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$vybranyTyzden],
+                        ['id_projektu','=',$projekty[0]->id]
+                    ])->get();
+        
+                    if (count($tmp) > 0) {
+                        $tyzdenny_vykaz_db = $tmp[0];
+                    }
+        
+                    $denny_vykaz = DB::table('vykaz')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$vybranyTyzden],
+                        ['id_projektu','=',$projekty[0]->id]
+                    ])
+                    ->orderByDesc('id_vykazu')
+                    ->get();
+                }
+                else {
+                    $tmp = DB::table('tydenni_v')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$aktualnyTyzden + 1],
+                        ['id_projektu','=',$projekty[0]->id]   
+                    ])->get();
+                    
+                    if (count($tmp) > 0) {
+                        $tyzdenny_vykaz_db = $tmp[0];
+                    }
+                    
+                    $denny_vykaz = DB::table('vykaz')->where([
+                        ['id_osoby','=',Session::get('loginId')],
+                        ['id_tydne','=',$aktualnyTyzden + 1],
+                        ['id_projektu','=',$projekty[0]->id]
+                    ])
+                    ->orderByDesc('id_vykazu')
+                    ->get();
+                }
+                foreach ($projekty as $projekt) {
+                    if ($projekt->id == $vybranyProjekt) {
+                        $vybranyProjektNazov = $projekt->id . '. ' . $projekt->nazev;
+                        break;
+                    }
+                }
+                foreach ($tyzdne as $i => $tyzden1) {
+                    if ($vybranyTyzden == $i + 1) {
+                        $vybranyTyzdenNazov = $tyzden1;
+                        break;
+                    }
+                }
+                foreach ($denny_vykaz as $den1) {
+                    if ($vybranyDennyVykaz == $den1->id_vykazu) {
+                        $zvolenyDennyVykaz = $den1;
+                        break;
+                    }
+                }
+            return view('pracovne_vykazy', compact('data', 'projekty', 'projektNazov', 'tyzdne', 'aktualnyTyzden', 'tyzdenny_vykaz_db', 'denny_vykaz', 'vybranyTyzdenNazov', 'vybranyProjektNazov', 'zvolenyDennyVykaz'));
         }
-        return view('pracovne_vykazy', compact('data', 'projekty', 'projektNazov', 'tyzdne', 'aktualnyTyzden', 'tyzdenny_vykaz_db', 'denny_vykaz'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
     public function updatePracovneVykazyProjekt(Request $request){
+        $vybranyProjekt = $request->input('vybranyProjekt');
+        $casti = explode('.', $vybranyProjekt);
+        $id_vybraneho_projektu = $casti[0];      
+        //dd($castPredZnakom);
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
-            $projektNazov = array();
-            $projekty = DB::table('projekt')
-                    ->select('projekt.id as id', 'projekt.typ as typ', 'projekt.nazev as nazev', 'projekt.vedouci as vedouci', 'resi.aktivita as aktivita', 'projekt.url as url', 'projekt.zkratka as zkratka', 'prostredek.cesta as adr_proj', DB::raw('DATE_FORMAT(resi.posledni_zm_adr,"%d.%m.%Y %H:%i") as posledni_zm_adr'))
-                    ->join('resi', 'projekt.id', '=', 'resi.id_projektu')
-                    ->leftJoin('prostr_proj', 'projekt.id', '=', 'prostr_proj.id_projektu')
-                    ->leftJoin('prostredek', 'prostredek.id', '=', 'prostr_proj.id_prostredku')
-                    ->where(function($query) {
-                        $query->whereNull('prostr_proj.typ_vyuziti')
-                            ->orWhere('prostr_proj.typ_vyuziti', '=', '1');
-                    })
-                    ->where('resi.id_osoby', '=', $data['id'])
-                    ->get();
-
-            for ($i=0; $i<count($projekty); $i++){
-                $projektNazov[$i] = $projekty[$i]->id . '. ' . $projekty[$i]->nazev;
-            }
-
+            $tyzdenny_vykaz_db = DB::table('projekt')
+                    ->where('.id_osoby', '=', $data['id'])
+                    ->where('id', '=', $id_vybraneho_projektu)
+                    ->first();
+            //dd($tyzdenny_vykaz_db); // LAST TODO
+            return view('pracovne_vykazy', compact('tyzdenny_vykaz_db', 'data'));
         }
-        return view('pracovne_vykazy', compact('projekty', 'projektNazov', 'data'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
     public function updatePracovneVykazyTyzden(Request $request){
+        dd($request);
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
             $tyzden = DB::table('tyden')
@@ -125,8 +211,12 @@ class PracovneVykazyController extends Controller
             elseif ($request->has('nastavTydenTlacMinuly')) {
                 $aktualnyTyzden = $aktualnyTyzden - 1;
             }
-        }
         return view('pracovne_vykazy', compact('aktualnyTyzden', 'tyzdne', 'data'));
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
     public function updatePracovneVykazyDenny(Request $request){
         if(Session::has('loginId')){
@@ -182,6 +272,10 @@ class PracovneVykazyController extends Controller
                 }
             }    
             return back()->with('success1',__('Denní výkaz byl úspěšně uložen'));      
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
         }
     }
 
@@ -246,6 +340,10 @@ class PracovneVykazyController extends Controller
             }    
             return back()->with('success2',__('Změny v týdenním výkazu byly úspěšně uloženy'));      
         }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
     public function deleteVykaz(Request $request){
@@ -256,7 +354,12 @@ class PracovneVykazyController extends Controller
             ])->delete();
             return back()->with('success4',__('Pracovní výkaz byl úspěšně vymazán'));      
         }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
+
 
     public function updatePracovneVykazyTyzdennySHodinami(Request $request){
         if(Session::has('loginId')){
@@ -299,5 +402,9 @@ class PracovneVykazyController extends Controller
 
              // TODO KONTROLA ULOZENIA JEDNEHO VYKAZU VIACKRAT  
         }
+        // else {
+        //     session(['preLoginUrl' => url()->previous()]);
+        //     return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        // }
     }
 }

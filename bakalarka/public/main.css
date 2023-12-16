@@ -787,4 +787,18 @@ textarea{
     margin-left: 50px;
 }
 
+#ulohy-tabulka th,
+#ulohy-tabulka td{
+    border: none;
+}
+
+.vypis-uloh-li:last-child{
+    font-weight: 700;
+}
+
+.bold-red{
+    font-weight: 700 !important;
+    color: red !important;
+}
+
 /* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú  ?? My timesheets/ My work reports*/

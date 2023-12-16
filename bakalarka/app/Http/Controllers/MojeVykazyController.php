@@ -66,8 +66,12 @@ class MojeVykazyController extends Controller     // TODO kliknutim na moje vyka
             ->orderBy('tyden.id', 'DESC')
             ->paginate(10);
 
-        //dd($vykazyT);
+            //dd($vykazyT);
+            return view('moje_vykazy', compact('data', 'projekt', 'skupina', 'vykazyT'));
         }
-        return view('moje_vykazy', compact('data', 'projekt', 'skupina', 'vykazyT'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 }

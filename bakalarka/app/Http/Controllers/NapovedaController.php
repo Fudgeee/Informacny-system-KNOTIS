@@ -18,7 +18,11 @@ class NapovedaController extends Controller
         $data = array();
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
+            return view('help', compact('data'));
         }
-        return view('help', compact('data'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 }

@@ -1,32 +1,49 @@
 <!--pracovne vykazy-->
 <?php
-    function generujPolozkyVyberuProjektu($moznosti,$zvolena){
+    function generujPolozkyVyberuProjektu($moznosti,$zvolena,$vybranyProjektNazov){
         $vysledek = '';
         
         foreach ($moznosti as $idMoznosti => $moznost){  // přidávání jednotlivých položek
-            if ($zvolena == $idMoznosti)
-            {  // pokud má být tato možnost zvolená
-            $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
+            if ($vybranyProjektNazov != null ) {
+                //$tmp = explode('. ', $moznost, 2);
+                if ($vybranyProjektNazov == $moznost) {
+                    $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
+                }
+                else {  // pokud tato možnost nemá být zvolená
+                    $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
+                }
             }
-            else
-            {  // pokud tato možnost nemá být zvolená
-            $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
+            else {
+                if($zvolena == $idMoznosti) {  // pokud má být tato možnost zvolená
+                    $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
+                }
+                else {  // pokud tato možnost nemá být zvolená
+                    $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
+                }
             }
         }  // přidávání jednotlivých položektyzden
         return $vysledek;
     }
 
     $tyzdneVypis = array_unique($tyzdne);
-    function generujTyzdne($moznosti,$zvolena){
+    function generujTyzdne($moznosti,$zvolena,$vybranyTyzdenNazov){
         $vysledek = '';
         foreach ($moznosti as $idMoznosti => $moznost){  // přidávání jednotlivých položek
-            if ($zvolena == $idMoznosti)
-            {  // pokud má být tato možnost zvolená
-            $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
+            if ($vybranyTyzdenNazov != null ) {
+                if ($vybranyTyzdenNazov == $moznost) {
+                    $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
+                }
+                else {  // pokud tato možnost nemá být zvolená
+                    $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
+                }
             }
-            else
-            {  // pokud tato možnost nemá být zvolená
-            $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
+            else {
+                if ($zvolena == $idMoznosti) {  // pokud má být tato možnost zvolená
+                $vysledek .= "<option value=\"$idMoznosti\" selected>$moznost</option>";
+                }
+                else {  // pokud tato možnost nemá být zvolená
+                $vysledek .= "<option value=\"$idMoznosti\">$moznost</option>";
+                }
             }
         }  // přidávání jednotlivých položek
         return $vysledek;
@@ -56,7 +73,7 @@
 
 <script src="{{asset('https://code.jquery.com/jquery-3.6.0.min.js')}}"></script>
 <script src="{{asset('https://code.jquery.com/ui/1.13.0/jquery-ui.min.js')}}"></script>
-
+<!-- TODO aktulaizovat obsah stranky po zmene projektu/tyzdna -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const selectProjekt = document.getElementById('nastavProjekt');
@@ -83,6 +100,7 @@
                 vybranyProjekt.style.width = (vybranyProjekt.value.length + 2) + 'ch';
                 //vybranyProjekt1.style.width = (vybranyProjekt1.value.length + 2) + 'ch';
                 vybranyProjektText.style.width = (vybranyProjektText.value.length + 2) + 'ch';
+
 
                 // const cislo = vybranyProjekt.value.split('.')[0];
                 // upravSouhrn.value = cislo;
@@ -241,7 +259,7 @@
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const recordId = this.getAttribute('data-record-id');
-                const confirmed = confirm('Naozaj chcete vymazať tento záznam?');
+                const confirmed = confirm('{{__("Opravdu chcete smazat tento výkaz?")}}');
 
                 if (confirmed) {
                     $.ajax({
@@ -252,13 +270,14 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function (data) {
-                            // Prípadné aktualizácie rozhrania po úspešnom vymazaní
-                            $(`tr[data-record-id=${recordId}]`).remove();
+                            const removedRow = $(`tr[data-record-id=${recordId}]`);
+                            removedRow.remove();
+                            spocitajCelkoveHodiny();
                             //alert('Výkaz bol úspešne vymazaný.');
                         },
                         error: function (error) {
-                            console.error('Chyba pri vymazávaní výkazu:', error);
-                            alert('Chyba pri vymazávaní výkazu.');
+                            console.error('{{__("Chyba při mazání výkazu:")}}', error);
+                            alert('{{__("Chyba při mazání výkazu")}}');
                         }
                     });
                 }
@@ -319,6 +338,51 @@
         });
 
     }
+
+    
+        // AJAX pre zmenu projektu
+        // $('#nastavProjekt').change(function() {
+        //     var vybranyProjekt = $(this).val();
+
+        //     $.ajax({
+        //         url: '/pracovne_vykazy_projekt',
+        //         method: 'POST',
+        //         data: { vybranyProjekt: vybranyProjekt,
+        //              _token: '{{ csrf_token() }}' },
+        //         success: function(response) {
+        //             // Spracujte odpoveď a aktualizujte údaje vo formulári
+
+        //             // Príklad: aktualizujte hodnoty v poliach vo formulári
+        //             $('#vybranyProjektText').val(response.udaje.nazevProjektu);
+        //             // Ďalšie aktualizácie podľa potreby
+        //         },
+        //         error: function(error) {
+        //             console.error('Chyba pri AJAX požiadavke:', error);
+        //         }
+        //     });
+        // });
+    
+        // AJAX pre zmenu týždňa
+        // $('#nastavTyzden').change(function() {
+        //     var vybranyTyzden = $(this).val();
+
+        //     $.ajax({
+        //         url: '/aktualizovat-udaje-tyzden',
+        //         method: 'POST',
+        //         data: { vybranyTyzden: vybranyTyzden, _token: '{{ csrf_token() }}' },
+        //         success: function(response) {
+        //             // Spracujte odpoveď a aktualizujte údaje vo formulári
+
+        //             // Príklad: aktualizujte hodnoty v poliach vo formulári
+        //             $('#vybranyTyzdenText').val(response.udaje.nazevTyzdne);
+        //             // Ďalšie aktualizácie podľa potreby
+        //         },
+        //         error: function(error) {
+        //             console.error('Chyba pri AJAX požiadavke:', error);
+        //         }
+        //     });
+        // });
+    
 </script>
 
 @extends('dashboard')
@@ -338,7 +402,7 @@
                         <!--input type="text" id="vybranyProjekt1" name="vybranyProjekt1" readonly-->
                         <label for="nastavProjekt" style="width:70px">{{__('Projekt')}}:</label>
                         <select name="zoznam_projektov" id="nastavProjekt" title="{{__('Projekt, na kterém byla práce odpracována')}}" size="1">
-                            <?php echo generujPolozkyVyberuProjektu($projektNazov,$projektNazov[0]);?>
+                            <?php echo generujPolozkyVyberuProjektu($projektNazov,$projektNazov[0],$vybranyProjektNazov);?>
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
@@ -350,7 +414,7 @@
                     <div class="pracovne-vykazy-item">
                         <label for="nastavTyzden" style="width:70px">{{__('Týden')}}:</label>
                         <select name="zoznam_tyzdnov" id="nastavTyzden" title="{{__('Projekt, na kterém byla práce odpracována')}}" size="1">
-                            <?php echo generujTyzdne($tyzdneVypis,$aktualnyTyzden);?>
+                            <?php echo generujTyzdne($tyzdneVypis,$aktualnyTyzden,$vybranyTyzdenNazov);?>
                         </select>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                         <input type="submit" id="nastavTydenTlacPredminuly" class="denny_vykaz_btns" name="nastavTydenTlacPredminuly" title="{{ __('Nastavit předminulý týden a zvolený projekt') }}" value="{{ __('předminulý') }}">
@@ -380,28 +444,33 @@
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="datumVykazu" style="width:70px">{{__('Datum')}}:</label>
-                        <input type="datetime-local" id="datumVykazu" name="datumVykazu" value="{{ \Carbon\Carbon::now('Europe/Prague')->format('Y-m-d\TH:i') }}">
+                        <input type="datetime-local" id="datumVykazu" name="datumVykazu" value="{{ $zvolenyDennyVykaz ? $zvolenyDennyVykaz->datum : \Carbon\Carbon::now('Europe/Prague')->format('Y-m-d\TH:i') }}">
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span> <!-- zmena formatu na iba datum a poradie den.mesiac.rok bez hodin -->
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="casVykazuOd" style="width:70px">{{__('Čas: od')}}:</label>
-                        <input type="time" id="casVykazuOd" name="casVykazuOd" style="margin-right:8px">
+                        <input type="time" id="casVykazuOd" name="casVykazuOd" style="margin-right:8px" value="{{ $zvolenyDennyVykaz ? $zvolenyDennyVykaz->cas_od : '' }}">
                         <label for="casVykazuDo">{{__('do')}}:</label>
-                        <input type="time" id="casVykazuDo" name="casVykazuDo" value="{{ \Carbon\Carbon::now('Europe/Prague')->format('H:i') }}" style="margin-right:8px">
+                        <input type="time" id="casVykazuDo" name="casVykazuDo" value="{{ $zvolenyDennyVykaz ? $zvolenyDennyVykaz->cas_do : \Carbon\Carbon::now('Europe/Prague')->format('H:i') }}" style="margin-right:8px">
                         <label for="upravHodin" style="margin-left:32px">{{__('Odpracováno')}}:</label>
-                        <input type="text" size="2" maxlength="10" id="upravHodin" name="upravHodin" title="{{ __('Počet odpracovaných hodin')}}">
+                        @php
+                            $minutes = $zvolenyDennyVykaz ? $zvolenyDennyVykaz->minut : 0;
+                            $hours = floor($minutes / 60);
+                            $zvysokMinut = $minutes % 60;
+                        @endphp
+                        <input type="text" size="2" maxlength="10" id="upravHodin" name="upravHodin" title="{{ __('Počet odpracovaných hodin')}}" value="{{ $zvolenyDennyVykaz ? $hours : '' }}">
                         <span>:</span>
-                        <input type="text" size="2" maxlength="10" id="upravMin" name="upravMin" title="{{ __('Počet odpracovaných minut')}}">
+                        <input type="text" size="2" maxlength="10" id="upravMin" name="upravMin" title="{{ __('Počet odpracovaných minut')}}" value="{{ $zvolenyDennyVykaz ? $zvysokMinut : '' }}">
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="upravCinnost" style="width:70px" class="pracovne-vykazy-item-cinnost">{{__('Činnost')}}:</label>
-                        <textarea name="upravCinnost" id="upravCinnost" title="{{__('Činnost')}}" cols="77" rows="7"></textarea>
+                        <textarea name="upravCinnost" id="upravCinnost" title="{{__('Činnost')}}" cols="77" rows="7">@if ($zvolenyDennyVykaz != null){{ $zvolenyDennyVykaz->cinnost }}@endif</textarea>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <label for="upravNesouvisiSP" class="pracovne-vykazy-item-cinnost">{{__('Činnost nesouvisí přímo s projektem')}}:</label>
-                        <input type="checkbox" name="upravNesouvisiSP" id="upravNesouvisiSP" title="{{__('Činnost nesouvisí přímo s projektem')}}">
+                        <input type="checkbox" name="upravNesouvisiSP" id="upravNesouvisiSP" title="{{__('Činnost nesouvisí přímo s projektem')}}" @if ($zvolenyDennyVykaz && $zvolenyDennyVykaz->nesouvisi_sp == 1) checked @endif>
                     </div>
                     <div class="pracovne-vykazy-item">
                         <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>

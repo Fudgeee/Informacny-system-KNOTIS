@@ -28,8 +28,53 @@ class DetailProjektuController extends Controller
             ->where('prostredek.stav', '<', 1)
             ->where('prostr_proj.id_projektu', $id_projektu)
             ->get();
-        }
+            $riesenie = DB::table('resi')
+            ->select(
+                'resi.id_osoby as id_osoby',
+                'resi.id_projektu as id_projektu',
+                DB::raw('DATE_FORMAT(resi.resi_od, "%d.%m.%Y %H:%i") as resi_od'),
+                DB::raw('DATE_FORMAT(resi.resi_do, "%d.%m.%Y %H:%i") as resi_do'),
+                DB::raw('DATE_FORMAT(resi.pristup_do, "%d.%m.%Y %H:%i") as pristup_do'),
+                'resi.aktivita as aktivita'
+            )
+            ->where([
+                ['id_projektu', '=', $id_projektu],
+                ['id_osoby', '=', $data['id']]
+            ])->first();
 
-        return view('detail_projektu', compact('data', 'projekt', 'veduci', 'prostriedky'));
+            $ulohy = DB::table('ukoly')
+                ->select('ukoly.*', 'stavy_ukolu.*')
+                ->leftJoin('stavy_ukolu', function ($join) {
+                    $join->on('stavy_ukolu.ukol', '=', 'ukoly.id')
+                        ->whereRaw('stavy_ukolu.id = (SELECT MAX(id) FROM stavy_ukolu WHERE stavy_ukolu.ukol = ukoly.id)');
+                })
+                ->whereIn('ukoly.id', function ($query) use ($id_projektu, $data) {
+                    $query->select(DB::raw('MAX(id)'))
+                        ->from('ukoly')
+                        ->where('projekt', $id_projektu)
+                        ->where('resitel', $data['id'])
+                        ->groupBy('poradi');
+                })
+                ->orderBy('poradi', 'asc')
+                ->get();
+
+            $ulohy1 = DB::table('ukoly')
+                ->whereIn('ukoly.id', function ($query) use ($id_projektu, $data) {
+                    $query->select(DB::raw('MAX(id)'))
+                        ->from('ukoly')
+                        ->where('projekt', $id_projektu)
+                        ->where('resitel', $data['id'])
+                        ->groupBy('poradi');
+                })
+                ->groupBy('poradi')
+                ->orderBy('poradi', 'asc')
+                ->get();
+
+            return view('detail_projektu', compact('data', 'projekt', 'veduci', 'prostriedky', 'riesenie', 'ulohy', 'ulohy1'));
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 }

@@ -20,9 +20,8 @@
         $omluva = $vykazT->omluvy;
 
         $vysledek = '';
-        $vysledek = '<tr style="border:black solid 2px"><td style="width:250px;border:black solid 2px;border-left: black solid 4px;text-align:center;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $tyzden . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $osoba . '</td><td style="width:60px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $odpracovane . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $suhrn . '</td><td style="width:110px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '"><a href="#" onclick="editInput(this);return false;"><img src="'.asset('detail.gif').'" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Edit"/></a></td><td style="width:300px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $problemy . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $plan . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $omluva . '</td></tr>';
-        // TODO  a href na projekt
-        foreach ($vykazyD as $vykazD) {
+        $vysledek = '<tr style="border:black solid 2px"><td style="width:250px;border:black solid 2px;border-left: black solid 4px;text-align:center;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $tyzden . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $osoba . '</td><td style="width:60px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $odpracovane . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $suhrn . '</td><td style="width:110px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '"><a href="' . route('pracovneVykazy', ['vybranyProjekt' => $projekt->id, 'vybranyTyzden' => $vykazT->id_tydne]) . '"><img src="'.asset('edit.gif').'" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Upravit"/></a></td><td style="width:300px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $problemy . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $plan . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $omluva . '</td></tr>';
+        foreach ($vykazyD as $vykazD) { 
             $datum = $vykazD->datum;
             $hodin2 = intdiv($vykazD->minut, 60);
             $minut2 = $vykazD->minut % 60;
@@ -39,7 +38,7 @@
                 $suvisi = 'N';
             }
 
-            $vysledek .= '<tr><td style="width:120px;text-align:center;border:black solid 2px;padding:5px">' . $datum . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $hodiny . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $od . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $do . '</td><td style="width:350px;border:black solid 2px;padding:5px">' . $cinnost . '</td><td style="width:60px;text-align:center;border:black solid 2px;padding:5px">' . $suvisi . '</td><td style="width:110px;border:black solid 2px;border-right:black solid 4px;text-align:center;padding:5px" ><a href="#" onclick="editInput(this);return false;"><img src="' . asset('detail.gif') . '" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Edit"/></a></td></tr>';
+            $vysledek .= '<tr><td style="width:120px;text-align:center;border:black solid 2px;padding:5px">' . $datum . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $hodiny . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $od . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $do . '</td><td style="width:350px;border:black solid 2px;padding:5px">' . $cinnost . '</td><td style="width:60px;text-align:center;border:black solid 2px;padding:5px">' . $suvisi . '</td><td style="width:110px;border:black solid 2px;border-right:black solid 4px;text-align:center;padding:5px" ><a href="' . route('pracovneVykazy', ['vybranyProjekt' => $projekt->id, 'vybranyTyzden' => $vykazT->id_tydne, 'vybranyDennyVykaz' => $vykazD->id_vykazu]) . '"><img src="' . asset('edit.gif') . '" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Upravit"/></a></td></tr>';
         }  
         return $vysledek;
     }
@@ -78,10 +77,12 @@
                         <div class="osobne_info_item_span" style="width:150px">{{__('Poznámka')}}:</div>
                         {{$projekt->poznamka}}
                     </div> 
+                    @if (!empty($skupina) && $skupina->nazev != "")
                     <div class="osobne_info_item">
                         <div class="osobne_info_item_span" style="width:150px">{{__('Skupina')}}:</div>
                         {{$skupina->nazev}}
                     </div> 
+                    @endif
                 <div class="medzera"></div>
             </div>
             <hr>

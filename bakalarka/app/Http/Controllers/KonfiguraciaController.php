@@ -201,79 +201,89 @@ class KonfiguraciaController extends Controller
                 $data["sudoKS"] = $tmp1;
 
             }
+            return view('konfiguracia', compact('data', 'servery', 'ipAdresy'));
         }
-        return view('konfiguracia', compact('data', 'servery', 'ipAdresy'));
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
     }
 
     public function updateKonfiguracia(Request $request){
-        $tmp = array();
-        $ipAll = array();
-        $ipAdresy = array();
-        $ipAdresyAll = array();
-        $validator = Validator::make($request->all(), [
-            'zpozdeni_vykazu'=>'required',
-            'zasilat_kopie'=>'required',
-            'str_po_prihlaseni'=>'required',
-            'vychozi_ulozeni_sezeni'=>'required',
-            'hlidani_wiki_ukolu' =>'required',
-        ]);
-        if ($validator->fails()){
-            return back()->with('fail',__('Prosím vyplňte všechna povinná pole'));
-        }
-        else{
-            $osoba = Osoba::where('id','=',Session::get('loginId'))->update([
-                'zpozdeni_vykazu' => $request->zpozdeni_vykazu,
-                'zasilat_kopie' => $request->zasilat_kopie,
-                'str_po_prihlaseni' => $request->str_po_prihlaseni,
-                'vychozi_ulozeni_sezeni' => $request->vychozi_ulozeni_sezeni,
-                'hlidani_wiki_ukolu' => $request->hlidani_wiki_ukolu,
-                'hosts_allow' => (!is_null($request->hosts_allow) ? $request->hosts_allow : ""),
-                'ip4_tables' => (!is_null($request->ip4_tables) ? $request->ip4_tables : ""),
-                'ip6_tables' => (!is_null($request->ip6_tables) ? $request->ip6_tables : "")
+        if(Session::has('loginId')){
+            $tmp = array();
+            $ipAll = array();
+            $ipAdresy = array();
+            $ipAdresyAll = array();
+            $validator = Validator::make($request->all(), [
+                'zpozdeni_vykazu'=>'required',
+                'zasilat_kopie'=>'required',
+                'str_po_prihlaseni'=>'required',
+                'vychozi_ulozeni_sezeni'=>'required',
+                'hlidani_wiki_ukolu' =>'required',
             ]);
-            $ipAdresy = $request->upravIp;
-            $osobaId = Session::get('loginId');
-            $ipAdresyAll = DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->get('ip');
-            if (count(is_countable($ipAdresyAll) ? $ipAdresyAll : []) > 0){
-                foreach($ipAdresyAll as $id1 => $host1){
-                    $ipAll[$id1] = $host1->ip;
-                }
-            }
-            if (count(is_countable($ipAdresy) ? $ipAdresy : []) > 0){
-                foreach($ipAdresy as $id => $host){
-                    $data = null;
-                    if (isset($ipAdresy[$id])){
-                        $data = DB::table('osoba_hosts_ip')->where([
-                            ['id_osoby', '=', $osobaId],
-                            ['ip', '=', $ipAdresy[$id]]
-                        ])->first();
-                    }
-                    if ($data == null || $data == ''){
-                        $data = DB::table('osoba_hosts_ip')->insert([
-                            'id_osoby' => $osobaId,
-                            'ip' => $host
-                        ]);
-                    }
-                    else{
-                        $data = DB::table('osoba_hosts_ip')->where([
-                            ['id_osoby', '=', $osobaId],
-                            ['ip', '=', $ipAdresy[$id]]
-                        ])->update([
-                            'ip' => $host
-                        ]);
-                    }
-                }
-            }
-            if ($ipAdresy == null || $ipAdresy == ''){
-                DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->delete();
+            if ($validator->fails()){
+                return back()->with('fail',__('Prosím vyplňte všechna povinná pole'));
             }
             else{
-                if ($ipAll != null){
-                    $tmp = array_diff($ipAll, $ipAdresy);
-                    DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->whereIn('ip', $tmp)->delete();
+                $osoba = Osoba::where('id','=',Session::get('loginId'))->update([
+                    'zpozdeni_vykazu' => $request->zpozdeni_vykazu,
+                    'zasilat_kopie' => $request->zasilat_kopie,
+                    'str_po_prihlaseni' => $request->str_po_prihlaseni,
+                    'vychozi_ulozeni_sezeni' => $request->vychozi_ulozeni_sezeni,
+                    'hlidani_wiki_ukolu' => $request->hlidani_wiki_ukolu,
+                    'hosts_allow' => (!is_null($request->hosts_allow) ? $request->hosts_allow : ""),
+                    'ip4_tables' => (!is_null($request->ip4_tables) ? $request->ip4_tables : ""),
+                    'ip6_tables' => (!is_null($request->ip6_tables) ? $request->ip6_tables : "")
+                ]);
+                $ipAdresy = $request->upravIp;
+                $osobaId = Session::get('loginId');
+                $ipAdresyAll = DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->get('ip');
+                if (count(is_countable($ipAdresyAll) ? $ipAdresyAll : []) > 0){
+                    foreach($ipAdresyAll as $id1 => $host1){
+                        $ipAll[$id1] = $host1->ip;
+                    }
                 }
-            } 
-            return back()->with('success',__('Konfigurace byla úspěšně změněna'));
+                if (count(is_countable($ipAdresy) ? $ipAdresy : []) > 0){
+                    foreach($ipAdresy as $id => $host){
+                        $data = null;
+                        if (isset($ipAdresy[$id])){
+                            $data = DB::table('osoba_hosts_ip')->where([
+                                ['id_osoby', '=', $osobaId],
+                                ['ip', '=', $ipAdresy[$id]]
+                            ])->first();
+                        }
+                        if ($data == null || $data == ''){
+                            $data = DB::table('osoba_hosts_ip')->insert([
+                                'id_osoby' => $osobaId,
+                                'ip' => $host
+                            ]);
+                        }
+                        else{
+                            $data = DB::table('osoba_hosts_ip')->where([
+                                ['id_osoby', '=', $osobaId],
+                                ['ip', '=', $ipAdresy[$id]]
+                            ])->update([
+                                'ip' => $host
+                            ]);
+                        }
+                    }
+                }
+                if ($ipAdresy == null || $ipAdresy == ''){
+                    DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->delete();
+                }
+                else{
+                    if ($ipAll != null){
+                        $tmp = array_diff($ipAll, $ipAdresy);
+                        DB::table('osoba_hosts_ip')->where('id_osoby', '=', $osobaId)->whereIn('ip', $tmp)->delete();
+                    }
+                } 
+                return back()->with('success',__('Konfigurace byla úspěšně změněna'));
+            }
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
         }
     }
 }
