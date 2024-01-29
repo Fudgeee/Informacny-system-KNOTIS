@@ -11,6 +11,7 @@ use Session;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
+use Carbon\Carbon;
 class DetailProjektuController extends Controller
 {
     public function detailProjektu($id_projektu){
@@ -22,12 +23,22 @@ class DetailProjektuController extends Controller
             ->where('id', $projekt->vedouci)
             ->first();
             $prostriedky = DB::table('prostr_proj')
-            ->select('prostredek.id', 'nazev', 'cesta', 'vlastnik', 'server', 'prostr_proj.*')
-            ->leftJoin('prostredek', 'prostr_proj.id_prostredku', '=', 'prostredek.id')
-            ->where('prostr_proj.vyuzivan', '>', 0)
-            ->where('prostredek.stav', '<', 1)
-            ->where('prostr_proj.id_projektu', $id_projektu)
-            ->get();
+                ->select('prostredek.id', 'prostredek.nazev', 'prostredek.cesta', 'prostr_proj.opravneni', 'prostredek.vlastnik', 'prostr_proj.vyuzivan', 'prostr_proj.typ_vyuziti', 'prostredek.server')
+                ->join('prostredek', 'prostr_proj.id_prostredku', '=', 'prostredek.id')
+                ->where('prostr_proj.id_projektu', '=', $id_projektu)
+                ->where('prostr_proj.vyuzivan', '>', 0)
+                ->where('prostredek.stav', '<', 1)
+                ->union(
+                    DB::table('projekt_skupina')
+                        ->select('prostredek.id', 'prostredek.nazev', 'prostredek.cesta', 'prostr_skup.opravneni', 'prostredek.vlastnik', 'prostr_skup.vyuzivan', DB::raw('0 AS typ_vyuziti'), 'prostredek.server')
+                        ->join('prostr_skup', 'projekt_skupina.id_skupina', '=', 'prostr_skup.id_skupiny')
+                        ->join('prostredek', 'prostr_skup.id_prostredku', '=', 'prostredek.id')
+                        ->where('projekt_skupina.id_projekt', '=', $id_projektu)
+                        ->where('prostr_skup.vyuzivan', '>', 0)
+                        ->where('prostredek.stav', '<', 1)
+                )
+                ->get();
+
             $riesenie = DB::table('resi')
             ->select(
                 'resi.id_osoby as id_osoby',
@@ -46,7 +57,7 @@ class DetailProjektuController extends Controller
                 ->select('ukoly.*', 'stavy_ukolu.*')
                 ->leftJoin('stavy_ukolu', function ($join) {
                     $join->on('stavy_ukolu.ukol', '=', 'ukoly.id')
-                        ->whereRaw('stavy_ukolu.id = (SELECT MAX(id) FROM stavy_ukolu WHERE stavy_ukolu.ukol = ukoly.id)');
+                        ->where('stavy_ukolu.aktualni', "=", 1);
                 })
                 ->whereIn('ukoly.id', function ($query) use ($id_projektu, $data) {
                     $query->select(DB::raw('MAX(id)'))
@@ -71,6 +82,50 @@ class DetailProjektuController extends Controller
                 ->get();
 
             return view('detail_projektu', compact('data', 'projekt', 'veduci', 'prostriedky', 'riesenie', 'ulohy', 'ulohy1'));
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
+    }
+
+    public function aktualizovatUkol(Request $request) {
+        $jednotlive_ulohy = [];
+        if(Session::has('loginId')){
+            $data = Osoba::where('id','=',Session::get('loginId'))->first();
+            foreach ($request->uloha_id as $index => $ulohaId) {
+
+                $stav_ulohy = DB::table('stavy_ukolu')
+                    ->where('id', '=', $ulohaId)
+                    ->first();
+
+                if ($stav_ulohy != NULL) {
+                    // Aktualizace existujícího záznamu
+                    $comment = !is_null($request->komentar[$index]) ? $request->komentar[$index] : "";
+            
+
+                    if($stav_ulohy->stav != intval($request->stav[$index]) || $stav_ulohy->procenta != $request->hotovo[$index] || $stav_ulohy->komentar != $comment) {
+                    
+                        DB::table('stavy_ukolu')
+                            ->where('id', $ulohaId)
+                            ->update([
+                                'aktualni' => 0
+                            ]);
+                        DB::table('stavy_ukolu')->insert([
+                           'ukol' => $request->uloha_ukol[$index],
+                           'stav' => $request->stav[$index],
+                           'procenta' => $request->hotovo[$index],
+                           'komentar' => $request->komentar[$index],
+                           'vlozil' => $data['id'],
+                           'odeslano' => \Carbon\Carbon::now('Europe/Prague'),
+                           'aktualni' => 1
+                        ]);
+
+                        return back()->with('success1',__('Změny stavů úkolů byly úspěšně uloženy'));   
+                    }
+                }
+            }
+
         }
         else {
             session(['preLoginUrl' => url()->previous()]);

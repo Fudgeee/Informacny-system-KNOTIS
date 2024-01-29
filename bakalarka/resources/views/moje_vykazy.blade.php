@@ -9,7 +9,7 @@
     $typProjektu[5] = __("Obecný projekt a DP");
 
     function vypisZoznamVykazov($vykazT, $projekt, $vykazyD, $osoba){
-        $tyzden = $vykazT->cislo_tydne . "(" . $vykazT->pondeli . " - " . $vykazT->nedele . ")";
+        $tyzden = $vykazT->cislo_tydne . " ( " . $vykazT->pondeli . " - " . $vykazT->nedele . " )";
         $hodin1 = intdiv($vykazT->odpracovano, 60);
         $minut1 = $vykazT->odpracovano % 60;
         $zaokruhleneMinuty1 = sprintf("%02d", $minut1);
@@ -20,7 +20,7 @@
         $omluva = $vykazT->omluvy;
 
         $vysledek = '';
-        $vysledek = '<tr style="border:black solid 2px"><td style="width:250px;border:black solid 2px;border-left: black solid 4px;text-align:center;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $tyzden . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $osoba . '</td><td style="width:60px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $odpracovane . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $suhrn . '</td><td style="width:110px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '"><a href="' . route('pracovneVykazy', ['vybranyProjekt' => $projekt->id, 'vybranyTyzden' => $vykazT->id_tydne]) . '"><img src="'.asset('edit.gif').'" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Upravit"/></a></td><td style="width:300px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $problemy . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $plan . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $omluva . '</td></tr>';
+        $vysledek = '<tr style="border:black solid 2px"><td style="width:140px;border:black solid 2px;border-left: black solid 4px;text-align:center;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $tyzden . '</td><td style="width:100px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $osoba . '</td><td style="width:60px;text-align:center;border:black solid 2px" rowspan="' . (count($vykazyD) + 1) . '">' . $odpracovane . '</td><td style="width:400px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $suhrn . '</td><td style="width:90px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '"><a href="' . route('pracovneVykazy', ['vybranyProjekt' => $projekt->id, 'vybranyTyzden' => $vykazT->id_tydne]) . '"><img src="'.asset('edit.gif').'" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Upravit"/></a></td><td style="width:300px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $problemy . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $plan . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $omluva . '</td></tr>';
         foreach ($vykazyD as $vykazD) { 
             $datum = $vykazD->datum;
             $hodin2 = intdiv($vykazD->minut, 60);
@@ -38,7 +38,7 @@
                 $suvisi = 'N';
             }
 
-            $vysledek .= '<tr><td style="width:120px;text-align:center;border:black solid 2px;padding:5px">' . $datum . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $hodiny . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $od . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $do . '</td><td style="width:350px;border:black solid 2px;padding:5px">' . $cinnost . '</td><td style="width:60px;text-align:center;border:black solid 2px;padding:5px">' . $suvisi . '</td><td style="width:110px;border:black solid 2px;border-right:black solid 4px;text-align:center;padding:5px" ><a href="' . route('pracovneVykazy', ['vybranyProjekt' => $projekt->id, 'vybranyTyzden' => $vykazT->id_tydne, 'vybranyDennyVykaz' => $vykazD->id_vykazu]) . '"><img src="' . asset('edit.gif') . '" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Upravit"/></a></td></tr>';
+            $vysledek .= '<tr><td style="width:120px;text-align:center;border:black solid 2px;padding:5px">' . $datum . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $hodiny . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $od . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px">' . $do . '</td><td style="width:350px;border:black solid 2px;padding:5px">' . $cinnost . '</td><td style="width:60px;text-align:center;border:black solid 2px;padding:5px">' . $suvisi . '</td><td style="width:90px;border:black solid 2px;border-right:black solid 4px;text-align:center;padding:5px" ><a href="' . route('pracovneVykazy', ['vybranyProjekt' => $projekt->id, 'vybranyTyzden' => $vykazT->id_tydne, 'vybranyDennyVykaz' => $vykazD->id_vykazu]) . '"><img src="' . asset('edit.gif') . '" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Upravit"/></a></td></tr>';
         }  
         return $vysledek;
     }
@@ -91,11 +91,11 @@
             <table id="moje-vykazy-tabulka">
                 <thead>
                     <tr style="border: black solid 4px;border-bottom:black solid 2px">
-                        <th class="moje-vykazy-table-thead-th" style="width:250px">{{__('Týden')}}</th>
-                        <th class="moje-vykazy-table-thead-th" style="width:80px">{{__('Osoba')}}</th>
-                        <th class="moje-vykazy-table-thead-th" style="width:60px">{{__('Odpracováno')}}</th>
-                        <th class="moje-vykazy-table-thead-th" style="width:250px">{{__('Souhrn')}}</th>
-                        <th class="moje-vykazy-table-thead-th" style="width:110px">{{__('Operace T')}}</th>
+                        <th class="moje-vykazy-table-thead-th" style="width:140px">{{__('Týden')}}</th>
+                        <th class="moje-vykazy-table-thead-th" style="width:100px">{{__('Osoba')}}</th>
+                        <th class="moje-vykazy-table-thead-th" style="width:60px;padding:5px">{{__('Odpracováno')}}</th>
+                        <th class="moje-vykazy-table-thead-th" style="width:400px">{{__('Souhrn')}}</th>
+                        <th class="moje-vykazy-table-thead-th" style="width:90px;padding:5px">{{__('Operace T')}}</th>
                         <th class="moje-vykazy-table-thead-th" style="width:300px">{{__('Problémy')}}</th>
                         <th class="moje-vykazy-table-thead-th" style="width:250px">{{__('Plán')}}</th>
                         <th class="moje-vykazy-table-thead-th" style="width:250px">{{__('Omluvy a výmluvy')}}</th>
@@ -105,7 +105,7 @@
                         <th class="moje-vykazy-table-thead-th" style="width:80px">{{__('Do')}}</th>
                         <th class="moje-vykazy-table-thead-th" style="width:350px">{{__('Činnost')}}</th>
                         <th class="moje-vykazy-table-thead-th" style="width:60px">{{__('SSP')}}</th>
-                        <th class="moje-vykazy-table-thead-th" style="width:110px">{{__('Operace D')}}</th>
+                        <th class="moje-vykazy-table-thead-th" style="width:90px;padding:5px">{{__('Operace D')}}</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -16,6 +16,7 @@ class AuthCheck
      */
     public function handle(Request $request, Closure $next)
     {
+        dd($request);
         if(!session()->has('loginId')){
             $lastActivity = session('loginId' . '_last_activity', 0);
             $sessionLifetime = config('session.lifetime') * 60; // V sekundách

@@ -14,12 +14,21 @@
     $stavProjektu[2] = 'Ukončený';
     $stavProjektu[3] = 'K rozhodnutí';
 
-    function vypisZoznamProjektov($projekt, $ciselnikVedoucich, $typProjektu, $stavProjektu){
+    // Pole aktivit řešitelů
+    $aktivitaResitele[0] = __("Ne");
+    $aktivitaResitele[5] = __("Ano");
+
+    function vypisZoznamProjektov($projekt, $ciselnikVedoucich, $typProjektu, $stavProjektu, $aktivitaResitele){
         $idProjektu = $projekt->id;
-        $aktivni = $projekt->rok_zadani; //TODO
+        if ($projekt->aktivita == 0){
+            $aktivni = '<span class="nevyplnene-udaje">' . $aktivitaResitele[$projekt->aktivita] . '</span>';
+        }
+        elseif ($projekt->aktivita == 5){
+            $aktivni = '<span class="vyplnene-udaje">' . $aktivitaResitele[$projekt->aktivita] . '</span>';
+        }
         $zkratka = $projekt->zkratka;
         $nazov = $projekt->nazev;
-        $terminUkoncenia = $projekt->resi_do; //TODO
+        $terminUkoncenia = $projekt->resi_do;
         $typ = $typProjektu[$projekt->typ] ?? __("Neznámý");
         $url = $projekt->url;
         $stav = $stavProjektu[$projekt->stav] ?? __("Neznámý");
@@ -96,7 +105,7 @@
                 <thead>
                     <tr style="border: black solid 4px;border-bottom:black solid 2px">
                         <th class="projekty-table-thead-th" style="width:40px">{{__('Číslo')}}</th>
-                       <th class="projekty-table-thead-th" style="width:50px">{{__('Aktivní')}}</th>  <!-- TODO zistit podla coho sa urcuje aktivita -->
+                       <th class="projekty-table-thead-th" style="width:50px">{{__('Aktivní')}}</th>
                         <th class="projekty-table-thead-th" style="width:90px">{{__('Zkratka')}}</th>
                         <th class="projekty-table-thead-th" style="width:300px">{{__('Název')}}</th>
                         <th class="projekty-table-thead-th" style="width:160px">{{__('Termín ukončení')}}</th>
@@ -113,7 +122,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($projekty as $projekt): ?>
-                        <div class="vypis-projektov"><?php echo vypisZoznamProjektov($projekt, $ciselnikVedoucich, $typProjektu, $stavProjektu); ?></div>
+                        <div class="vypis-projektov"><?php echo vypisZoznamProjektov($projekt, $ciselnikVedoucich, $typProjektu, $stavProjektu, $aktivitaResitele); ?></div>
                     <?php endforeach; ?>
                 </tbody>
                 <tfoot>

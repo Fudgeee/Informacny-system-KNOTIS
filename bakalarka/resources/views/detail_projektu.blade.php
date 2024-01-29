@@ -49,29 +49,30 @@
         }
     }
 
-    function vypisZoznamUloh($uloha, $stavyUkolu){
+    function vypisZoznamUloh($uloha, $stavyUkolu, $index){
+        //dd($uloha->ukol);
         $poradie = $uloha->poradi;
         $zadanie = nl2br($uloha->zadani);
         $ukoncenie = Carbon\Carbon::parse($uloha->termin)->format('d.m.Y');
         $hotovo = $uloha->procenta;
         $komentar = $uloha->komentar;
         $vysledek = '';
-        $vysledek = '<tr><td style="width:50px;padding:5px">'.$poradie.'</td><td style="width:900px;padding:5px">'.$zadanie.'</td><td style="width:180px;text-align:center;padding:5px">'.$ukoncenie.'</td><td style="width:120px;text-align:center;padding:5px">
-        <select name="stav" class="stav-select">
+        $vysledek = '<tr><td style="display:none"><input type="hidden" name="uloha_id['.$index.']" value="'.$uloha->id.'"></td><td style="display:none"><input type="hidden" name="uloha_ukol['.$index.']" value="'.$uloha->ukol.'"></td><td style="width:50px;padding:5px">'.$poradie.'</td><td style="width:900px;padding:5px">'.$zadanie.'</td><td style="width:180px;text-align:center;padding:5px">'.$ukoncenie.'</td><td style="width:120px;text-align:center;padding:5px">
+        <select name="stav['.$index.']" class="stav-select">
         <option value="2" '.($uloha->stav == 2 ? 'selected' : '').'>'.__("Zadaný").'</option>
         <option value="3" '.($uloha->stav == 3 ? 'selected' : '').'>'.__("Řešený").'</option>
         <option value="4" '.($uloha->stav == 4 ? 'selected' : '').'>'.__("Vyřešený").'</option>
         </select>
         </td><td style="width:60px;text-align:center;padding:5px">
-        <select name="hotovo" class="hotovo-select">';
+        <select name="hotovo['.$index.']" class="hotovo-select">';
         for ($i = 0; $i <= 100; $i++) {
             $vysledek .= '<option value="'.$i.'" '.($hotovo == $i ? 'selected' : '').'>'.$i.'</option>';
         }
-        $vysledek .= '</select></td><td style="width:120px;text-align:center;padding:5px"><textarea style="margin:0px;margin-top:7px">'.$komentar.'</textarea></td></tr>';
+        $vysledek .= '</select></td><td style="width:120px;text-align:center;padding:5px"><textarea name="komentar['.$index.']" style="margin:0px;margin-top:7px">'.$komentar.'</textarea></td></tr>';
         return $vysledek;
     }
 
-    function vypisZoznamProstriedkov($prostriedok, $nazovServeru){
+    function vypisZoznamProstriedkov($prostriedok, $nazovServeru, $adresar_projektu){
         if ($prostriedok->typ_vyuziti == 0){
             $nazov = $prostriedok->nazev;
         }
@@ -81,10 +82,18 @@
         $cesta = $prostriedok->cesta;
         $server = $nazovServeru->nazev;
         $opravnenie = vypisOpravneni($prostriedok->opravneni);
-        $adresar = "TODO";
-        
+
+        if (!empty($adresar_projektu)) {
+            $adresar = $adresar_projektu[0]->nazev;
+            $url = '<a href="'.$adresar_projektu[0]->url.'" target="_blank" title="URL: '.$adresar_projektu[0]->url.'"><img src="'.asset('wiki.gif').'" style="width:20px;margin-right:5px" alt="URL"/></a>';
+        } else {
+            
+            $adresar = '';
+            $url = '';
+        }
+
         $vysledek = '';
-        $vysledek = '<tr style="border:black solid 2px"><td style="width:200px;border:black solid 2px;border-left: black solid 4px;padding:5px">'.$nazov.'</td><td style="width:350px;border:black solid 2px;padding:5px">'.$cesta.'</td><td style="width:150px;text-align:center;border:black solid 2px;padding:5px">'.$server.'</td><td style="width:150px;border:black solid 2px;text-align:center;padding:5px">'.$opravnenie.'</td><td style="width:350px;text-align:center;border:black solid 2px;padding:5px;border-right: black solid 4px">'.$adresar.'</td></tr>';
+        $vysledek = '<tr style="border:black solid 2px"><td style="width:200px;border:black solid 2px;border-left: black solid 4px;padding:5px">'.$nazov.'</td><td style="width:350px;border:black solid 2px;padding:5px">'.$cesta.'</td><td style="width:150px;text-align:center;border:black solid 2px;padding:5px">'.$server.'</td><td style="width:150px;border:black solid 2px;text-align:center;padding:5px">'.$opravnenie.'</td><td style="width:350px;border:black solid 2px;padding:5px;border-right: black solid 4px">'.$url .$adresar.'</td></tr>';
         return $vysledek;
     }
 
@@ -94,6 +103,7 @@
         $zadanie_ulohy .= ' (' . $odoslanie .')';
         $vysledek = '';
         $vysledek = '<li>'.$zadanie_ulohy.'<ul>';
+        $vysledek .= '<br>';
         foreach ($stavyUloh1 as $stavy) {
             $terminDateTime = new DateTime($stavy->odeslano);
             $formattedDateTime = $terminDateTime->format('d.m.Y H:i');
@@ -153,7 +163,7 @@
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Vedoucí')}}:</div>
-                    {{ $veduci->prijmeni . " " . $veduci->jmeno . ", " . $veduci->titul_pred . ", " . $veduci->titul_za . "(" . $veduci->login . ")" }}
+                    {{ $veduci->prijmeni . " " . $veduci->jmeno . ", " . $veduci->titul_pred . ", " . $veduci->titul_za . " (" . $veduci->login . ")" }}
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:220px">{{__('Zahájení a ukončení')}}:</div>
@@ -172,26 +182,44 @@
                     @endif
                 </div>
                 <div>
-                    <div class="osobne_info_item_span" style="width:60px">{{__('Úkoly')}}:</div>
-                    <table id="ulohy-tabulka">
-                        <thead>
-                            <tr>
-                                <th class="projekty-table-thead-th" style="width:50px" title="{{__('číslo úkolu')}}">{{__('č.ú.')}}</th>
-                                <th class="projekty-table-thead-th" style="width:900px">{{__('Zadání úkolu')}}</th>
-                                <th class="projekty-table-thead-th" style="width:180px">{{__('Termín ukončení')}}</th>
-                                <th class="projekty-table-thead-th" style="width:120px">{{__('Stav úkolu')}}</th>
-                                <th class="projekty-table-thead-th" style="width:60px">{{__('Hotovo')}}</th>
-                                <th class="projekty-table-thead-th" style="width:120px">{{__('Komentář')}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($ulohy as $uloha): ?>
-                                <?php                                
-                                    echo vypisZoznamUloh($uloha, $stavyUkolu);
-                                ?>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                    <form id="zoznam-uloh" action="{{route('update_ulohy_k_projektu')}}" method="post">
+                        @if(Session::has('success1'))
+                            <div class="alert alert-success">{{Session::get('success1')}}</div>
+                        @endif
+                        @if(Session::has('fail1'))
+                            <div class="alert alert-danger">{{Session::get('fail1')}}</div>
+                        @endif
+                        @csrf 
+                        <div class="osobne_info_item_span" style="width:60px">{{__('Úkoly')}}:</div>
+                        <table id="ulohy-tabulka">
+                            <thead>
+                                <tr>
+                                    <th class="projekty-table-thead-th" style="width:50px" title="{{__('číslo úkolu')}}">{{__('č.ú.')}}</th>
+                                    <th class="projekty-table-thead-th" style="width:900px">{{__('Zadání úkolu')}}</th>
+                                    <th class="projekty-table-thead-th" style="width:180px">{{__('Termín ukončení')}}</th>
+                                    <th class="projekty-table-thead-th" style="width:120px">{{__('Stav úkolu')}}</th>
+                                    <th class="projekty-table-thead-th" style="width:60px">{{__('Hotovo')}}</th>
+                                    <th class="projekty-table-thead-th" style="width:120px">{{__('Komentář')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($ulohy as $index => $uloha): ?>
+                                    <?php                             
+                                        echo vypisZoznamUloh($uloha, $stavyUkolu, $index);
+                                    ?>
+                                <?php endforeach; ?>                            
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <div style="margin-left:40%;margin-bottom:20px">
+                                            <button type="submit" class="btn btn-block btn-primary">{{__('Uložit')}}</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
                 </div>
             </div>
             <hr>
@@ -212,11 +240,26 @@
                             <div class="vypis-prostriedkov">
                                 <?php 
                                     $nazovServeru = DB::table('server')
-                                    ->select('id_server', 'nazev')
-                                    ->where('id_server', $prostriedok->server)
-                                    ->first();
-
-                                    echo vypisZoznamProstriedkov($prostriedok, $nazovServeru);
+                                        ->select('id_server', 'nazev')
+                                        ->where('id_server', $prostriedok->server)
+                                        ->first();
+                                    $dotaz = DB::table('prostr_proj')
+                                        ->select('prostredek.id', 'projekt.nazev', 'projekt.url')    
+                                        ->join('projekt', 'prostr_proj.id_projektu', '=', 'projekt.id')
+                                        ->join('prostredek', 'prostr_proj.id_prostredku', '=', 'prostredek.id')
+                                        ->where('prostr_proj.vyuzivan', '>', 0)
+                                        ->where('prostr_proj.typ_vyuziti', '=', '1')
+                                        ->orderBy('projekt.nazev')
+                                        ->get();
+                                    $adresar_projektu = [];
+                                    foreach ($dotaz as $trojice) {
+                                        if ($trojice->id == $prostriedok->id) {
+                                            $adresar_projektu[] = $trojice;
+                                        }
+                                    }
+                                    
+                                    //dd($adresar_projektu[0]);
+                                    echo vypisZoznamProstriedkov($prostriedok, $nazovServeru, $adresar_projektu);
                                 ?>
                             </div>
                         <?php endforeach; ?>

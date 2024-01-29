@@ -13,7 +13,7 @@ use Validator;
 use DB;
 
 class PracovneVykazyController extends Controller
-{   // IF je platna session.... pridat ELSE a hodit ma dopice
+{
     public function pracovneVykazy(Request $request){
 
         $vybranyProjekt = (!is_null($request->query('vybranyProjekt')) ? $request->query('vybranyProjekt') : '');
@@ -186,7 +186,7 @@ class PracovneVykazyController extends Controller
     }
 
     public function updatePracovneVykazyTyzden(Request $request){
-        dd($request);
+        dd($request); // TODO
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
             $tyzden = DB::table('tyden')

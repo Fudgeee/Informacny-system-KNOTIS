@@ -50,6 +50,7 @@
     }
 
     function vypisZoznamVykazov($denny){
+        
         $idVykazu = $denny->id_vykazu;
         $datumCarbon = \Carbon\Carbon::parse($denny->datum); // prevod na Carbon objekt
         $datumUpraveny = $datumCarbon->isoFormat('D.M.Y');
@@ -120,7 +121,6 @@
         const idTyzdna = document.getElementById('idTyzdna');
         const idTyzdna1 = document.getElementById('idTyzdna1');
 
-
         const updateVybranyTyzden = () => {
             const vybranaMoznost1 = selectTyzden.options[selectTyzden.selectedIndex];
             idTyzdna.value = selectTyzden.selectedIndex + 1;
@@ -129,7 +129,35 @@
             vybranyTyzdenText.value = vybranaMoznost1.textContent;
             vybranyTyzden.style.width = (vybranyTyzden.value.length + 2) + 'ch';
             vybranyTyzdenText.style.width = (vybranyTyzdenText.value.length + 2) + 'ch';
-            };
+            
+
+              // Zvýraznění tlačítek podle zvolené možnosti
+            const selectedOption = vybranaMoznost1.value;
+            if (selectedOption == aktualnyTyzden) {
+                highlightButton(soucasnyButton);
+                unhighlightButtons([minulyButton, predminulyButton]);
+            } else if (selectedOption == aktualnyTyzden - 1 ) {
+                highlightButton(minulyButton);
+                unhighlightButtons([soucasnyButton, predminulyButton]);
+            } else if (selectedOption == aktualnyTyzden - 2 ) {
+                highlightButton(predminulyButton);
+                unhighlightButtons([soucasnyButton, minulyButton]);
+            } else {
+                unhighlightButtons([soucasnyButton, minulyButton, predminulyButton]);
+            }
+        };
+
+        function highlightButton(button) {
+            button.style.backgroundColor = 'lime'; // Zde můžete definovat, jak chcete zvýraznit tlačítko
+            button.style.fontWeight = '600';
+        }
+
+        function unhighlightButtons(buttons) {
+            buttons.forEach(function (button) {
+                button.style.backgroundColor = ''; // Resetování zvýraznění
+                button.style.fontWeight = 'normal'
+            });
+        }
 
         predminulyButton.addEventListener("click", function(event) {
             event.preventDefault(); // Prevent form submission
@@ -337,7 +365,10 @@
             behavior: 'smooth'
         });
 
+
     }
+
+
 
     
         // AJAX pre zmenu projektu
@@ -499,7 +530,7 @@
                         <label for="upravSouhrn" style="width:100px;float:left" class="pracovne-vykazy-item-cinnost">{{__('Souhrn')}}:</label>
                         <textarea name="upravSouhrn" id="upravSouhrn" title="{{__('Souhrn')}}" cols="75" rows="10">@if ($tyzdenny_vykaz_db != null){{ $tyzdenny_vykaz_db->souhrn }}@endif</textarea>
                         <span class="vyrazneCervene sipka" title="{{__('Povinná položka')}}">*</span>
-                    </div><!-- TODO - update textov pri zmene tyzdna alebo projektu -->
+                    </div>
                     <div class="pracovne-vykazy-item">
                         <label for="upravPlan" style="width:100px;float:left" class="pracovne-vykazy-item-cinnost">{{__('Plán')}}:</label>
                         <textarea name="upravPlan" id="upravPlan" title="{{__('Plán na příští týden')}}" cols="75" rows="3">@if ($tyzdenny_vykaz_db != null){{ $tyzdenny_vykaz_db->plan }}@endif</textarea>
@@ -536,9 +567,6 @@
                 <div class="osobne_info_l">
                     <h2>{{__('Pracovní výkazy')}}:</h2>
                     <div class="medzera"></div>
-                    <!-- @if(Session::has('success4'))
-                        <div class="alert alert-success">{{Session::get('success4')}}</div>
-                    @endif -->
                     <div class="pracovne-vykazy-item">
                         <table id="vykazy-tabulka">
                             <thead>
@@ -554,7 +582,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($denny_vykaz as $denny): ?>
-                                    <?php echo vypisZoznamVykazov($denny); ?><!-- <div class="vykaz-den"></div>  TODO zrusit vsetky divy vo foreach cykloch -->
+                                    <?php echo vypisZoznamVykazov($denny); ?>
                                 <?php endforeach; ?>
                             </tbody>
                             <tfoot>
@@ -573,6 +601,6 @@
                 </div>
             </form>
         </div>
-        <div class="medzera"></div><!-- TODO oznacovanie readonly INPUTOV po kliknuti na ne -->
-    </div><!-- TODO sirka textov kontrola pri ANJ vsade -->
+        <div class="medzera"></div>
+    </div>
 @endsection

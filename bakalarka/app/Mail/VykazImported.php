@@ -22,7 +22,7 @@ class VykazImported extends Mailable
     public function build()
     {
         return $this->view('emails.vykaz-imported')
-                    ->subject('Nový vykaz importovaný')
+                    ->subject('Pracovný výkaz od ' . $this->login)
                     ->attach($this->file->getRealPath(), [
                         'as' => $this->file->getClientOriginalName(),
                         'mime' => $this->file->getMimeType(),

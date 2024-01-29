@@ -19,6 +19,12 @@ class AuthController extends Controller
         ]);
         $osoba = Osoba::where('login','=',$request->name)->first();
         if($osoba){
+            $datumAktivniDo = new \DateTime($osoba->aktivni_do);
+            $aktualniDatumCas = new \DateTime();
+            if ($datumAktivniDo < $aktualniDatumCas) {
+                return back()->with('fail',__('Váš účet není aktivní. Kontaktujte administrátora systému.'));
+            }
+
             if(($osoba->heslo == NULL) || ($osoba->heslo == md5($request->password))){
                 $request->session()->put('loginId',$osoba->id);
                 

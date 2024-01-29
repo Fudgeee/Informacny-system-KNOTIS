@@ -240,5 +240,10 @@
     "Vrácený": "Vrácený",
     "Nejasný": "Nejasný",
     "Zodpovězený": "Zodpovězený",
-    "Vaše přihlášení vypršelo. Přihlašte se prosím znovu.": "Vaše přihlášení vypršelo. Přihlašte se prosím znovu."
+    "Vaše přihlášení vypršelo. Přihlašte se prosím znovu.": "Vaše přihlášení vypršelo. Přihlašte se prosím znovu.",
+    "Váš účet není aktivní. Kontaktujte administrátora systému.": "Váš účet není aktivní. Kontaktujte administrátora systému.",
+    "Změny stavů úkolů byly úspěšně uloženy": "Změny stavů úkolů byly úspěšně uloženy",
+    "Soubor pro import": "Soubor pro import",
+    "Osoba, jejíž výkazy budou importovány": "Osoba, jejíž výkazy budou importovány",
+    "Login (alternativa k výběru)": "Login (alternativa k výběru)"
 }

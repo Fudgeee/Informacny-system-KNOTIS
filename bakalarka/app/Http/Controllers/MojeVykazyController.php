@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Validator;
 use DB;
 
-class MojeVykazyController extends Controller     // TODO kliknutim na moje vykazy pre dany projekt v riesenych projektoch treba zmenit a href aby som ziskal request s ID projektu
+class MojeVykazyController extends Controller
 {
     public function mojeVykazy($id_projektu){
         $data = array();

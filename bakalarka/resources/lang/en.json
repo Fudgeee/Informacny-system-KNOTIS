@@ -241,5 +241,10 @@
     "Vrácený": "Returned",
     "Nejasný": "Unclear",
     "Zodpovězený": "Answered",
-    "Vaše přihlášení vypršelo. Přihlašte se prosím znovu.": "Your login has expired. Please login again."
+    "Vaše přihlášení vypršelo. Přihlašte se prosím znovu.": "Your login has expired. Please login again.",
+    "Váš účet není aktivní. Kontaktujte administrátora systému.": "Your account is not active. Contact your system administrator.",
+    "Změny stavů úkolů byly úspěšně uloženy.": "Changes to task statuses have been successfully saved.",
+    "Soubor pro import": "File to import",
+    "Osoba, jejíž výkazy budou importovány": "The person whose work reports will be imported",
+    "Login (alternativa k výběru)": "Login (alternative to selection)"
 }

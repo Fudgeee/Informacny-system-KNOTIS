@@ -28,7 +28,7 @@
         $omluva = $vykazT->omluvy;
         $vysledek = '';
         $vysledek = '<tr style="border:black solid 2px"><td style="width:250px;border:black solid 2px;border-left: black solid 4px;text-align:center;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $tyzden . '</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '"><a href="#">' . $projekt . '</a></td><td style="width:60px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $odpracovane . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $suhrn . '</td><td style="width:110px;text-align:center;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '"><a href="' . route('pracovneVykazy', ['vybranyProjekt' => $vykazT->id_projektu, 'vybranyTyzden' => $vykazT->id_tydne]) . '"><img src="'.asset('edit.gif').'" style="width:35px;margin-right:5px" title="' . __('Upravit') . '" alt="Edit"/></a></td><td style="width:300px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $problemy . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $plan . '</td><td style="width:250px;border:black solid 2px;padding:5px" rowspan="' . (count($vykazyD) + 1) . '">' . $omluva . '</td></tr>';
-        // TODO  a href na projekt
+        
         foreach ($vykazyD as $vykazD) {
             $datum = $vykazD->datum;
             $hodin2 = intdiv($vykazD->minut, 60);
@@ -62,7 +62,7 @@
             <div class="medzera"></div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:180px">{{__('Číslo, typ')}}:</div>
-                    {{ $data->id . ", " . $typOsoby[$data->typ] }} <!-- TODO kde najdem typy uzivatelov -->
+                    {{ $data->id . ", " . $typOsoby[$data->typ] }}
                 </div>
                 <div class="osobne_info_item">
                     <div class="osobne_info_item_span" style="width:180px">{{__('Jméno')}}:</div>

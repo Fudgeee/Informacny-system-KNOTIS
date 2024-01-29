@@ -76,7 +76,7 @@ Route::post('/import_vykazov', [ImportVykazovController::class,'uploadAndSendEma
 
 //detail projektu
 Route::get('/detail_projektu/{id_projektu}', [DetailProjektuController::class,'detailProjektu']);
-Route::post('/aktualizovat-ukol', [DetailProjektuController::class, 'aktualizovatUkol']);
+Route::post('/update_ulohy_k_projektu', [DetailProjektuController::class, 'aktualizovatUkol'])->name('update_ulohy_k_projektu');
 
 
 // plan prace
