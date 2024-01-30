@@ -1,14 +1,10 @@
 <!--OSOBNE INFORMACIE-->
 <?php 
-    $rodinnyStav[0] = "---";
-    $rodinnyStav[1] = __("svobodný/svobodná");
-    $rodinnyStav[2] = __("ženatý/vdaná");
-    $rodinnyStav[3] = __("rozvedený/á");
-    $rodinnyStav[4] = __("vdovec/vdova");
-    $rodinnyStav[5] = __("partnertsví");
-    $rodinnyStav[6] = __("mrtev/mrtvá");
-    $rodinnyStav[7] = __("zaniklé partnerství rozhodnutím");
-    $rodinnyStav[8] = __("zaniklé partnerství smrtí");
+    $rodinnyStavTmp = config('nastavenia.rodinnyStav');
+    $rodinnyStav = [];
+    foreach ($rodinnyStavTmp as $key => $value) {
+        $rodinnyStav[$key] = __($value);
+    }
 
     function generujPolozkyVyberuSId($moznosti,$zadna,$zvolena){
         $vysledek = '';

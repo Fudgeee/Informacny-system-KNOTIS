@@ -1,12 +1,10 @@
 <!--moje vykazy-->
 <?php
-    // Pole typů projektů
-    $typProjektu[0] = __("Obecný projekt");
-    $typProjektu[1] = __("Bakalářská práce");
-    $typProjektu[2] = __("Diplomová práce");
-    $typProjektu[3] = __("Disertační práce");
-    $typProjektu[4] = __("Obecný projekt a BP");
-    $typProjektu[5] = __("Obecný projekt a DP");
+    $typProjektuTmp = config('nastavenia.typProjektu');
+    $typProjektu = [];
+    foreach ($typProjektuTmp as $key => $value) {
+        $typProjektu[$key] = __($value);
+    }
 
     function vypisZoznamVykazov($vykazT, $projekt, $vykazyD, $osoba){
         $tyzden = $vykazT->cislo_tydne . " ( " . $vykazT->pondeli . " - " . $vykazT->nedele . " )";

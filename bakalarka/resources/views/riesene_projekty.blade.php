@@ -1,25 +1,26 @@
 <!--riesene projekty-->
 <?php
-    // Pole typů projektů
-    $typProjektu[0] = __("Obecný projekt");
-    $typProjektu[1] = __("Bakalářská práce");
-    $typProjektu[2] = __("Diplomová práce");
-    $typProjektu[3] = __("Disertační práce");
-    $typProjektu[4] = __("Obecný projekt a BP");
-    $typProjektu[5] = __("Obecný projekt a DP");
+    $typProjektuTmp = config('nastavenia.typProjektu');
+    $typProjektu = [];
+    foreach ($typProjektuTmp as $key => $value) {
+        $typProjektu[$key] = __($value);
+    }
 
-    // Pole stavů projektů
-    $stavProjektu[0] = 'Nezadaný';
-    $stavProjektu[1] = 'Řešený';
-    $stavProjektu[2] = 'Ukončený';
-    $stavProjektu[3] = 'K rozhodnutí';
+    $stavProjektuTmp = config('nastavenia.stavProjektu');
+    $stavProjektu = [];
+    foreach ($stavProjektuTmp as $key => $value) {
+        $stavProjektu[$key] = __($value);
+    }
 
-    // Pole aktivit řešitelů
-    $aktivitaResitele[0] = __("Ne");
-    $aktivitaResitele[5] = __("Ano");
+    $aktivitaResiteleTmp = config('nastavenia.aktivitaResitele');
+    $aktivitaResitele = [];
+    foreach ($aktivitaResiteleTmp as $key => $value) {
+        $aktivitaResitele[$key] = __($value);
+    }
 
     function vypisZoznamProjektov($projekt, $ciselnikVedoucich, $typProjektu, $stavProjektu, $aktivitaResitele){
         $idProjektu = $projekt->id;
+
         if ($projekt->aktivita == 0){
             $aktivni = '<span class="nevyplnene-udaje">' . $aktivitaResitele[$projekt->aktivita] . '</span>';
         }

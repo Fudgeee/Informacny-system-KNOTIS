@@ -1,19 +1,10 @@
 <!--pracovne vykazy osoby-->
 <?php
-
-    $typOsoby[0] = __("Bakalář");
-    $typOsoby[1] = __("Diplomant");
-    $typOsoby[2] = __("Doktorand");
-    $typOsoby[3] = __("Ext. doktorand");
-    $typOsoby[4] = __("Stud. spolupracovník");
-    $typOsoby[5] = __("Zaměstnanec");
-    $typOsoby[6] = __("Ostatní");
-    $typOsoby[7] = __("Bakalář + SS");
-    $typOsoby[8] = __("Diplomant + SS");
-    $typOsoby[9] = __("Předmět");
-    $typOsoby[10] = __("Zkušební doba");
-    $typOsoby[11] = __("Nový stud. spolupracovník");
-    $typOsoby[12] = __("Diplomant + Předmět"); 
+    $typOsobyTmp = config('nastavenia.typOsoby');
+    $typOsoby = [];
+    foreach ($typOsobyTmp as $key => $value) {
+        $typOsoby[$key] = __($value);
+    }
 
     function vypisZoznamVykazov($vykazT, $vykazyD){
         $tyzden = $vykazT->cislo_tydne . "(" . $vykazT->pondeli . " - " . $vykazT->nedele . ")";

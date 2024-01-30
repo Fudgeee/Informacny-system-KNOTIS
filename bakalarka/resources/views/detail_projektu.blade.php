@@ -1,33 +1,28 @@
 <!-- detail projektu -->
 <?php
-    // Pole typů projektů
-    $typProjektu[0] = __("Obecný projekt");
-    $typProjektu[1] = __("Bakalářská práce");
-    $typProjektu[2] = __("Diplomová práce");
-    $typProjektu[3] = __("Disertační práce");
-    $typProjektu[4] = __("Obecný projekt a BP");
-    $typProjektu[5] = __("Obecný projekt a DP");
+    $typProjektuTmp = config('nastavenia.typProjektu');
+    $typProjektu = [];
+    foreach ($typProjektuTmp as $key => $value) {
+        $typProjektu[$key] = __($value);
+    }
 
-    // Pole stavů projektů
-    $stavProjektu[0] = __("Nezadaný");
-    $stavProjektu[1] = __("Řešený");
-    $stavProjektu[2] = __("Ukončený");
-    $stavProjektu[3] = __("K rozhodnutí");
+    $stavProjektuTmp = config('nastavenia.stavProjektu');
+    $stavProjektu = [];
+    foreach ($stavProjektuTmp as $key => $value) {
+        $stavProjektu[$key] = __($value);
+    }
 
-    // Pole aktivit řešitelů
-    $aktivitaResitele[0] = __("Ne");
-    $aktivitaResitele[5] = __("Ano");
+    $aktivitaResiteleTmp = config('nastavenia.aktivitaResitele');
+    $aktivitaResitele = [];
+    foreach ($aktivitaResiteleTmp as $key => $value) {
+        $aktivitaResitele[$key] = __($value);
+    }
 
-    // Pole stavy ukolu
-    $stavyUkolu[0] = __("Smazaný");
-    $stavyUkolu[1] = __("Nezadaný");
-    $stavyUkolu[2] = __("Zadaný");
-    $stavyUkolu[3] = __("Řešený");
-    $stavyUkolu[4] = __("Vyřešený");
-    $stavyUkolu[5] = __("Akceptovaný");
-    $stavyUkolu[6] = __("Vrácený");
-    $stavyUkolu[7] = __("Nejasný");
-    $stavyUkolu[8] = __("Zodpovězený");
+    $stavyUkoluTmp = config('nastavenia.stavyUkolu');
+    $stavyUkolu = [];
+    foreach ($stavyUkoluTmp as $key => $value) {
+        $stavyUkolu[$key] = __($value);
+    }
 
     function vypisOpravneni($opravneni)
     {
