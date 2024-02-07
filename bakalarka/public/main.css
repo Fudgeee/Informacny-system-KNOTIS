@@ -386,17 +386,48 @@ hr{
 .riesene-projekty-tabulka tbody td,
 .pracovne-vykazy-osoby-tabulka tbody tr,
 .pracovne-vykazy-osoby-tabulka tbody td{
-    border: black solid 2px;
+    border: black solid 1px;
 }
 table.dataTable{
     border-collapse: collapse;
 }
 
-table.dataTable tbody th,
-table.dataTable tbody td{
-    background-color: #7dd6ff;
-    font-weight: 500;
+table.dataTable tr{
+    background-color: white;
 }
+table.dataTable tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+/* TMP */
+.tac{
+    text-align: center;
+}
+.w60{
+    width: 60px;
+}
+.w140{
+    width: 140px;
+}
+.w320{
+    width: 320px;
+}
+.w100{
+    width: 100px;
+}
+.w160{
+    width: 160px;
+}
+.w250{
+    width: 250px;
+}
+.w80{
+    width: 80px;
+}
+.w400{
+    width: 400px;
+}
+
 .osobne_info_l,
 .kontakt_info_l,
 .pracovne-vykazy-l{
@@ -750,12 +781,52 @@ textarea{
     border: none;
     pointer-events:none;
 }
-.projekty-table-thead-th,
+
 .pracovne-vykazy-osoby-table-thead-th,
 .moje-vykazy-table-thead-th{
     text-align:center;
     border:black solid 2px;
     padding:10px;
+}
+
+.projekty-table-thead-th{
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding: 5px;
+}
+
+.projekty-table-thead-th:not(:last-child){
+    border-right: 1px solid black;
+}
+
+table#riesene-projekty-tabulka.dataTable.no-footer .projekty-table-td tr{
+    background-color: white !important;
+    border: 1px solid black !important;
+}
+
+.projekty-table-td tr td{
+    padding: 5px;
+}
+
+.projekty-table-td tr td:not(:last-child){
+    border-right: 1px solid black;
+}
+
+table#riesene-projekty-tabulka.dataTable.no-footer .projekty-table-td tr:nth-child(even){
+    background-color: #f2f2f2 !important;
+}
+
+table.dataTable tbody{
+    border: 2px solid black !important;
+}
+table.dataTable tfoot tr,
+table.dataTable thead tr{
+    border: 2px solid black !important;
+}
+
+table.dataTable tbody tr,
+table.dataTable tbody td{
+    border: 1px solid black !important;
 }
 
 .dataTables_filter{

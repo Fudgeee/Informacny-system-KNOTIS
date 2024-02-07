@@ -14,6 +14,9 @@ use App\Http\Controllers\RieseneProjektyController;
 use App\Http\Controllers\PracovneVykazyOsobyController;
 use App\Http\Controllers\MojeVykazyController;
 use App\Http\Controllers\DetailProjektuController;
+use App\Http\Controllers\RieseneProjektyTmpController; //DELETE
+use App\Http\Controllers\RieseneProjektyTmp2Controller; //DELETE
+
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +87,10 @@ Route::get('/plan_prace', [PlanPraceController::class,'planPrace']);
 
 // riesene projekty
 Route::get('/riesene_projekty', [RieseneProjektyController::class,'rieseneProjekty']);
+
+Route::get('/riesene_projekty_tmp', [RieseneProjektyTmpController::class,'rieseneProjektyTmp']);
+Route::get('/riesene_projekty_tmp2', [RieseneProjektyTmp2Controller::class,'rieseneProjektyTmp2']);
+
 
 // zmena zabezpecenia sezeni
 Route::get('/zmena_sezeni', [Controller::class,'zmenaSezeni']);
