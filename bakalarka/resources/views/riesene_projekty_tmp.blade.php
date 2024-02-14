@@ -47,13 +47,17 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.colVis.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
 
-<!-- JavaScript code for DataTables -->
 <script>
     $(document).ready(function () {
         var table = $('#riesene-projekty-tabulka').DataTable({
-            dom: 'Blfrtip',
+            dom: 'Blrtip',
             orderCellsTop: true,
+            colReorder: true, // Povolí přetahování sloupců
             lengthMenu: [5, 10, 25, 50, 100],
             language: {
                 lengthMenu: '{{ __("Zobrazit _MENU_ položek") }}',
@@ -63,46 +67,52 @@
                     next: ">"
                 }
             },
+            columnDefs: [{ 
+                orderable: false, // Nastavení, že sloupec nebude řaditelný
+                targets: 5 // Index sloupce (počítání od 0)
+            }],
+            buttons: [
+                {
+                extend: 'colvis', // Zobrazenie vybranych sloupcu
+                text: '{{__("výběr zobrazených sloupců")}} '
+            }]
+            
+        
         });
 
-        var sortingState = []; // Uchováva stav triedenia pre každý stĺpec
+        var sortingState = []; // Uchovává stav řazení pro každý sloupec
 
-$('#riesene-projekty-tabulka thead tr:first-child th').on('click', function (e) {
-    // Kontrola, či je kliknuté na prvý riadok v thead
-    if ($(this).closest('thead').find('tr').index($(this).closest('tr')) === 0) {
-        var columnIndex = $(this).index();
-        var column = table.column(columnIndex);
+        $('#riesene-projekty-tabulka thead th').on('click', function () {
+            var columnIndex = $(this).index();
+            var column = table.column(columnIndex);
+            
+            // Získání aktuálního stavu řazení pro tento sloupec
+            var currentOrder = sortingState[columnIndex] || ''; // Pokud stav není definován, použije se prázdný řetězec
 
-        // Ak neexistuje stav triedenia pre daný stĺpec, inicializujte ho na vzostupné triedenie
-        if (!sortingState[columnIndex]) {
-            sortingState[columnIndex] = 'asc';
-        } else if (sortingState[columnIndex] === 'asc') {
-            sortingState[columnIndex] = 'desc'; // Prepíšte stav triedenia na zostupné
-        } else {
-            sortingState[columnIndex] = ''; // Vypnite radenie (odstráňte stav triedenia)
-        }
-
-        // Získajte aktuálny stav triedenia
-        var currentOrder = sortingState[columnIndex];
-
-        // Ak je stav triedenia neprázdny, nastavte nové poradie triedenia pre aktuálny stĺpec
-        if (currentOrder !== '') {
-            column.order(currentOrder).draw();
-        } else {
-            // Inak použite predvolený stĺpec na triedenie
-            var defaultOrderIndex = 0; // Index predvoleného stĺpca (prvého stĺpca)
-            var defaultOrderColumn = table.column(defaultOrderIndex);
-            defaultOrderColumn.order('asc').draw();
-        }
-
-        // Odstráňte všetky existujúce triedenia na iných stĺpcoch
-        table.columns().every(function () {
-            if (this.index() !== columnIndex) {
-                this.order([]);
+            // Nastavení řazení pro tento sloupec
+            if (currentOrder === '') {
+                currentOrder = 'asc'; // Pokud je stav prázdný, nastavíme řazení na vzestupné
+            } else if (currentOrder === 'asc') {
+                currentOrder = 'desc'; // Pokud je stav vzestupný, nastavíme řazení na sestupné
+            } else {
+                currentOrder = ''; // Pokud je stav sestupný, vypneme řazení
             }
+
+            sortingState[columnIndex] = currentOrder;
+
+            // Vytvoření pole s nastavením řazení pro všechny sloupce
+            var orderArray = [];
+            for (var i = 0; i < sortingState.length; i++) {
+                if (sortingState[i]) {
+                    orderArray.push([i, sortingState[i]]);
+                }
+            }
+
+            // Řazení podle více sloupců
+            table.order(orderArray).draw();
         });
-    }
-});
+
+
 
 
 
@@ -160,10 +170,17 @@ $('#riesene-projekty-tabulka thead tr:first-child th').on('click', function (e) 
             }).each(function() {
                 var indexAktivity = $(this).index(); // Index stĺpca s aktivitou
                 $('#riesene-projekty-tabulka tbody tr').each(function() {
-                    var tdAktivity = $(this).find('td:eq(' + indexAktivity + ')'); // Td s aktívnosťou
+                    var tdAktivity = $(this).find('td:eq(' + indexAktivity + ')');
                     var cisloAktivity = tdAktivity.text().trim(); // Číslo aktivity
                     var textAktivity = aktivitaResitele[cisloAktivity]; // Text aktivity
-                    tdAktivity.text(textAktivity); // Nahraďte číslo aktivity textovou hodnotou
+                    tdAktivity.css('font-weight', '700');
+                    if (textAktivity === 'Ne') {
+                        tdAktivity.css('color', 'red'); // Červená barva textu pro hodnotu 'Ne'
+                    }
+                    else if (textAktivity === 'Ano') {
+                        tdAktivity.css('color', '#13bd00'); // Zelená barva textu pro ostatní hodnoty
+                    }
+                    tdAktivity.text(textAktivity);
                 });
             });
         }

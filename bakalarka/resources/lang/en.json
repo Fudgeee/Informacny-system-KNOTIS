@@ -246,5 +246,6 @@
     "Změny stavů úkolů byly úspěšně uloženy.": "Changes to task statuses have been successfully saved.",
     "Soubor pro import": "File to import",
     "Osoba, jejíž výkazy budou importovány": "The person whose work reports will be imported",
-    "Login (alternativa k výběru)": "Login (alternative to selection)"
+    "Login (alternativa k výběru)": "Login (alternative to selection)",
+    "výběr zobrazených sloupců": "selection of displayed columns"
 }

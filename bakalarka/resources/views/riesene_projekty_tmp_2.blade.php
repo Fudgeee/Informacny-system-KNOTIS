@@ -62,6 +62,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
 
 <!-- JavaScript code for DataTables -->
 <script>
@@ -77,6 +78,11 @@
                     next: ">"
                 }
             },
+            colReorder: true,
+            // columnDefs: [{ 
+            //     orderable: false, // Nastavení, že sloupec nebude řaditelný
+            //     targets: 5 // Index třetího sloupce (počítání od 0)
+            // }]
         });
 
         var sortingState = []; // Uchováva stav triedenia pre každý stĺpec

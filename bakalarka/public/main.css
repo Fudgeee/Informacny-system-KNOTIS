@@ -872,4 +872,37 @@ table.dataTable tbody td{
     color: red !important;
 }
 
+div.dt-buttons{
+    float: none;
+}
+
+div.dt-buttons>.dt-button{
+    background-color: white;
+}
+
+div.dt-buttons>.dt-button:hover:not(.disabled){
+    background-color: lightgrey;
+}
+
+div.dt-button-collection{
+    padding: 1px;
+}
+
+div.dt-button-collection .dt-button{
+    padding: 0.1rem 1rem;
+    margin-bottom: 1px !important;
+}
+
+/* Zvýraznění pro zobrazené sloupce */
+.dt-button.buttons-columnVisibility.active{
+    background-color: green !important;
+    color: white !important;
+}
+
+/* Zvýraznění pro skryté sloupce */
+.dt-button.buttons-columnVisibility {
+    background-color: red !important;
+    color: white !important;
+}
+
 /* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú  ?? My timesheets/ My work reports*/

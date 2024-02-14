@@ -22,17 +22,21 @@ class RieseneProjektyTmpController extends Controller
                 ->join('resi', 'projekt.id', '=', 'resi.id_projektu')
                 ->where('resi.id_osoby', '=', $data['id']);
     
-            // Triedenie
-            $column = $request->input('column', 'id'); // Predvolený stĺpec triedenia je 'id'
-            $order = $request->input('order', 'asc'); // Predvolené poradie triedenia je 'asc'
-            $query->orderBy($column, $order);
-    
             $projekty = $query->get();
     
+            $projekty = $projekty->map(function ($projekt) {
+                // Formátujeme datum a čas ve formátu "den.mesiac.rok hodiny:minuty"
+                $projekt->resi_od = \Carbon\Carbon::parse($projekt->resi_od)->format('d.m.Y H:i');
+                $projekt->resi_do = \Carbon\Carbon::parse($projekt->resi_do)->format('d.m.Y H:i');
+                $projekt->zadan = \Carbon\Carbon::parse($projekt->zadan)->format('d.m.Y H:i');
+                
+                return $projekt;
+            });
+
             for ($i=0; $i<count($projekty); $i++){
                 $projektNazov[$i] = $projekty[$i]->id . '. ' . $projekty[$i]->nazev;
             }
-//dd($projekty);
+
             // ciselnik veducich
             $ciselnikVedoucich = Osoba::join('projekt', 'osoba.id', '=', 'projekt.vedouci')
             ->select('osoba.id', 'osoba.login')
