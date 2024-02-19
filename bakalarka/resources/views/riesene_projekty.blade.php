@@ -41,7 +41,20 @@
         $mojeVykazy = "moje_vykazy";
         $detailProjektu = "detail_projektu";
         $vysledek = '';
-        $vysledek = '<tr style="height:60px;border:black solid 2px"><td style="width:40px;border:black solid 2px;border-left: black solid 4px;text-align:center;padding:5px">'.$idProjektu.'</td><td style="width:50px;text-align:center;border:black solid 2px;padding:5px">'.$aktivni.'</td><td style="width:90px;text-align:center;border:black solid 2px;padding:5px"><a href="' . url($detailProjektu, ['id_projektu' => $idProjektu]) . '">'.$zkratka.'</a></td><td style="width:300px;border:black solid 2px;padding:5px"><a href="' . url($detailProjektu, ['id_projektu' => $idProjektu]) . '">'.$nazov.'</a></td><td style="width:160px;text-align:center;border:black solid 2px;padding:5px">'.$terminUkoncenia.'</td><td style="width:80px;text-align:center;border:black solid 2px;padding:5px"><a href="' . url($detailProjektu, ['id_projektu' => $idProjektu]) . '"><img src="detail.gif" style="width:35px;margin-right:5px" title="' . __('Detaily') . '" alt="Edit"/></a><a href="' . url($mojeVykazy, ['id_projektu' => $idProjektu]) . '"><img src="vykazy.gif" style="width:35px;margin-left:5px" title="' . __('Moje výkazy') . '" alt=""/></a></td><td style="width:140px;text-align:center;border:black solid 2px;padding:5px">'.$typ.'</td><td style="width:250px;border:black solid 2px;padding:5px"><a href="'.$url.'" target="_blank">'.$url.'</a></td><td style="width:90px;text-align:center;border:black solid 2px;padding:5px">'.$stav.'</td><td style="width:90px;text-align:center;border:black solid 2px;padding:5px">'.$veduci.'</td><td style="width:70px;text-align:center;border:black solid 2px;padding:5px">'.$kod.'</td><td style="width:160px;text-align:center;border:black solid 2px;padding:5px">'.$projektZadany.'</td><td style="width:160px;text-align:center;border:black solid 2px;padding:5px">'.$riesenieZahajene.'</td><td style="width:300px;border:black solid 2px;border-right:black solid 4px;text-align:center;padding:5px">'.$poznamka.'</td></tr>';
+        $vysledek = '<td class="tac w60">'.$idProjektu.'</td>';
+        $vysledek .= '<td class="tac w60">'.$aktivni.'</td>';
+        $vysledek .= '<td class="tac w140"><a href="' . url($detailProjektu, ['id_projektu' => $idProjektu]) . '">'.$zkratka.'</a></td>';
+        $vysledek .= '<td class="w320"><a href="' . url($detailProjektu, ['id_projektu' => $idProjektu]) . '">'.$nazov.'</a></td>';
+        $vysledek .= '<td class="tac w160">'.$terminUkoncenia.'</td>';
+        $vysledek .= '<td class="tac w100"><a href="' . url($detailProjektu, ['id_projektu' => $idProjektu]) . '"><img src="detail.gif" style="width:35px;margin-right:5px" title="' . __('Detaily') . '" alt="Edit"/></a><a href="' . url($mojeVykazy, ['id_projektu' => $idProjektu]) . '"><img src="vykazy.gif" style="width:35px;margin-left:5px" title="' . __('Moje výkazy') . '" alt=""/></a></td>';
+        $vysledek .= '<td class="tac w140">'.$typ.'</td>';
+        $vysledek .= '<td class="tac w250"><a href="'.$url.'" target="_blank">'.$url.'</a></td>';
+        $vysledek .= '<td class="tac w100">'.$stav.'</td>';
+        $vysledek .= '<td class="tac w100">'.$veduci.'</td>';
+        $vysledek .='<td class="tac w80">'.$kod.'</td>';
+        $vysledek .='<td class="tac w140">'.$projektZadany.'</td>';
+        $vysledek .='<td class="tac w140">'.$riesenieZahajene.'</td>';
+        $vysledek .='<td class="tac w400">'.$poznamka.'</td>';
         return $vysledek;
     }
 ?>
@@ -49,6 +62,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
 
 <!-- JavaScript code for DataTables -->
 <script>
@@ -64,6 +78,11 @@
                     next: ">"
                 }
             },
+            colReorder: true,
+            // columnDefs: [{ 
+            //     orderable: false, // Nastavení, že sloupec nebude řaditelný
+            //     targets: 5 // Index třetího sloupce (počítání od 0)
+            // }]
         });
 
         var sortingState = []; // Uchováva stav triedenia pre každý stĺpec
@@ -75,13 +94,24 @@
             // Ak neexistuje stav triedenia pre daný stĺpec, inicializujte ho na vzostupné triedenie
             if (!sortingState[columnIndex]) {
                 sortingState[columnIndex] = 'asc';
+            } else if (sortingState[columnIndex] === 'asc') {
+                sortingState[columnIndex] = 'desc'; // Prepíšte stav triedenia na zostupné
+            } else {
+                sortingState[columnIndex] = ''; // Vypnite radenie (odstráňte stav triedenia)
             }
 
             // Získajte aktuálny stav triedenia
             var currentOrder = sortingState[columnIndex];
 
-            // Prepíšte stav triedenia (asc -> desc -> asc -> ...)
-            sortingState[columnIndex] = currentOrder === 'asc' ? 'desc' : 'asc';
+            // Ak je stav triedenia neprázdny, nastavte nové poradie triedenia pre aktuálny stĺpec
+            if (currentOrder !== '') {
+                column.order(currentOrder).draw();
+            } else {
+                // Inak použite predvolený stĺpec na triedenie
+                var defaultOrderIndex = 0; // Index predvoleného stĺpca (prvého stĺpca)
+                var defaultOrderColumn = table.column(defaultOrderIndex);
+                defaultOrderColumn.order('asc').draw();
+            }
 
             // Odstráňte všetky existujúce triedenia na iných stĺpcoch
             table.columns().every(function () {
@@ -89,9 +119,6 @@
                     this.order([]);
                 }
             });
-
-            // Nastavte nové poradie triedenia pre aktuálny stĺpec
-            column.order(sortingState[columnIndex]).draw();
         });
     });
 </script>
@@ -104,32 +131,30 @@
             <div class="medzera"></div>
             <table id="riesene-projekty-tabulka">
                 <thead>
-                    <tr style="border: black solid 4px;border-bottom:black solid 2px">
-                        <th class="projekty-table-thead-th" style="width:40px">{{__('Číslo')}}</th>
-                       <th class="projekty-table-thead-th" style="width:50px">{{__('Aktivní')}}</th>
-                        <th class="projekty-table-thead-th" style="width:90px">{{__('Zkratka')}}</th>
-                        <th class="projekty-table-thead-th" style="width:300px">{{__('Název')}}</th>
-                        <th class="projekty-table-thead-th" style="width:160px">{{__('Termín ukončení')}}</th>
-                        <th class="projekty-table-thead-th" style="width:80px">{{__('Operace')}}</th>
-                        <th class="projekty-table-thead-th" style="width:140px">{{__('Typ')}}</th>
-                        <th class="projekty-table-thead-th" style="width:250px">URL</th>
-                        <th class="projekty-table-thead-th" style="width:90px">{{__('Stav')}}</th>
-                        <th class="projekty-table-thead-th" style="width:90px">{{__('Vedoucí')}}</th>
-                        <th class="projekty-table-thead-th" style="width:70px">{{__('Kód')}}</th>
-                        <th class="projekty-table-thead-th" style="width:160px">{{__('Projekt zadán')}}</th>
-                        <th class="projekty-table-thead-th" style="width:160px">{{__('Zahájení řešení')}}</th>
-                        <th class="projekty-table-thead-th" style="width:300px">{{__('Poznámka')}}</th>
+                    <tr>
+                        <th class="projekty-table-thead-th">{{__('Číslo')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Aktivní')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Zkratka')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Název')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Termín ukončení')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Operace')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Typ')}}</th>
+                        <th class="projekty-table-thead-th">URL</th>
+                        <th class="projekty-table-thead-th">{{__('Stav')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Vedoucí')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Kód')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Projekt zadán')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Zahájení řešení')}}</th>
+                        <th class="projekty-table-thead-th">{{__('Poznámka')}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($projekty as $projekt): ?>
-                        <div class="vypis-projektov"><?php echo vypisZoznamProjektov($projekt, $ciselnikVedoucich, $typProjektu, $stavProjektu, $aktivitaResitele); ?></div>
+                        <tr>
+                            <?php echo vypisZoznamProjektov($projekt, $ciselnikVedoucich, $typProjektu, $stavProjektu, $aktivitaResitele); ?>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
-                <tfoot>
-                <tr style="border: black solid 4px;border-bottom:black solid 2px">
-                </tr>
-                </tfoot>
             </table>
         </div> 
     </div>

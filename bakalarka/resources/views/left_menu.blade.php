@@ -18,10 +18,7 @@
             <button type="submit" class="btn btn-primary old-link">OLD KNOTIS</button>
         </form>
         <div class="left-menu-item">
-            <a href="/riesene_projekty_tmp">tmp</a>
-        </div>
-        <div class="left-menu-item">
-            <a href="/riesene_projekty_tmp2">tmp2</a>
+            <a href="/riesene_projekty_tmp">TMP</a>
         </div>
     </div>
 </div>

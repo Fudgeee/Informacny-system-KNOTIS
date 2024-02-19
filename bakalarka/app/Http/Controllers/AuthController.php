@@ -19,9 +19,14 @@ class AuthController extends Controller
         ]);
         $osoba = Osoba::where('login','=',$request->name)->first();
         if($osoba){
-            $datumAktivniDo = new \DateTime($osoba->aktivni_do);
+            if ($osoba->aktivni_do != null || $osoba->aktivni_do != ''){
+                $datumAktivniDo = new \DateTime($osoba->aktivni_do);
+            }
+            else{
+                $datumAktivniDo = null;
+            }
             $aktualniDatumCas = new \DateTime();
-            if ($datumAktivniDo < $aktualniDatumCas) {
+            if (($datumAktivniDo != '' || $datumAktivniDo != null) && ($datumAktivniDo < $aktualniDatumCas)) {
                 return back()->with('fail',__('Váš účet není aktivní. Kontaktujte administrátora systému.'));
             }
 
