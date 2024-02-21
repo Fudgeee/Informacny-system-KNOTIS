@@ -192,9 +192,15 @@ class KonfiguraciaController extends Controller
             while ($row = $server->fetch((\PDO::FETCH_ASSOC)))
             {
                 array_push($servery,$row);
-                $tmp = $data["opravneniKS"];       
+                $tmp = $data["opravneniKS"];
                 $tmp[$row["id_server"]] = $row["id_server"];
                 $data["opravneniKS"] = $tmp;
+                
+                // Kontrola, či $data["sudoKS"] existuje a je polem
+                if (!isset($data["sudoKS"]) || !is_array($data["sudoKS"])) {
+                    // Ak nie je, inicializujeme ju ako prázdne pole
+                    $data["sudoKS"] = array();
+                }
 
                 $tmp1 = $data["sudoKS"];
                 $tmp1[$row["id_server"]] = $row["sudo"];

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Osoba;
 use Hash;
 use Session;
+use DB;
 
 class AuthController extends Controller
 {
@@ -40,7 +41,12 @@ class AuthController extends Controller
 
                 // Po prihlásení získať a použiť uloženú URL
                 $preLoginUrl = session('preLoginUrl', 'dashboard');
-                return redirect($preLoginUrl);
+                if ($preLoginUrl == '' || strpos($preLoginUrl, '/login') !== false) {
+                    return redirect('/index2');
+                }
+                else {
+                    return redirect($preLoginUrl);
+                }
             }
             else{
                 return back()->with('fail',__('Nespravné Heslo'));
@@ -56,6 +62,40 @@ class AuthController extends Controller
         if(Session::has('loginId')){
             $data = Osoba::where('id','=',Session::get('loginId'))->first();
         return view('dashboard', compact('data'));
+        }
+        else {
+            session(['preLoginUrl' => url()->previous()]);
+            return redirect('/login')->with('fail', __('Vaše přihlášení vypršelo. Přihlašte se prosím znovu.'));
+        }
+    }
+
+    public function index2(){
+        $data = array();
+        if(Session::has('loginId')){
+            $data = Osoba::where('id','=',Session::get('loginId'))->first();
+            $dotaz = DB::table(DB::raw("(SELECT osoba.id FROM osoba
+                                    LEFT JOIN resi ON osoba.id=resi.id_osoby
+                                    LEFT JOIN projekt ON resi.id_projektu=projekt.id
+                                    WHERE 1 AND resi.pristup_do IS NULL
+                                      AND '".$data['id']."' IN (
+                                          SELECT id
+                                          FROM osoba as vedouciOs
+                                          WHERE ( ( aktivni_od <= NOW() )
+                                              AND ( ( aktivni_do IS NULL )
+                                              OR ( aktivni_do >= NOW() ) ) )
+                                      AND id IN (
+                                          SELECT DISTINCT vedouci
+                                          FROM projekt
+                                          JOIN resi ON projekt.id=resi.id_projektu
+                                          WHERE resi.aktivita > '0'
+                                              AND resi.id_osoby=osoba.id))
+                                              AND osoba.aktivita='1'
+                                          GROUP BY osoba.id) AS osoby"))
+            ->selectRaw('COUNT(*) AS pocet')
+            ->first();
+            $osoby_k_deaktivaci = $dotaz->pocet;                          
+
+        return view('index2', compact('data', 'osoby_k_deaktivaci'));
         }
         else {
             session(['preLoginUrl' => url()->previous()]);
@@ -82,7 +122,8 @@ class AuthController extends Controller
                 'new_password'=>'required|confirmed|min:5|max:30'
             ]);
             $osoba= Osoba::where('id','=',Session::get('loginId'))->first();
-            if (Hash::check($request->old_password,$osoba->heslo)){
+
+            if (Hash::check($request->old_password,$osoba->heslo) || ($osoba->heslo == md5($request->old_password))){
                 Osoba::where('id','=',Session::get('loginId'))->update([
                     'heslo' => Hash::make($request->new_password)
                 ]);

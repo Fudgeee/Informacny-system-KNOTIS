@@ -20,27 +20,27 @@
 
 
 <?php
-    function zobrazenieStlpov($stlpce){
+    // function zobrazenieStlpov($stlpce){
 
-    }
+    // }
 
-    function vygenerujZahlavieTabulky($nazvy_stlpcov, $sirka_stlpcov, $filters) {
+    function vygenerujZahlavieTabulky($columns) {
         echo '<thead><tr>';
         
-        foreach ($nazvy_stlpcov as $index => $nazov_stlpca) {
-            $sirka = isset($sirka_stlpcov[$index]) ? $sirka_stlpcov[$index] : '';
-            echo '<th class="projekty-table-thead-th" style="width:'.$sirka.'px">'.$nazov_stlpca.'</th>';
+        foreach ($columns as $column) {
+            //$sirka = isset($column->width) ? $column->width : '';
+            echo '<th class="projekty-table-thead-th" style="width:'.$column->width.'px">'.$column->name.'</th>';
         }
         
         echo '</tr>';
         
         // Vložte riadok s filtrom pod každým stĺpcom
         echo '<tr>';
-        foreach ($filters as $index => $filter) {
+        foreach ($columns as $index =>$column) {
             echo '<td>';
             
             // Vykreslite filter na základe typu filtra
-            switch ($filter) {
+            switch ($column->filter) {
                 case 's': // Filtrovanie hodnoty v stĺpci
                     echo '<input type="text" class="filter-input" data-column="'.$index.'" placeholder="Filter">';
                     break;
@@ -64,17 +64,17 @@
     }
     
 
-    function vygenerujTeloTabulky($riadky, $obsah, $zarovnanieTela){
+    function vygenerujTeloTabulky($columns, $obsah){
         echo '<tbody class="projekty-table-td">';
 
         foreach($obsah as $riadok){
             echo '<tr>';
         
-            foreach($riadky as $index => $stlpec){
+            foreach($columns as $column){
                 // Overenie, či objekt má vlastnosť, pred jej použitím
-                if(property_exists($riadok, $stlpec)) {
+                if(property_exists($riadok, $column->row)) {
                     // Získanie hodnoty zarovnania pre aktuálny stĺpec
-                    $zarovnanie = isset($zarovnanieTela[$index]) ? $zarovnanieTela[$index] : 'l';
+                    $zarovnanie = isset($column->alignment) ? $column->alignment : 'l';
                     // Nastavenie štýlu v závislosti od hodnoty zarovnania
                     echo '<td class="" style="text-align: ';
                     if($zarovnanie == 'c') {
@@ -89,7 +89,7 @@
                     else {
                         echo 'left'; // Predvolené zarovnanie
                     }
-                    echo '">'.$riadok->$stlpec.'</td>';
+                    echo '">'. $riadok->{$column->row} .'</td>';
                 } else {
                     // Ak vlastnosť neexistuje, vytvorte prázdny stĺpec
                     echo '<td></td>';
@@ -102,11 +102,11 @@
         echo '</tbody>';
     }
 
-    function vygenerujTabulku($id_tabulky, $nazvy_stlpcov, $sirka_stlpcov, $riadky, $zarovnanieTela, $obsah, $filters){
+    function vygenerujTabulku($id_tabulky, $columns, $obsah){
         echo '<table id="'.$id_tabulky.'" style="border:2px solid black">';
 
-        vygenerujZahlavieTabulky($nazvy_stlpcov, $sirka_stlpcov, $filters);
-        vygenerujTeloTabulky($riadky, $obsah, $zarovnanieTela);
+        vygenerujZahlavieTabulky($columns);
+        vygenerujTeloTabulky($columns, $obsah);
 
         echo '</table>';
     }

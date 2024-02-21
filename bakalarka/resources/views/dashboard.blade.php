@@ -24,7 +24,7 @@
     </head>
     <body class="dashboard">
         <header>
-            <a href="#"><img class="main-logo main-logo-m" src="{{asset('logo-m.png')}}" alt="logo_knotis"></a>
+            <a href="/index2"><img class="main-logo main-logo-m" src="{{asset('logo-m.png')}}" alt="logo_knotis"></a>
             @include('top_menu')
             @include('left_menu')
         </header>

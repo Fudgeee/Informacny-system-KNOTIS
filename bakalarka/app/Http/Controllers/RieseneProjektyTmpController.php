@@ -26,9 +26,24 @@ class RieseneProjektyTmpController extends Controller
     
             $projekty = $projekty->map(function ($projekt) {
                 // Formátujeme datum a čas ve formátu "den.mesiac.rok hodiny:minuty"
-                $projekt->resi_od = \Carbon\Carbon::parse($projekt->resi_od)->format('d.m.Y H:i');
-                $projekt->resi_do = \Carbon\Carbon::parse($projekt->resi_do)->format('d.m.Y H:i');
-                $projekt->zadan = \Carbon\Carbon::parse($projekt->zadan)->format('d.m.Y H:i');
+                if ($projekt->resi_od != null || $projekt->resi_od != ''){
+                    $projekt->resi_od = \Carbon\Carbon::parse($projekt->resi_od)->format('d.m.Y H:i');
+                }
+                else{
+                    $projekt->resi_od = '';
+                }
+                if ($projekt->resi_do != null || $projekt->resi_do != ''){
+                    $projekt->resi_do = \Carbon\Carbon::parse($projekt->resi_do)->format('d.m.Y H:i');
+                }
+                else{
+                    $projekt->resi_do = '';
+                }
+                if ($projekt->zadan != null || $projekt->zadan != ''){
+                    $projekt->zadan = \Carbon\Carbon::parse($projekt->zadan)->format('d.m.Y H:i');
+                }
+                else{
+                    $projekt->zadan = '';
+                }
                 
                 return $projekt;
             });

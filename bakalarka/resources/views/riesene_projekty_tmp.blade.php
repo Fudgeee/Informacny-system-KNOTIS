@@ -21,27 +21,61 @@
     @include(public_path('tabulky.php'));
 
     $id_tabulky = 'riesene-projekty-tabulka';
-    $nazvy_stlpcov = array(
-        __('Číslo'),
-        __('Aktivní'),
-        __('Zkratka'),
-        __('Název'),
-        __('Termín ukončení'),
-        __('Operace'),
-        __('Typ'),
-        'URL',
-        __('Stav'),
-        __('Vedoucí'),
-        __('Kód'),
-        __('Projekt zadán'),
-        __('Zahájení řešení'),
-        __('Poznámka')
-    );
-    $sirka_stlpcov = array(60,60,140,320,140,100,160,250,100,100,80,140,140,400);
-    $riadky = array('id','aktivita','zkratka','nazev','resi_do','','typ','url','stav','vedouci','kod','zadan','resi_od','poznamka');
-    $zarovnanieTela = array('c','c','c','l','c','c','c','l','c','c','c','c','c','l');
-    $filters = ['s','v','s','s','d','','s','','v','s','','d','d',''];
-    $links = array('','','detail_projektu/');
+
+    class TableColumn {
+        public $name;
+        public $width;
+        public $row;
+        public $alignment;
+        public $filter;
+    
+        public function __construct($name, $width, $row, $alignment, $filter) {
+            $this->name = $name;
+            $this->width = $width;
+            $this->row = $row;
+            $this->alignment = $alignment;
+            $this->filter = $filter;
+        }
+    }
+
+    $columns = [
+        new TableColumn(__('Číslo'), 60, 'id', 'c', 's'),
+        new TableColumn(__('Aktivní'), 60, 'aktivita', 'c', 'v'),
+        new TableColumn(__('Zkratka'), 140, 'zkratka', 'c', 's'),
+        new TableColumn(__('Název'), 320, 'nazev', 'l', 's'),
+        new TableColumn(__('Termín ukončení'), 140, 'resi_do', 'c', 'd'),
+        new TableColumn(__('Operace'), 100, '', 'c', ''),
+        new TableColumn(__('Typ'), 160, 'typ', 'c', 's'),
+        new TableColumn('URL', 250, 'url', 'l', ''),
+        new TableColumn(__('Stav'), 100, 'stav', 'c', 'v'),
+        new TableColumn(__('Vedoucí'), 100, 'vedouci', 'c', 's'),
+        new TableColumn(__('Kód'), 80, 'kod', 'c', ''),
+        new TableColumn(__('Projekt zadán'), 140, 'zadan', 'c', 'd'),
+        new TableColumn(__('Zahájení řešení'), 140, 'resi_od', 'c', 'd'),
+        new TableColumn(__('Poznámka'), 400, 'poznamka', 'l', ''),
+    ];
+    //dd($stlpce_tabulky[0]);
+    // $nazvy_stlpcov = array(
+    //     __('Číslo'),
+    //     __('Aktivní'),
+    //     __('Zkratka'),
+    //     __('Název'),
+    //     __('Termín ukončení'),
+    //     __('Operace'),
+    //     __('Typ'),
+    //     'URL',
+    //     __('Stav'),
+    //     __('Vedoucí'),
+    //     __('Kód'),
+    //     __('Projekt zadán'),
+    //     __('Zahájení řešení'),
+    //     __('Poznámka')
+    // );
+    // $sirka_stlpcov = array(60,60,140,320,140,100,160,250,100,100,80,140,140,400);
+    // $riadky = array('id','aktivita','zkratka','nazev','resi_do','','typ','url','stav','vedouci','kod','zadan','resi_od','poznamka');
+    // $zarovnanieTela = array('c','c','c','l','c','c','c','l','c','c','c','c','c','l');
+    // $filters = ['s','v','s','s','d','','s','','v','s','','d','d',''];
+    //$links = array('','','detail_projektu/');
 ?>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
@@ -82,6 +116,13 @@
 
         var sortingState = []; // Uchovává stav řazení pro každý sloupec
 
+        $('#riesene-projekty-tabulka thead th').each(function (index) {
+            $(this).append('<span class="sorting-status" style="float:right"></span>'); // Pridanie miesta pre popis stavu radenia
+        });
+        
+        sortingState[0] = 'asc'; // Nastavenie predvoleného radenia pre prvý stĺpec
+        $('#riesene-projekty-tabulka thead th:eq(' + 0 + ')').find('.sorting-status').html('1'); // Priradenie popisu 1 pre prvý stĺpec
+
         $('#riesene-projekty-tabulka thead th').on('click', function () {
             var columnIndex = $(this).index();
             var column = table.column(columnIndex);
@@ -99,6 +140,18 @@
             }
 
             sortingState[columnIndex] = currentOrder;
+
+            // Aktualizácia popisu stavu radenia
+            var sortingStatus = '';
+            if (currentOrder === 'asc') {
+                sortingStatus = '1'; // Popis pre vzostupné radenie
+            } else if (currentOrder === 'desc') {
+                sortingStatus = '2'; // Popis pre zostupné radenie
+            } else {
+                sortingStatus = '3'; // Popis pre vypnuté radenie
+            }
+            $(this).find('.sorting-status').html(sortingStatus);
+
 
             // Vytvoření pole s nastavením řazení pro všechny sloupce
             var orderArray = [];
@@ -172,12 +225,14 @@
                 $('#riesene-projekty-tabulka tbody tr').each(function() {
                     var tdAktivity = $(this).find('td:eq(' + indexAktivity + ')');
                     var cisloAktivity = tdAktivity.text().trim(); // Číslo aktivity
-                    var textAktivity = aktivitaResitele[cisloAktivity]; // Text aktivity
                     tdAktivity.css('font-weight', '700');
-                    if (textAktivity === 'Ne') {
+
+                    if (aktivitaResitele[cisloAktivity] === 'neaktivni'){
+                        var textAktivity = "Ne"; // Text aktivity
                         tdAktivity.css('color', 'red'); // Červená barva textu pro hodnotu 'Ne'
-                    }
-                    else if (textAktivity === 'Ano') {
+                    } 
+                    else if (aktivitaResitele[cisloAktivity] === 'aktivni') {
+                        var textAktivity = "Ano";
                         tdAktivity.css('color', '#13bd00'); // Zelená barva textu pro ostatní hodnoty
                     }
                     tdAktivity.text(textAktivity);
@@ -228,7 +283,7 @@
         <div class="riesene-projekty-l">
             <h2>{{__('Řešené projekty')}}</h2>
             <div class="medzera"></div>
-            <?php echo vygenerujTabulku($id_tabulky, $nazvy_stlpcov, $sirka_stlpcov, $riadky, $zarovnanieTela, $projekty, $filters);?>   
+            <?php echo vygenerujTabulku($id_tabulky, $columns, $projekty);?>   
         </div> 
     </div>
 @endsection

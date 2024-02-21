@@ -246,5 +246,15 @@
     "Soubor pro import": "Soubor pro import",
     "Osoba, jejíž výkazy budou importovány": "Osoba, jejíž výkazy budou importovány",
     "Login (alternativa k výběru)": "Login (alternativa k výběru)",
-    "výběr zobrazených sloupců": "výběr zobrazených sloupců"
+    "výběr zobrazených sloupců": "výběr zobrazených sloupců",
+    "Nemáte nastaven hash pro přístup k serverům. Dokud si nezměníte heslo, nebudete moct pracovat se servery.": "Nemáte nastaven hash pro přístup k serverům. Dokud si nezměníte heslo, nebudete moct pracovat se servery.",
+    "Nemáte nastaven hash pro přístup k wiki. Dokud si znovu nenastavíte heslo, nebudete moct pracovat s wiki.": "Nemáte nastaven hash pro přístup k wiki. Dokud si znovu nenastavíte heslo, nebudete moct pracovat s wiki.",
+    "Nastavte prosím znovu své heslo na stránce ": "Nastavte prosím znovu své heslo na stránce ",
+    "změna hesla.": "změna hesla.",
+    " Změna hesla se na serverech projeví do 24 hodin.": " Změna hesla se na serverech projeví do 24 hodin.",
+    "viz. výpis": "viz. výpis",
+    "Mezi Vámi vedenými osobami se nachází ": "Mezi Vámi vedenými osobami se nachází ",
+    "osob": "{0} osob|{1} osoba|[2,4] osoby|[5,*] osob",
+    ", která je": "{0} |{1} , která je|[2,*] , které jsou",
+    " k deaktivaci, ale řeší projekt s 'přístup do' v nekonečnu ": " k deaktivaci, ale řeší projekt s 'přístup do' v nekonečnu "
 }

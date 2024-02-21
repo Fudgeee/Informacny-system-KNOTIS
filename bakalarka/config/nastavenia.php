@@ -22,10 +22,22 @@ return [
 
     // Pole aktivit řešitelů
     'aktivitaResitele' => [
-        0 => "Ne",
-        5 => "Ano",
+        0 => "neaktivni",
+        1 => "d_skript",
+        2 => "k_deaktivaci",
+        3 => "k_aktivaci",
+        4 => "a_skript",
+        5 => "aktivni",
     ],
 
+    // Pole aktivit osob
+    'aktivitaOsoby' => [
+        0 => "neaktivni",
+        1 => "k_deaktivaci",
+        2 => "k_aktivaci",
+        3 => "aktivni",
+    ],
+  
     // Pole stavy ukolu
     'stavyUkolu' => [
         0 => "Smazaný",

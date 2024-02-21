@@ -247,5 +247,15 @@
     "Soubor pro import": "File to import",
     "Osoba, jejíž výkazy budou importovány": "The person whose work reports will be imported",
     "Login (alternativa k výběru)": "Login (alternative to selection)",
-    "výběr zobrazených sloupců": "selection of displayed columns"
+    "výběr zobrazených sloupců": "selection of displayed columns",
+    "Nemáte nastaven hash pro přístup k serverům. Dokud si nezměníte heslo, nebudete moct pracovat se servery.": "You do not have hash set to access servers. Until you change your password, you will not be able to work with servers.",
+    "Nemáte nastaven hash pro přístup k wiki. Dokud si znovu nenastavíte heslo, nebudete moct pracovat s wiki.": "You do not have hash set to work with wiki. Until you change your password, you will not be able to work with wiki.",
+    "Nastavte prosím znovu své heslo na stránce ": "Please change your password again on page ",
+    "změna hesla.": "changing the password.",
+    " Změna hesla se na serverech projeví do 24 hodin.": " Change of password can take up to 24 hours on servers.",
+    "viz. výpis": "see extract",
+    "Mezi Vámi vedenými osobami se nachází ": "Among people supervised by you are ",
+    "osob": "{0} people|{1} person|[2,4] people|[5,*] people",
+    ", která je": "{0} |{1} , which is|[2,*] , which are",
+    " k deaktivaci, ale řeší projekt s 'přístup do' v nekonečnu ": " for deactivation, but solves a project with 'access until' infinity "
 }

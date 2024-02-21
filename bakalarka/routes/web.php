@@ -41,6 +41,9 @@ Route::get('/change_password', [AuthController::class,'changePassword'])->name('
 Route::post('/change_password', [AuthController::class,'updatePassword'])->name('update_password');
 // dashboard
 Route::get('/dashboard', [AuthController::class,'dashboard'])->middleware('isLoggedIn');
+//uvodna stranka
+Route::get('/index2', [AuthController::class,'index2']);
+
 // napoveda
 Route::get('/help', [NapovedaController::class,'Help']);
 // kontaktne udaje

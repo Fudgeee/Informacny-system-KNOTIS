@@ -352,7 +352,8 @@ hr{
 .riesene-projekty,
 .pracovne-vykazy-osoby,
 .moje-vykazy,
-.detail-projektu{
+.detail-projektu,
+.uvodna-stranka{
     margin: 20px;
 }
 
@@ -364,7 +365,8 @@ hr{
 .riesene-projekty-l,
 .pracovne-vykazy-osoby-l,
 .moje-vykazy-l,
-.detail-projektu-l{
+.detail-projektu-l,
+.uvodna-stranka-l{
     background: #7dd6ff;
     padding: 20px;
     overflow: hidden;
@@ -602,6 +604,15 @@ table.dataTable tr:nth-child(even){
     color: #a90000;
     font-weight: bold;
     vertical-align: top;
+}
+
+.cervene-bold{
+    color: red;
+    font-weight: bold;
+}
+
+.cervene{
+    color: red;
 }
 
 .konfiguracia select{
