@@ -33,7 +33,7 @@
         return $vysledek;
     }  // generujPolozkyVyberuSId()
 
-    function plneVyplnenDPP($dppUdaje){dd($dppUdaje);
+    function plneVyplnenDPP($dppUdaje){
         if($dppUdaje->jmeno == NULL){
             return false;
         }
