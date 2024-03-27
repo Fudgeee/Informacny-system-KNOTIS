@@ -221,7 +221,7 @@
                     @if($data->pristup_k_redmine === 0)
                         <span class="nevyplnene-udaje">{{__('Ne')}}</span>
                     @else
-                        <span class="vyplnene-udaje">{{__('Ano')}} &nbsp</span><a href="https://knot.fit.vutbr.cz/redmine" title="{{__('Odkaz na Redmine')}}" target="_blank">https://knot.fit.vutbr.cz/redmine</a>
+                        <span class="vyplnene-udaje">{{__('Ano')}} &nbsp</span><a href="#" title="{{__('Odkaz na Redmine')}}" target="_blank">Redmine</a>
                     @endif
                 </div>
                 <div class="osobne_info_items">

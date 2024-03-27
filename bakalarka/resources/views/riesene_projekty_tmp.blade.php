@@ -18,6 +18,12 @@
         $aktivitaResitele[$key] = __($value);
     }
 
+    $colFilterTmp = config('nastavenia.colFilter');
+    $colFilter = [];
+    foreach ($colFilterTmp as $key => $value) {
+        $colFilter[$key] = __($value);
+    }
+    
     @include(public_path('tabulky.php'));
 
     $id_tabulky = 'riesene-projekty-tabulka';
@@ -39,43 +45,23 @@
     }
 
     $columns = [
-        new TableColumn(__('Číslo'), 60, 'id', 'c', 's'),
-        new TableColumn(__('Aktivní'), 60, 'aktivita', 'c', 'v'),
-        new TableColumn(__('Zkratka'), 140, 'zkratka', 'c', 's'),
-        new TableColumn(__('Název'), 320, 'nazev', 'l', 's'),
-        new TableColumn(__('Termín ukončení'), 140, 'resi_do', 'c', 'd'),
-        new TableColumn(__('Operace'), 100, '', 'c', ''),
-        new TableColumn(__('Typ'), 160, 'typ', 'c', 's'),
-        new TableColumn('URL', 250, 'url', 'l', ''),
-        new TableColumn(__('Stav'), 100, 'stav', 'c', 'v'),
-        new TableColumn(__('Vedoucí'), 100, 'vedouci', 'c', 's'),
-        new TableColumn(__('Kód'), 80, 'kod', 'c', ''),
-        new TableColumn(__('Projekt zadán'), 140, 'zadan', 'c', 'd'),
-        new TableColumn(__('Zahájení řešení'), 140, 'resi_od', 'c', 'd'),
-        new TableColumn(__('Poznámka'), 400, 'poznamka', 'l', ''),
+        //nazov stlca, sirka stlpca, udaj z DB, centrovanie textu v hlavicke, filtrovanie
+        new TableColumn(__('Číslo'), 60, 'id', 'center', 'cislo'),
+        new TableColumn(__('Aktivní'), 60, 'aktivita', 'center', 'vyber'),
+        new TableColumn(__('Zkratka'), 140, 'zkratka', 'center', 'retazec'),
+        new TableColumn(__('Název'), 320, 'nazev', 'left', 'retazec'),
+        new TableColumn(__('Termín ukončení'), 140, 'resi_do', 'center', 'datum'),
+        new TableColumn(__('Operace'), 100, '', 'center', ''),
+        new TableColumn(__('Typ'), 160, 'typ', 'center', 'retazec'),
+        new TableColumn('URL', 250, 'url', 'left', ''),
+        new TableColumn(__('Stav'), 100, 'stav', 'center', 'vyber'),
+        new TableColumn(__('Vedoucí'), 100, 'vedouci', 'center', 'retazec'),
+        new TableColumn(__('Kód'), 80, 'kod', 'center', ''),
+        new TableColumn(__('Projekt zadán'), 140, 'zadan', 'center', 'datum'),
+        new TableColumn(__('Zahájení řešení'), 140, 'resi_od', 'center', 'datum'),
+        new TableColumn(__('Poznámka'), 400, 'poznamka', 'left', ''),
     ];
-    //dd($stlpce_tabulky[0]);
-    // $nazvy_stlpcov = array(
-    //     __('Číslo'),
-    //     __('Aktivní'),
-    //     __('Zkratka'),
-    //     __('Název'),
-    //     __('Termín ukončení'),
-    //     __('Operace'),
-    //     __('Typ'),
-    //     'URL',
-    //     __('Stav'),
-    //     __('Vedoucí'),
-    //     __('Kód'),
-    //     __('Projekt zadán'),
-    //     __('Zahájení řešení'),
-    //     __('Poznámka')
-    // );
-    // $sirka_stlpcov = array(60,60,140,320,140,100,160,250,100,100,80,140,140,400);
-    // $riadky = array('id','aktivita','zkratka','nazev','resi_do','','typ','url','stav','vedouci','kod','zadan','resi_od','poznamka');
-    // $zarovnanieTela = array('c','c','c','l','c','c','c','l','c','c','c','c','c','l');
-    // $filters = ['s','v','s','s','d','','s','','v','s','','d','d',''];
-    //$links = array('','','detail_projektu/');
+    
 ?>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
@@ -91,7 +77,7 @@
         var table = $('#riesene-projekty-tabulka').DataTable({
             dom: 'Blrtip',
             orderCellsTop: true,
-            colReorder: true, // Povolí přetahování sloupců
+            colReorder: true, // Povolí preťahovánie stlpcov
             lengthMenu: [5, 10, 25, 50, 100],
             language: {
                 lengthMenu: '{{ __("Zobrazit _MENU_ položek") }}',
@@ -102,19 +88,19 @@
                 }
             },
             columnDefs: [{ 
-                orderable: false, // Nastavení, že sloupec nebude řaditelný
+                orderable: false, // Nastavenie, že stlpec nebude raditeľný
                 targets: 5 // Index sloupce (počítání od 0)
             }],
             buttons: [
                 {
-                extend: 'colvis', // Zobrazenie vybranych sloupcu
+                extend: 'colvis', // Zobrazenie vybranych stlpcou
                 text: '{{__("výběr zobrazených sloupců")}} '
             }]
             
         
         });
 
-        var sortingState = []; // Uchovává stav řazení pro každý sloupec
+        var sortingState = []; // Uchovává stav radenia pre každý stlpec
 
         $('#riesene-projekty-tabulka thead th').each(function (index) {
             $(this).append('<span class="sorting-status" style="float:right"></span>'); // Pridanie miesta pre popis stavu radenia
@@ -127,16 +113,16 @@
             var columnIndex = $(this).index();
             var column = table.column(columnIndex);
             
-            // Získání aktuálního stavu řazení pro tento sloupec
-            var currentOrder = sortingState[columnIndex] || ''; // Pokud stav není definován, použije se prázdný řetězec
+            // Získanie aktuálneho stavu radenia pre tento stlpec
+            var currentOrder = sortingState[columnIndex] || ''; // Pokud stav neni definovaný, použije sa prázdný reťazec
 
-            // Nastavení řazení pro tento sloupec
+            // Nastavenie radenia pre tento stlpec
             if (currentOrder === '') {
-                currentOrder = 'asc'; // Pokud je stav prázdný, nastavíme řazení na vzestupné
+                currentOrder = 'asc'; // Pokud je stav prázdný, nastavíme radenie na vzostupné
             } else if (currentOrder === 'asc') {
-                currentOrder = 'desc'; // Pokud je stav vzestupný, nastavíme řazení na sestupné
+                currentOrder = 'desc'; // Pokud je stav vzostupný, nastavíme radenie na zostupné
             } else {
-                currentOrder = ''; // Pokud je stav sestupný, vypneme řazení
+                currentOrder = ''; // Pokud je stav zostupný, vypneme radenie
             }
 
             sortingState[columnIndex] = currentOrder;
@@ -148,12 +134,12 @@
             } else if (currentOrder === 'desc') {
                 sortingStatus = '2'; // Popis pre zostupné radenie
             } else {
-                sortingStatus = '3'; // Popis pre vypnuté radenie
+                sortingStatus = ''; // Popis pre vypnuté radenie
             }
             $(this).find('.sorting-status').html(sortingStatus);
 
 
-            // Vytvoření pole s nastavením řazení pro všechny sloupce
+            // Vytvorenie pola s nastavením radenia pre všechny stlpce
             var orderArray = [];
             for (var i = 0; i < sortingState.length; i++) {
                 if (sortingState[i]) {
@@ -161,7 +147,7 @@
                 }
             }
 
-            // Řazení podle více sloupců
+            // Radenie podla viacerých stlpcov
             table.order(orderArray).draw();
         });
 
@@ -283,7 +269,7 @@
         <div class="riesene-projekty-l">
             <h2>{{__('Řešené projekty')}}</h2>
             <div class="medzera"></div>
-            <?php echo vygenerujTabulku($id_tabulky, $columns, $projekty);?>   
+            <?php echo vygenerujTabulku($id_tabulky, $columns, $projekty, $colFilter);?>   
         </div> 
     </div>
 @endsection

@@ -20,11 +20,8 @@
 
 
 <?php
-    // function zobrazenieStlpov($stlpce){
 
-    // }
-
-    function vygenerujZahlavieTabulky($columns) {
+    function vygenerujZahlavieTabulky($columns, $colFilter) {
         echo '<thead><tr>';
         
         foreach ($columns as $column) {
@@ -41,15 +38,44 @@
             
             // Vykreslite filter na základe typu filtra
             switch ($column->filter) {
-                case 's': // Filtrovanie hodnoty v stĺpci
-                    echo '<input type="text" class="filter-input" data-column="'.$index.'" placeholder="Filter">';
+                case 'retazec':
+                    echo '<div class="filter-div">';
+                    echo '<div class="col-operator">
+                            <select class="col-operator" data-col="'.$column->name.'" data-value="">
+                                <option value="'.$colFilter[0].'">&nbsp'.$colFilter[0].'</option>
+                                <option value="'.$colFilter[1].'">&nbsp'.$colFilter[1].'</option>
+                                <option value="'.$colFilter[2].'">&nbsp'.$colFilter[2].'</option>
+                            </select>
+                        </div>';
+                    echo '<div class="col-filter"><input type="text" class="filter-input" data-column="'.$index.'" placeholder="Filter"></div>';
+                    echo '</div>';
                     break;
-                case 'v': // Filtrovanie podľa výberu možností
+                case 'cislo': // Filtrovanie hodnoty v stĺpci
+                    echo '<div class="filter-div">';
+                    echo '<div class="col-operator">
+                            <select class="col-operator" data-col="'.$column->name.'" data-value="">
+                                <option value="'.$colFilter[2].'">&nbsp'.$colFilter[2].'</option>
+                                <option value="'.$colFilter[5].'">'.$colFilter[5].'</option>
+                                <option value="'.$colFilter[6].'">'.$colFilter[6].'</option>
+                            </select>
+                        </div>';
+                    echo '<div class="col-filter"><input type="text" class="filter-input" data-column="'.$index.'" placeholder="Filter"></div>';
+                    echo '</div>';
+                    break;
+                case 'vyber': // Filtrovanie podľa výberu možností
                     echo '<select class="filter-select" data-column="'.$index.'"><option value="">All</option><option value="value1">Value 1</option><option value="value2">Value 2</option></select>';
                     break;
-                case 'd': // Filtrovanie hodnoty v stĺpci
-                    echo '&lt&nbsp <input type="text" class="filter-input" style="width:86%" data-column="'.$index.'" placeholder="Filter">';
-                    echo '&gt&nbsp <input type="text" class="filter-input" style="width:86%" data-column="'.$index.'" placeholder="Filter">';
+                case 'datum': // Filtrovanie hodnoty v stĺpci
+                    echo '<div class="filter-div">';
+                    echo '<div class="col-operator">
+                            <select class="col-operator" data-col="'.$column->name.'" data-value="">
+                                <option value="'.$colFilter[5].'">'.$colFilter[5].'</option>
+                                <option value="'.$colFilter[6].'">'.$colFilter[6].'</option>
+                                <option value="'.$colFilter[2].'">'.$colFilter[2].'</option>
+                            </select>
+                        </div>';
+                    echo '<div class="col-filter"><input type="text" class="filter-input" data-column="'.$index.'" placeholder="Filter"></div>';
+                    echo '</div>';
                     break;
                 default:
                     echo ''; // Žiadny filter
@@ -77,13 +103,13 @@
                     $zarovnanie = isset($column->alignment) ? $column->alignment : 'l';
                     // Nastavenie štýlu v závislosti od hodnoty zarovnania
                     echo '<td class="" style="text-align: ';
-                    if($zarovnanie == 'c') {
+                    if($zarovnanie == 'center') {
                         echo 'center';
                     }
-                    elseif($zarovnanie == 'l') {
+                    elseif($zarovnanie == 'left') {
                         echo 'left';
                     }
-                    elseif($zarovnanie == 'r') {
+                    elseif($zarovnanie == 'right') {
                         echo 'right';
                     }
                     else {
@@ -102,10 +128,10 @@
         echo '</tbody>';
     }
 
-    function vygenerujTabulku($id_tabulky, $columns, $obsah){
+    function vygenerujTabulku($id_tabulky, $columns, $obsah, $colFilter){
         echo '<table id="'.$id_tabulky.'" style="border:2px solid black">';
 
-        vygenerujZahlavieTabulky($columns);
+        vygenerujZahlavieTabulky($columns, $colFilter);
         vygenerujTeloTabulky($columns, $obsah);
 
         echo '</table>';

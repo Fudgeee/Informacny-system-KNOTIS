@@ -76,4 +76,13 @@ return [
     11 => "Nový stud. spolupracovník",
     12 => "Diplomant + Předmět",
     ],
+    'colFilter' => [
+        0 => "&sub; obsahuje",
+        1 => "&nsub; neobsahuje",
+        2 => "= rovná se",
+        3 => "je prázdný",
+        4 => "je neprázdný",
+        5 => ">= větší nebo rovno",
+        6 => "<= menší nebo rovno",
+    ],
 ];

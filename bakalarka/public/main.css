@@ -615,6 +615,23 @@ table.dataTable tr:nth-child(even){
     color: red;
 }
 
+.col-operator{
+    width: 22px;
+    height: 27px;
+    float: left;
+    border-radius: 0;
+    border-right: none;
+    -webkit-appearance: none; /* Skryje výchozí styl v Chrome, Safari */
+    -moz-appearance: none; /* Skryje výchozí styl v Firefox */
+    appearance: none; /* Skryje výchozí styl v ostatných prehliadačoch */
+}
+
+.col-filter{
+    width: calc(100%-22px);
+    margin-left: 22px;
+    border-radius: 0;
+}
+
 .konfiguracia select{
     width: 286px;
 }
@@ -862,7 +879,7 @@ table.dataTable tbody td{
 .dataTables_wrapper .dataTables_paginate .paginate_button.current{
     text-decoration: underline !important;
     text-decoration-thickness: 1.5px !important;
-    text-underline-offset: 2px !important;
+     
 }
 
 .udaje_o_projekte{
@@ -896,24 +913,22 @@ div.dt-buttons>.dt-button:hover:not(.disabled){
 }
 
 div.dt-button-collection{
-    padding: 1px;
+    padding: 1px !important;
 }
 
 div.dt-button-collection .dt-button{
     padding: 0.1rem 1rem;
-    margin-bottom: 1px !important;
+    margin-bottom: 1px;
 }
 
-/* Zvýraznění pro zobrazené sloupce */
+/* Zvýraznenie pre zobrazené stlpce */
 .dt-button.buttons-columnVisibility.active{
     background-color: green !important;
     color: white !important;
 }
 
-/* Zvýraznění pro skryté sloupce */
+/* Zvýraznenie pre skryté stlpce */
 .dt-button.buttons-columnVisibility {
     background-color: red !important;
     color: white !important;
 }
-
-/* TODO zmena bielej na f0f0f0; background-color: #f0f0f0;  Len pre ilustráciu, zmení farbu na šedú  ?? My timesheets/ My work reports*/
